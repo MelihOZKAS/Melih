@@ -12,6 +12,8 @@ services:
       - "postgresql-data:/var/lib/postgresql/data"
     command: -p 5432
   app:
+    container_name: app_Nasip
+    hostname: app_Nasip
     build:
       context: .
       dockerfile: Dockerfile
@@ -21,9 +23,20 @@ services:
       - Site/docker.env
     volumes:
       - .:/srv/app
+
     ports:
       - "0.0.0.0:8000:8000"
     command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - 80:80
+
 
 
 
