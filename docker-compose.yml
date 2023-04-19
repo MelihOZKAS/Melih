@@ -1,7 +1,5 @@
 version: "3.8"
 services:
-
-
   postgres:
     image: postgres:latest
     env_file:
@@ -23,7 +21,6 @@ services:
       - Site/docker.env
     volumes:
       - .:/srv/app
-
     ports:
       - "0.0.0.0:8000:8000"
     command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
@@ -38,11 +35,11 @@ services:
       - 80:80
 
 
-
-
-
-
 volumes:
   postgresql-data:
   static-data:
+
+
+
+
 

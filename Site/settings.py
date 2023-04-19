@@ -159,6 +159,8 @@ else:
     STATIC_URL = f'http://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
     STATIC_ROOT = STATIC_URL
     MEDIA_LOCATION = 'media'
+    Resim_kayit_yeri = MEDIA_LOCATION + '/resimler'
+    Dosya_kayit_yeri = MEDIA_LOCATION + '/dosyalar'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

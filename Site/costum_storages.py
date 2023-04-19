@@ -6,7 +6,15 @@ if settings.DEBUG:
 
     class MediaStorage(FileSystemStorage):
         file_overwrite = False
-        defaul_acl = 'public-read'
+        default_acl = 'public-read'
+
+    class DocumentStorage(FileSystemStorage):
+        file_overwrite = False
+        default_acl = 'public-read'
+
+    class DocumentStorage(FileSystemStorage):
+        file_overwrite = False
+        default_acl = 'public-read'
 
 
 else:
@@ -15,4 +23,14 @@ else:
     class MediaStorage(S3Boto3Storage):
         location = settings.MEDIA_LOCATION
         file_overwrite = False
-        defaul_acl = 'public-read'
+        default_acl = 'public-read'
+
+    class DocumentStorage(S3Boto3Storage):
+        location = settings.Dosya_kayit_yeri
+        file_overwrite = False
+        default_acl = 'public-read'
+
+    class ImageSettingStorage(S3Boto3Storage):
+        location = settings.Resim_kayit_yeri
+        file_overwrite = False
+        default_acl = 'public-read'
