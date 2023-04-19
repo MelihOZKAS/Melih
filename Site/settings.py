@@ -151,7 +151,7 @@ else:
 
 
     AWS_DEFAULT_ACL = 'public-read'
-    AWS_S3_BUCKET_PARAMeters = {
+    AWS_S3_OBJECT_PARAMETERS = {
         'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
         'CacheControl': 'max-age=94608000'
     }
