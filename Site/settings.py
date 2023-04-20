@@ -44,6 +44,7 @@ CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS',cast=list)
 # Application definition
 
 INSTALLED_APPS = [
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -52,6 +53,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'kontor.apps.KontorConfig',
     'storages',
+
+
 ]
 
 MIDDLEWARE = [

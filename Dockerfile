@@ -14,6 +14,7 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN pip install --upgrade pip
 RUN pip install virtualenv && python -m virtualenv /opt/venv
 
+
 ENV PATH="/opt/venv/bin:$PATH"
 
 
