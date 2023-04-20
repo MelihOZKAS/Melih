@@ -23,6 +23,7 @@ urlpatterns = [
     path("alternatifgonder",views.alternatfgonder),
     path("alternatfsonuckontrol",views.alternatfsonucKontrol),
     path("anapaketsonuckontrol", views.AnaPakettsonucKontrol),
+    #Nasip
 
 
 ]
