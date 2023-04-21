@@ -1,5 +1,3 @@
-from sqlite3 import IntegrityError
-
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler
@@ -140,8 +138,8 @@ def ApiZnetSiparisKaydet(request):
                     order.Aciklama = "Sipariş Kaydedildi.\n"
                     try:
                         order.save()
-                    except IntegrityError as e:
-                        print("Hata: ", e)
+                    except Exception as e:
+                        print("Hata:", e)
 
                     sonuc = "OK|1|Talebiniz İşleme Alınmıştır.|4444"
                 else:
