@@ -35,6 +35,8 @@ from django.views.decorators.csrf import csrf_exempt
 #    Sonuc = siparisGonder()
 #    return HttpResponse(Sonuc)
 
+
+@csrf_exempt
 def ApiSiparisKaydet(request):
     Sonuc = ApiZnetSiparisKaydet(request)
     return HttpResponse(Sonuc)
