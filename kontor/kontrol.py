@@ -84,13 +84,13 @@ def AnaPaketGonder():
 
 def ApiZnetSiparisKaydet(request):
     # Gelen GET isteğindeki değerleri alın
-    bayi_kodu = request.GET.get('bayi_kodu').strip()
-    sifre = request.GET.get('sifre').strip()
-    operatoru = request.GET.get('operator').strip()
-    tip = request.GET.get('tip').strip()
-    kontor = request.GET.get('kontor').strip()
-    gsmno = request.GET.get('gsmno').strip()
-    tekilnumara = request.GET.get('tekilnumara').strip()
+    bayi_kodu = request.GET.get('bayi_kodu').strip().replace(' ','')
+    sifre = request.GET.get('sifre').strip().replace(' ','')
+    operatoru = request.GET.get('operator').strip().replace(' ','')
+    tip = request.GET.get('tip').strip().replace(' ','')
+    kontor = request.GET.get('kontor').strip().replace(' ','')
+    gsmno = request.GET.get('gsmno').strip().replace(' ','')
+    tekilnumara = request.GET.get('tekilnumara').strip().replace(' ','')
     print(operatoru)
     print(tip)
     print(kontor)

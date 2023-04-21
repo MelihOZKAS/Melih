@@ -247,7 +247,7 @@ class VodafonePaketler(models.Model):
 class Siparisler(models.Model):
 
     GelenReferans = models.PositiveIntegerField(unique=True)
-    Numara = models.IntegerField()
+    Numara = models.BigIntegerField()
     #Numara = models.PositiveIntegerField()
     PaketAdi = models.CharField(max_length=200, null=True, blank=True)
     Operator = models.ForeignKey(AnaOperator, on_delete=models.CASCADE, null=True)
