@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('',include("kontor.urls")),
+    path('bayi/',include("kontor.urls")),
     path("admin/", admin.site.urls),
 ]
 
