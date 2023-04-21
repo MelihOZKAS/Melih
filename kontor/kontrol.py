@@ -84,15 +84,15 @@ def AnaPaketGonder():
 
 def ApiZnetSiparisKaydet(request):
     # Gelen GET isteğindeki değerleri alın
-    bayi_kodu = request.GET.get('bayi_kodu')
-    sifre = request.GET.get('sifre')
-    operatoru = request.GET.get('operator')
-    tip = request.GET.get('tip')
-    kontor = request.GET.get('kontor')
-    gsmno = request.GET.get('gsmno')
-    tekilnumara = request.GET.get('tekilnumara')
+    bayi_kodu = request.GET.get('bayi_kodu').strip()
+    sifre = request.GET.get('sifre').strip()
+    operatoru = request.GET.get('operator').strip()
+    tip = request.GET.get('tip').strip()
+    kontor = request.GET.get('kontor').strip()
+    gsmno = request.GET.get('gsmno').strip()
+    tekilnumara = request.GET.get('tekilnumara').strip()
 
-    # Gelen değerler doğruysa database'e kaydedin
+    # Gelen değerler doğruysa database'e kaydedins
     if bayi_kodu and sifre and operatoru and tip and kontor and gsmno and tekilnumara:
         # Siparisler sınıfından yeni bir nesne oluşturun
         order = Siparisler()
