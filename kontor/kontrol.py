@@ -91,6 +91,11 @@ def ApiZnetSiparisKaydet(request):
     kontor = request.GET.get('kontor').strip()
     gsmno = request.GET.get('gsmno').strip()
     tekilnumara = request.GET.get('tekilnumara').strip()
+    print(operatoru)
+    print(tip)
+    print(kontor)
+    print(gsmno)
+    print(tekilnumara)
 
     # Gelen değerler doğruysa database'e kaydedins
     if bayi_kodu and sifre and operatoru and tip and kontor and gsmno and tekilnumara:
@@ -133,14 +138,14 @@ def ApiZnetSiparisKaydet(request):
                     order.Aciklama = "Sipariş Kaydedildi.\n"
                     order.save()
 
-                    sonuc = "Sipariş başarıyla kaydedildi."
+                    sonuc = "OK|1|Talebiniz İşleme Alınmıştır.|4444"
                 else:
-                    sonuc = "Tanımlı Paket Bulunamadı"
+                    sonuc = "OK|3|Tanımlı Paket Bulunamadı.|0.00"
             else:
-                sonuc = "Kategori Bulunamadı"
+                sonuc = "OK|3|KategoriBulunamadi.|0.00"
 
     else:
-        sonuc = "Hatalı"
+        sonuc = "OK|3|EksikGelenBişilerVar.|0.00"
 
     return sonuc
 ########
