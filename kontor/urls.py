@@ -12,7 +12,7 @@ urlpatterns = [
     #path("bayi_operator_altKategori/",views.bayi_Operator_AltKategori),
     #path("bayi_Game_sec/",views.bayi_panel_gamesec),
     #path("bayi_panel_yeni",views.bayi_panel_yeni),
-    path("tetik",views.Tetik),
+    #path("tetik",views.Tetik),
     path("servis/tl_servis.php",views.ApiSiparisKaydet),
     path("PaketEkle",views.PaketEkleDB),
     path("alternatif",views.AlternatifKontrolET),
