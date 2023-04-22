@@ -1,13 +1,11 @@
 from django.contrib import admin
-from django.contrib.auth.hashers import make_password
-
 from .models import KontorList,Kategori,Apiler,ApiKategori,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler
 from django.utils.html import format_html
 from django.urls import reverse,path
 from django.utils import timesince,timezone
 from django.http import HttpResponseRedirect
 
-from django.forms import Select,RadioSelect
+from django.forms import Select, RadioSelect, PasswordInput
 from django.db import models
 from django import forms
 import inspect
@@ -260,8 +258,15 @@ def delete_vodafone(modeladmin, request, queryset):
 
 delete_vodafone.short_description = "Seçilen API'lerin Vodafone kayıtlarını sil"
 
-
+class ApilerAdminForm(forms.ModelForm):
+    class Meta:
+        model = Apiler
+        fields = '__all__'
+        widgets = {
+            'Sifre': PasswordInput(render_value=True),
+        }
 class AdminApiListesi(admin.ModelAdmin):
+    form = ApilerAdminForm
     list_display = ("id","Apiadi","ApiBakiye","ApiTanim","ApiAktifmi","HataManuel",)
     list_editable = ("ApiBakiye","ApiAktifmi","ApiTanim","HataManuel",)
 
@@ -272,11 +277,7 @@ class AdminApiListesi(admin.ModelAdmin):
 
     inlines = [TurkcellInline,VodafoneSesInline]
     actions = [add_all_kontors_to_api,delete_turkcell,add_Vodafone_kontors_to_api,delete_vodafone]
-    def save_model(self, request, obj, form, change):
-        if form.is_valid():
-            if not obj.Sifre.startswith('pbkdf2_sha256$'):
-                obj.Sifre = make_password(form.cleaned_data['Sifre'])
-            obj.save()
+
 
 
 class AdminApiKagetori(admin.ModelAdmin):
