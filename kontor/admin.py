@@ -262,6 +262,7 @@ delete_vodafone.short_description = "Seçilen API'lerin Vodafone kayıtlarını 
 class AdminApiListesi(admin.ModelAdmin):
     list_display = ("id","Apiadi","ApiBakiye","ApiTanim","ApiAktifmi","HataManuel",)
     list_editable = ("ApiBakiye","ApiAktifmi","ApiTanim","HataManuel",)
+    exclude = ('Sifre',)
 
 
     def toplam_kontor(self, obj):
