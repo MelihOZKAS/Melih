@@ -38,10 +38,11 @@ from django.views.decorators.csrf import csrf_exempt
 def ApiSiparisKaydet(request):
     Sonuc = ApiZnetSiparisKaydet(request)
     return HttpResponse(Sonuc)
+@csrf_exempt
 def ApiSiparisSonuc(request):
     Sonuc = SonucKontrolGelen(request)
     return HttpResponse(Sonuc)
-
+@csrf_exempt
 def AlternatifKontrolET(request):
     Sonuc = AlternatifKontrol(request)
     return HttpResponse(Sonuc)
