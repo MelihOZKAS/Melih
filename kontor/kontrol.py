@@ -255,18 +255,15 @@ def SorguyaGonder():
             print(order.Operator.AnaOperatorler)
             print(type(order.Operator.AnaOperatorler))
             print("uste")
+            siteadi = "92.205.129.63:4244"
             # Apiler sınıfından şifre bilgilerini alın
             if order.Operator.AnaOperatorler == "vodafone":
-                print("girdimki")
-                linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
+
+                linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
             elif order.Operator == "turkcell":
-                api = Apiler.objects.get(id=9)
-                linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgudj&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
+                linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgudj&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
             # Belirtilen URL'ye GET isteği gönderin
 
-            gidenRefNumarasi = api.RefNumarasi
-            api.RefNumarasi +=1
-            api.save
             url = linki
             #url = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullanicikodu}&sifre={api.Sifre}&operator={order.Operator}&tip={order.operatorTip}&kontor={order.PaketKupur}&gsmno={order.numara}&tekilnumara={order.GelenReferans}"
             response = requests.get(url)
@@ -279,10 +276,8 @@ def SorguyaGonder():
                     order.Durum = sorguCevap # Sorgu CEvap olarak güncellenecek
                     order.Aciklama = response[2]
                     order.SanalTutar = response[3]
-                    order.SanalRef = gidenRefNumarasi
+                    order.SanalRef = f"1{order.GelenReferans}"
                     order.save()
-                    api.ApiBakiye -= Decimal(response[3])
-                    api.save()
                     Sonuc = response[2]
                     return Sonuc
                 elif response[1] == "8":
@@ -317,17 +312,16 @@ def SorguSonucKontrol():
     sorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
     aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
     orders = Siparisler.objects.filter(Durum=sorguCevap)
+    siteadi = "92.205.129.63:4244"
     if orders:
         for order in orders:
             # Apiler sınıfından şifre bilgilerini alın
             if order.Operator.AnaOperatorler == "vodafone":
-                print("girdimki")
-                api = Apiler.objects.get(id=8)
-                linki = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu=VodafoneSorgudj&sifre=VodafoneSorgudj&tekilnumara={order.SanalRef}"
+                linki = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=VodafoneSorgudj&sifre=VodafoneSorgudj&tekilnumara={order.SanalRef}"
                 #linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
             elif order.Operator == "turkcell":
                 api = Apiler.objects.get(id=9)
-                linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgudj&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
+                linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgudj&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
 
 
 
