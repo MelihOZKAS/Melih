@@ -3,9 +3,7 @@ from django.shortcuts import render
 from .models import Siparisler, Apiler,Durumlar
 import requests
 from decimal import Decimal
-from .kontrol import AnaPaketGonder,ApiZnetSiparisKaydet,PaketEkle,AlternatifKontrol,\
-    YuklenecekPaketler,AlternatifYuklemeyeHazirla,SorguyaGonder,SorguSonucKontrol,\
-    AlternatifYuklemeGonder,AlternatifSonucKontrol,AnaPaketSonucKontrol
+from .kontrol import *
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -39,6 +37,9 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def ApiSiparisKaydet(request):
     Sonuc = ApiZnetSiparisKaydet(request)
+    return HttpResponse(Sonuc)
+def ApiSiparisSonuc(request):
+    Sonuc = SonucKontrolGelen(request)
     return HttpResponse(Sonuc)
 
 def AlternatifKontrolET(request):

@@ -14,6 +14,7 @@ urlpatterns = [
     #path("bayi_panel_yeni",views.bayi_panel_yeni),
     #path("tetik",views.Tetik),
     path("servis/tl_servis.php",views.ApiSiparisKaydet),
+    path("servis/tl_kontrol.php",views.ApiSiparisSonuc),
     path("PaketEkle",views.PaketEkleDB),
     path("alternatif",views.AlternatifKontrolET),
     path("organize",views.AlternatifYuklemeSirasi),

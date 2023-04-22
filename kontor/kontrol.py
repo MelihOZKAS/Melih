@@ -151,104 +151,32 @@ def ApiZnetSiparisKaydet(request):
         sonuc = "OK|3|EksikGelenBişilerVar.|0.00"
 
     return sonuc
-########
-########def ApiZnetSiparisKaydet(request):
-########    # Gelen GET isteğindeki değerleri alın
-########    bayi_kodu = request.GET.get('bayi_kodu')
-########    sifre = request.GET.get('sifre')
-########    operatoru = request.GET.get('operator')
-########    tip = request.GET.get('tip')
-########    kontor = request.GET.get('kontor')
-########    gsmno = request.GET.get('gsmno')
-########    tekilnumara = request.GET.get('tekilnumara')
-########
-########    # Gelen değerler doğruysa database'e kaydedin
-########    if bayi_kodu and sifre and operatoru and tip and kontor and gsmno and tekilnumara:
-########        # Siparisler sınıfından yeni bir nesne oluşturun
-########        order = Siparisler()
-########
-########        operator_model = AnaOperator.objects.get(AnaOperatorler=operatoru)
-########        Tip_operator_model = AltOperator.objects.get(AltOperatorler=tip)
-########
-########        order.Operator = operator_model
-########        order.OperatorTip = Tip_operator_model
-########        order.PaketKupur = kontor
-########        order.Numara = gsmno
-########        if Siparisler.objects.filter(GelenReferans=tekilnumara).exists():
-########            sonuc = "Referans numarası daha önce kullanıldı."
-########            return sonuc
-########        else:
-########            order.GelenReferans = tekilnumara
-########
-########        # Kategori sınıfından ilgili kategoriyi bulun
-########        kategori = Kategori.objects.filter(Operatoru=operator_model, KategoriAltOperatoru=Tip_operator_model).first()
-########
-########        if kategori:
-########            # Kontör listesinde ilgili kupur değerine sahip ürünü bulun
-########            kontor_urunu = KontorList.objects.filter(Kupur=kontor, Kategorisi=kategori).first()
-########            bekliyor = Durumlar.objects.get(durum_id=Durumlar.BEKLIYOR)
-########
-########            if kontor_urunu:
-########                # Ürün bulundu, api1, api2 ve api3 değerlerini siparişe ekle
-########                order.api1 = kontor_urunu.api1
-########                order.api2 = kontor_urunu.api2
-########                order.api3 = kontor_urunu.api3
-########                order.SanalKategori = kategori.pk
-########                order.Durum = bekliyor # Varsayılan durum
-########                order.save()
-########
-########                sonuc = "Sipariş başarıyla kaydedildi."
-########            else:
-########                sonuc = "Tanımlı Paket Bulunamadı"
-########        else:
-########            sonuc = "Kategori Bulunamadı"
-########
-########    else:
-########        sonuc = "Hatalı"
-########
-########    return sonuc
-########
 
-#def ApiZnetSiparisKaydet(request):
-#    # Gelen GET isteğindeki değerleri alın
-#    bayi_kodu = request.GET.get('bayi_kodu')
-#    sifre = request.GET.get('sifre')
-#    operatoru = request.GET.get('operator')
-#    tip = request.GET.get('tip')
-#    kontor = request.GET.get('kontor')
-#    gsmno = request.GET.get('gsmno')
-#    tekilnumara = request.GET.get('tekilnumara')
-#
-#    # Gelen değerler doğruysa database'e kaydedin
-#    if bayi_kodu and sifre and operatoru and tip and kontor and gsmno and tekilnumara:
-#        # Siparisler sınıfından yeni bir nesne oluşturun
-#        order = Siparisler()
-#
-#        operator_model = AnaOperator.objects.get(AnaOperatorler=operatoru)
-#        Tip_operator_model = AltOperator.objects.get(AltOperatorler=tip)
-#
-#        order.Operator = operator_model
-#        order.OperatorTip = Tip_operator_model
-#        order.PaketKupur = kontor
-#        order.Numara = gsmno
-#        order.GelenReferans = tekilnumara
-#
-#        try:
-#            order.Durum = 98  # varsayılan durum
-#            order.save()
-#            Sonuc = "Sipariş başarıyla kaydedildi."
-#            return Sonuc
-#        except:
-#            Sonuc = "Bu İşlem Daha Önce Gönderildi"
-#            return Sonuc
-#    else:
-#        Sonuc = "Hatali"
-#        return Sonuc
+def SonucKontrolGelen(request):
+    bayi_kodu = request.GET.get('bayi_kodu').strip().replace(' ','')
+    sifre = request.GET.get('sifre').strip().replace(' ','')
+    tekilnumara = request.GET.get('tekilnumara').strip().replace(' ','')
+
+    iptal = Durumlar.objects.get(durum_id=Durumlar.IPTAL_EDILDI)
+    Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
+
+    try:
+        siparis = Siparisler.objects.get(GelenReferans=tekilnumara)
+        Sonuc_Durumu = siparis.Durum
+
+        if Sonuc_Durumu == Basarili:
+            aciklama = siparis.BayiAciklama
+            return f"1:{aciklama}"
+        elif Sonuc_Durumu == iptal:
+            aciklama = siparis.BayiAciklama
+            return f"3:{aciklama}"
+        else:
+            return "2:islemde:9999"
+    except Siparisler.DoesNotExist:
+        print("SiparişYok")
 
 
-
-
-
+# sipariş yok
 
 
 def PaketEkle(request):
@@ -652,8 +580,6 @@ def AnaPaketSonucKontrol():
                     Siparis.BayiAciklama = "Basarili"
                 else:
                     Siparis.BayiAciklama = response[1]
-
-
 
                 Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ response[1] + "\n"
                 Siparis.save()
