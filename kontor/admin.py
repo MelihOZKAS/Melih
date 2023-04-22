@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.auth.hashers import make_password
+
 from .models import KontorList,Kategori,Apiler,ApiKategori,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler
 from django.utils.html import format_html
 from django.urls import reverse,path
@@ -262,8 +264,6 @@ delete_vodafone.short_description = "Seçilen API'lerin Vodafone kayıtlarını 
 class AdminApiListesi(admin.ModelAdmin):
     list_display = ("id","Apiadi","ApiBakiye","ApiTanim","ApiAktifmi","HataManuel",)
     list_editable = ("ApiBakiye","ApiAktifmi","ApiTanim","HataManuel",)
-    exclude = ('Sifre',)
-
 
     def toplam_kontor(self, obj):
         return "{:,.0f}".format(obj.kontor_list.toplam_kontor())
@@ -272,6 +272,11 @@ class AdminApiListesi(admin.ModelAdmin):
 
     inlines = [TurkcellInline,VodafoneSesInline]
     actions = [add_all_kontors_to_api,delete_turkcell,add_Vodafone_kontors_to_api,delete_vodafone]
+    def save_model(self, request, obj, form, change):
+        if form.is_valid():
+            if not obj.Sifre.startswith('pbkdf2_sha256$'):
+                obj.Sifre = make_password(form.cleaned_data['Sifre'])
+            obj.save()
 
 
 class AdminApiKagetori(admin.ModelAdmin):
