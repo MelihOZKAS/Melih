@@ -166,10 +166,10 @@ def SonucKontrolGelen(request):
 
         if Sonuc_Durumu == Basarili:
             aciklama = siparis.BayiAciklama
-            return f"1:{aciklama}"
+            return f"1:{aciklama}:9999"
         elif Sonuc_Durumu == iptal:
             aciklama = siparis.BayiAciklama
-            return f"3:{aciklama}"
+            return f"3:{aciklama}:9999"
         else:
             return "2:islemde:9999"
     except Siparisler.DoesNotExist:
