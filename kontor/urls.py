@@ -23,7 +23,7 @@ urlpatterns = [
     path("alternatifgonder",views.alternatfgonder),
     path("alternatfsonuckontrol",views.alternatfsonucKontrol),
     path("anapaketsonuckontrol", views.AnaPakettsonucKontrol),
-    path('', views.bayi_view, name='bayi'),
+    #path('', views.bayi_view, name='bayi'),
     #Nasip
 
 
