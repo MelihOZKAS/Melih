@@ -217,7 +217,7 @@ class Turkcell(models.Model):
     Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        app_label = 'TamProje'
+        #app_label = 'TamProje'
         verbose_name_plural = 'TurkcellTam'
 
     # class Meta:
@@ -236,7 +236,7 @@ class VodafonePaketler(models.Model):
     Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        app_label = 'TamProje'
+        #app_label = 'TamProje'
         verbose_name_plural = 'VodafonePaketler'
     def __str__(self):
         return self.urun_adi
