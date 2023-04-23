@@ -3,6 +3,7 @@ from django.shortcuts import render
 from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler
 import requests
 from decimal import Decimal
+from django.contrib.auth.models import User
 
 def AnaPaketGonder():
     AnaPaket = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
@@ -151,7 +152,6 @@ def ApiZnetSiparisKaydet(request):
         sonuc = "OK|3|EksikGelenBişilerVar.|0.00"
 
     return sonuc
-
 def SonucKontrolGelen(request):
     bayi_kodu = request.GET.get('bayi_kodu').strip().replace(' ','')
     sifre = request.GET.get('sifre').strip().replace(' ','')
@@ -161,20 +161,47 @@ def SonucKontrolGelen(request):
     Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
 
     try:
-        siparis = Siparisler.objects.get(GelenReferans=tekilnumara)
-        Sonuc_Durumu = siparis.Durum
+        user = User.objects.get(username=bayi_kodu)
+        if user.check_password(sifre):
+            siparis = Siparisler.objects.get(GelenReferans=tekilnumara)
+            Sonuc_Durumu = siparis.Durum
 
-        if Sonuc_Durumu == Basarili:
-            aciklama = siparis.BayiAciklama
-            tutar = siparis.SanalTutar
-            return f"1:{aciklama}:{tutar}"
-        elif Sonuc_Durumu == iptal:
-            aciklama = siparis.BayiAciklama
-            return f"3:{aciklama}:0"
+            if Sonuc_Durumu == Basarili:
+                aciklama = siparis.BayiAciklama
+                tutar = siparis.SanalTutar
+                return f"1:{aciklama}:{tutar}"
+            elif Sonuc_Durumu == iptal:
+                aciklama = siparis.BayiAciklama
+                return f"3:{aciklama}:0"
+            else:
+                return "2:islemde:44"
         else:
-            return "2:islemde:44"
-    except Siparisler.DoesNotExist:
-        print("SiparişYok")
+            return "Hatalı kullanıcı adı veya şifre"
+    except (User.DoesNotExist, Siparisler.DoesNotExist):
+        return "Kullanıcı veya sipariş bulunamadı"
+#def SonucKontrolGelen(request):
+#    bayi_kodu = request.GET.get('bayi_kodu').strip().replace(' ','')
+#    sifre = request.GET.get('sifre').strip().replace(' ','')
+#    tekilnumara = request.GET.get('tekilnumara').strip().replace(' ','')
+
+#    iptal = Durumlar.objects.get(durum_id=Durumlar.IPTAL_EDILDI)
+#    Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
+
+#    try:
+#        siparis = Siparisler.objects.get(GelenReferans=tekilnumara)
+#        Sonuc_Durumu = siparis.Durum
+
+#        if Sonuc_Durumu == Basarili:
+#            aciklama = siparis.BayiAciklama
+#            tutar = siparis.SanalTutar
+#            return f"1:{aciklama}:{tutar}"
+#        elif Sonuc_Durumu == iptal:
+#            aciklama = siparis.BayiAciklama
+#            return f"3:{aciklama}:0"
+#        else:
+#            return "2:islemde:44"
+#    except Siparisler.DoesNotExist:
+#        print("SiparişYok")
 
 
 # sipariş yok
