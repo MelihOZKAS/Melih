@@ -289,12 +289,6 @@ class BakiyeHareketleriInline(admin.TabularInline):
     fields = ('islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
     readonly_fields = ('islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
 
-class ProfileAdmin(admin.ModelAdmin):
-    inlines = [BakiyeHareketleriInline]
-
-admin.site.register(Profile, ProfileAdmin)
-
-
 admin.site.register(Durumlar,DurumlarAdmin)
 admin.site.register(AnaOperator,AdminAnaOperator)
 admin.site.register(AltOperator,AdminAltOperator)
@@ -303,9 +297,9 @@ admin.site.register(Siparisler,AdminSiparisler)
 admin.site.register(ApiKategori,AdminApiKagetori)
 admin.site.register(Kategori,AdminKategoriListesi)
 admin.site.register(Apiler,AdminApiListesi)
-admin.site.register(Profile)
 admin.site.register(BakiyeHareketleri)
 
-#admin.site.register(YuklenecekSiparisler)
+class ProfileAdmin(admin.ModelAdmin):
+    inlines = [BakiyeHareketleriInline]
 
-#admin.site.register(ApiKategori)
+admin.site.register(Profile, ProfileAdmin)
