@@ -279,16 +279,17 @@ class AdminApiListesi(admin.ModelAdmin):
     inlines = [TurkcellInline,VodafoneSesInline]
     actions = [add_all_kontors_to_api,delete_turkcell,add_Vodafone_kontors_to_api,delete_vodafone]
 
-
-
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
+@admin.register(Profile)
+class UserBalanceAdmin(admin.ModelAdmin):
+    list_display = ('user', 'balance')
+
+@admin.register(BakiyeHareketleri)
+class BakiyeHareketleriAdmin(admin.ModelAdmin):
+    list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
 
 
-class BakiyeHareketleriInline(admin.TabularInline):
-    model = BakiyeHareketleri
-    fields = ('islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
-    readonly_fields = ('islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
 
 admin.site.register(Durumlar,DurumlarAdmin)
 admin.site.register(AnaOperator,AdminAnaOperator)
