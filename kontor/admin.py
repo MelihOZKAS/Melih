@@ -299,7 +299,3 @@ admin.site.register(Kategori,AdminKategoriListesi)
 admin.site.register(Apiler,AdminApiListesi)
 admin.site.register(BakiyeHareketleri)
 
-class ProfileAdmin(admin.ModelAdmin):
-    inlines = [BakiyeHareketleriInline]
-
-admin.site.register(Profile, ProfileAdmin)
