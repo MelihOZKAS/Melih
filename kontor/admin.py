@@ -283,7 +283,7 @@ class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
 @admin.register(Profile)
 class UserBalanceAdmin(admin.ModelAdmin):
-    list_display = ('user', 'balance')
+    list_display = ('user', 'bakiye')
 
 @admin.register(BakiyeHareketleri)
 class BakiyeHareketleriAdmin(admin.ModelAdmin):
