@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import KontorList,Kategori,Apiler,ApiKategori,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler
+from .models import KontorList,Kategori,Apiler,ApiKategori,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler,Profile, BakiyeHareketleri
 from django.utils.html import format_html
 from django.urls import reverse,path
 from django.utils import timesince,timezone
@@ -9,6 +9,7 @@ from django.forms import Select, RadioSelect, PasswordInput
 from django.db import models
 from django import forms
 import inspect
+from django.contrib.auth.models import User
 
 
 # Register your models here.
@@ -283,6 +284,15 @@ class AdminApiListesi(admin.ModelAdmin):
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
 
+class BakiyeHareketleriInline(admin.TabularInline):
+    model = BakiyeHareketleri
+    fields = ('islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
+    readonly_fields = ('islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
+
+class ProfileAdmin(admin.ModelAdmin):
+    inlines = [BakiyeHareketleriInline]
+
+admin.site.register(Profile, ProfileAdmin)
 
 
 admin.site.register(Durumlar,DurumlarAdmin)
@@ -293,6 +303,8 @@ admin.site.register(Siparisler,AdminSiparisler)
 admin.site.register(ApiKategori,AdminApiKagetori)
 admin.site.register(Kategori,AdminKategoriListesi)
 admin.site.register(Apiler,AdminApiListesi)
+admin.site.register(Profile)
+admin.site.register(BakiyeHareketleri)
 
 #admin.site.register(YuklenecekSiparisler)
 
