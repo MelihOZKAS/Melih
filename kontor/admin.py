@@ -284,6 +284,7 @@ class AdminApiListesi(admin.ModelAdmin):
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
 
+
 class BakiyeHareketleriInline(admin.TabularInline):
     model = BakiyeHareketleri
     fields = ('islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
