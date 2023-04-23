@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler
+from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,BakiyeHareketleri
 import requests
 from decimal import Decimal
 from django.contrib.auth.models import User
@@ -92,61 +92,90 @@ def ApiZnetSiparisKaydet(request):
     kontor = request.GET.get('kontor').strip().replace(' ','').replace('.00','')
     gsmno = request.GET.get('gsmno').strip().replace(' ','')
     tekilnumara = request.GET.get('tekilnumara').strip().replace(' ','')
-    print(operatoru)
-    print(tip)
-    print(kontor)
-    print(gsmno)
-    print(tekilnumara)
 
     # Gelen değerler doğruysa database'e kaydedins
     if bayi_kodu and sifre and operatoru and tip and kontor and gsmno and tekilnumara:
         # Siparisler sınıfından yeni bir nesne oluşturun
-        order = Siparisler()
+        try:
+            user = User.objects.get(username=bayi_kodu)
 
-        operator_model = AnaOperator.objects.get(AnaOperatorler=operatoru)
-        Tip_operator_model = AltOperator.objects.get(AltOperatorler=tip)
+            if user.check_password(sifre):
+                order = Siparisler()
 
-        order.Operator = operator_model
-        order.OperatorTip = Tip_operator_model
-        order.PaketKupur = kontor
-        order.Numara = gsmno
+                operator_model = AnaOperator.objects.get(AnaOperatorler=operatoru)
+                Tip_operator_model = AltOperator.objects.get(AltOperatorler=tip)
 
+                order.Operator = operator_model
+                order.OperatorTip = Tip_operator_model
+                order.PaketKupur = kontor
+                order.Numara = gsmno
 
-        # Kontrol et, daha önce bu referans numarasıyla kaydedilen sipariş var mı?
-        if Siparisler.objects.filter(GelenReferans=tekilnumara).exists():
-            sonuc = "Referans numarası daha önce kullanıldı."
-        else:
-            order.GelenReferans = tekilnumara
-
-            # Kategori sınıfından ilgili kategoriyi bulun
-            kategori = Kategori.objects.filter(Operatoru=operator_model, KategoriAltOperatoru=Tip_operator_model).first()
-
-            if kategori:
-                # Kontör listesinde ilgili kupur değerine sahip ürünü bulun
-                kontor_urunu = KontorList.objects.filter(Kupur=kontor, Kategorisi=kategori).first()
-                sorguGidicek = Durumlar.objects.get(durum_id=Durumlar.Sorguda)
-
-                if kontor_urunu:
-                    # Ürün bulundu, api1, api2 ve api3 değerlerini siparişe ekle
-                    order.api1 = kontor_urunu.api1
-                    order.api2 = kontor_urunu.api2
-                    order.api3 = kontor_urunu.api3
-                    order.PaketAdi = kontor_urunu.Urun_adi
-                    order.BayiAciklama = "İşleme Alındı."
-                    order.Gonderim_Sirasi = 1
-                    order.SanalKategori = kategori.pk
-                    order.Durum = sorguGidicek # Varsayılan durum
-                    order.Aciklama = "Sipariş Kaydedildi.\n"
-                    try:
-                        order.save()
-                    except Exception as e:
-                        print("Hata:", e)
-
-                    sonuc = "OK|1|Talebiniz İşleme Alınmıştır.|44"
+                # Kontrol et, daha önce bu referans numarasıyla kaydedilen sipariş var mı?
+                if Siparisler.objects.filter(GelenReferans=tekilnumara).exists():
+                    sonuc = "Referans numarası daha önce kullanıldı."
                 else:
-                    sonuc = "OK|3|Tanımlı Paket Bulunamadı.|0.00"
+                    order.GelenReferans = tekilnumara
+
+                    # Kategori sınıfından ilgili kategoriyi bulun
+                    kategori = Kategori.objects.filter(Operatoru=operator_model,
+                                                       KategoriAltOperatoru=Tip_operator_model).first()
+
+                    if kategori:
+                        # Kontör listesinde ilgili kupur değerine sahip ürünü bulun
+                        kontor_urunu = KontorList.objects.filter(Kupur=kontor, Kategorisi=kategori).first()
+                        sorguGidicek = Durumlar.objects.get(durum_id=Durumlar.Sorguda)
+
+
+                        #todo şimdilik kontör tutarı burada = 100
+                        paket_tutari = Decimal('95.5')
+                        Onceki_Bakiye = user.bakiye
+
+
+
+                        if kontor_urunu:
+                            if Onceki_Bakiye - paket_tutari > 0:
+                                user.bakiye -= paket_tutari
+                                user.save()
+
+                                SonrakiBakiye = user.bakiye
+
+                                # Ürün bulundu, api1, api2 ve api3 değerlerini siparişe ekle
+                                order.api1 = kontor_urunu.api1
+                                order.api2 = kontor_urunu.api2
+                                order.api3 = kontor_urunu.api3
+                                order.PaketAdi = kontor_urunu.Urun_adi
+                                order.BayiAciklama = "İşleme Alındı."
+                                order.Gonderim_Sirasi = 1
+                                order.SanalKategori = kategori.pk
+                                order.Durum = sorguGidicek  # Varsayılan durum
+                                order.Aciklama = "Sipariş Kaydedildi.\n"
+                                try:
+                                    order.save()
+                                    hareket = BakiyeHareketleri(user=user,
+                                                                islem_tutari=paket_tutari,
+                                                                onceki_bakiye=Onceki_Bakiye,
+                                                                sonraki_bakiye=SonrakiBakiye,
+                                                                aciklama = f"Kullanıcısı {gsmno} Nolu Hatta {paket_tutari} TL'lik bir paket satın aldı")
+                                    hareket.save()
+                                except Exception as e:
+                                    print("Hata:", e)
+
+                                sonuc = "OK|1|Talebiniz İşleme Alınmıştır.|44"
+                            else:
+                                sonuc = "OK|3|Yetersiz Bakiye.|0.00"
+
+                        else:
+                            sonuc = "OK|3|Tanımlı Paket Bulunamadı.|0.00"
+                    else:
+                        sonuc = "OK|3|KategoriBulunamadi.|0.00"
+
             else:
-                sonuc = "OK|3|KategoriBulunamadi.|0.00"
+                return "Hatalı kullanıcı adı veya şifre"
+        except (User.DoesNotExist, Siparisler.DoesNotExist):
+            return "Kullanıcı veya sipariş bulunamadı"
+
+
+
 
     else:
         sonuc = "OK|3|EksikGelenBişilerVar.|0.00"
