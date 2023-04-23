@@ -299,5 +299,5 @@ admin.site.register(Siparisler,AdminSiparisler)
 admin.site.register(ApiKategori,AdminApiKagetori)
 admin.site.register(Kategori,AdminKategoriListesi)
 admin.site.register(Apiler,AdminApiListesi)
-admin.site.register(BakiyeHareketleri)
+
 
