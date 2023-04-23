@@ -149,6 +149,7 @@ def ApiZnetSiparisKaydet(request):
                                 order.SanalKategori = kategori.pk
                                 order.Durum = sorguGidicek  # Varsayılan durum
                                 order.Aciklama = "Sipariş Kaydedildi.\n"
+
                                 try:
                                     order.save()
                                     hareket = BakiyeHareketleri(user=user,
