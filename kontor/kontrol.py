@@ -141,7 +141,7 @@ def ApiZnetSiparisKaydet(request):
                     except Exception as e:
                         print("Hata:", e)
 
-                    sonuc = "OK|1|Talebiniz İşleme Alınmıştır.|4444"
+                    sonuc = "OK|1|Talebiniz İşleme Alınmıştır.|44"
                 else:
                     sonuc = "OK|3|Tanımlı Paket Bulunamadı.|0.00"
             else:
@@ -166,12 +166,13 @@ def SonucKontrolGelen(request):
 
         if Sonuc_Durumu == Basarili:
             aciklama = siparis.BayiAciklama
-            return f"1:{aciklama}:9999"
+            tutar = siparis.SanalTutar
+            return f"1:{aciklama}:{tutar}"
         elif Sonuc_Durumu == iptal:
             aciklama = siparis.BayiAciklama
-            return f"3:{aciklama}:9999"
+            return f"3:{aciklama}:0"
         else:
-            return "2:islemde:9999"
+            return "2:islemde:44"
     except Siparisler.DoesNotExist:
         print("SiparişYok")
 
