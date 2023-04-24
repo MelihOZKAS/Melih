@@ -128,16 +128,17 @@ def ApiZnetSiparisKaydet(request):
 
                         #todo şimdilik kontör tutarı burada = 100
                         paket_tutari = Decimal('95.5')
-                        Onceki_Bakiye = user.Bayi_Bakiyesi
+                        Bayi = Bayi_Listesi.objects.get(user=user)
+                        Onceki_Bakiye = Bayi.Bayi_Bakiyesi
 
 
 
                         if kontor_urunu:
                             if Onceki_Bakiye - paket_tutari > 0:
-                                user.Bayi_Bakiyesi -= paket_tutari
-                                user.save()
+                                Bayi.Bayi_Bakiyesi -= paket_tutari
+                                Bayi.save()
 
-                                SonrakiBakiye = user.Bayi_Bakiyesi
+                                SonrakiBakiye = Bayi.Bayi_Bakiyesi
 
                                 # Ürün bulundu, api1, api2 ve api3 değerlerini siparişe ekle
                                 order.api1 = kontor_urunu.api1
@@ -152,12 +153,13 @@ def ApiZnetSiparisKaydet(request):
 
                                 try:
                                     order.save()
-                                    hareket = BakiyeHareketleri(username=bayi_kodu,
+                                    hareket = BakiyeHareketleri(user=user,
                                                                 islem_tutari=paket_tutari,
                                                                 onceki_bakiye=Onceki_Bakiye,
                                                                 sonraki_bakiye=SonrakiBakiye,
-                                                                aciklama = f"Kullanıcısı {gsmno} Nolu Hatta {paket_tutari} TL'lik bir paket satın aldı")
+                                                                aciklama=f"Kullanıcısı {gsmno} Nolu Hatta {paket_tutari} TL'lik bir paket satın aldı")
                                     hareket.save()
+
                                 except Exception as e:
                                     print("Hata:", e)
 
