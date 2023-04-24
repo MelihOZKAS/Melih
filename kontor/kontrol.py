@@ -97,7 +97,7 @@ def ApiZnetSiparisKaydet(request):
     if bayi_kodu and sifre and operatoru and tip and kontor and gsmno and tekilnumara:
         # Siparisler sınıfından yeni bir nesne oluşturun
         try:
-            user = User.objects.get(username=bayi_kodu)
+            user = User.objects.get(user=bayi_kodu)
 
             if user.check_password(sifre):
                 order = Siparisler()
