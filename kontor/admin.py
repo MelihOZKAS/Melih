@@ -288,12 +288,16 @@ class AdminApiKagetori(admin.ModelAdmin):
 #class BakiyeHareketleriAdmin(admin.ModelAdmin):
 #    list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
 
-class BakiyeHareketleriInline(admin.TabularInline):
+class BakiyeHareketleriInline(admin.StackedInline):
     model = BakiyeHareketleri
+    extra = 0
+
 class Bayi_ListesiAdmin(admin.ModelAdmin):
     inlines = [BakiyeHareketleriInline]
+    list_display = ('user', 'Bayi_Bakiyesi')
 
 admin.site.register(Bayi_Listesi, Bayi_ListesiAdmin)
+
 
 
 admin.site.register(Durumlar,DurumlarAdmin)
