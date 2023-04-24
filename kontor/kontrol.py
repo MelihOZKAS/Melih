@@ -726,7 +726,8 @@ def AlternatifKontrol(request):
 
             if siparis.SorguPaketID == "VodafoneDegilKi,GNC001" or  siparis.SorguPaketID == "TurkcellDegilKi,GNC001":
                 siparis.Durum = iptalEdildi
-                siparisler.BayiAciklama = siparis.SorguPaketID
+                siparis.BayiAciklama = siparis.SorguPaketID
+                #siparisler.BayiAciklama = siparis.SorguPaketID
                 siparis.save()
                 return "Oto İPTAL edildi"
 
