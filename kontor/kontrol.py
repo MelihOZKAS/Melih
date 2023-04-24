@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,BakiyeHareketleri
+from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler
 import requests
 from decimal import Decimal
 from django.contrib.auth.models import User
@@ -152,12 +152,12 @@ def ApiZnetSiparisKaydet(request):
 
                                 try:
                                     order.save()
-                                    hareket = BakiyeHareketleri(user=user,
-                                                                islem_tutari=paket_tutari,
-                                                                onceki_bakiye=Onceki_Bakiye,
-                                                                sonraki_bakiye=SonrakiBakiye,
-                                                                aciklama = f"Kullanıcısı {gsmno} Nolu Hatta {paket_tutari} TL'lik bir paket satın aldı")
-                                    hareket.save()
+                                    #hareket = BakiyeHareketleri(user=user,
+                                    #                            islem_tutari=paket_tutari,
+                                    #                            onceki_bakiye=Onceki_Bakiye,
+                                    #                            sonraki_bakiye=SonrakiBakiye,
+                                    #                            aciklama = f"Kullanıcısı {gsmno} Nolu Hatta {paket_tutari} TL'lik bir paket satın aldı")
+                                    #hareket.save()
                                 except Exception as e:
                                     print("Hata:", e)
 
