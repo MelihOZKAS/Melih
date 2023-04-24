@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler
+from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri
 import requests
 from decimal import Decimal
 from django.contrib.auth.models import User
@@ -128,16 +128,16 @@ def ApiZnetSiparisKaydet(request):
 
                         #todo şimdilik kontör tutarı burada = 100
                         paket_tutari = Decimal('95.5')
-                        Onceki_Bakiye = user.bakiye
+                        Onceki_Bakiye = user.Bayi_Bakiyesi
 
 
 
                         if kontor_urunu:
                             if Onceki_Bakiye - paket_tutari > 0:
-                                user.bakiye -= paket_tutari
+                                user.Bayi_Bakiyesi -= paket_tutari
                                 user.save()
 
-                                SonrakiBakiye = user.bakiye
+                                SonrakiBakiye = user.Bayi_Bakiyesi
 
                                 # Ürün bulundu, api1, api2 ve api3 değerlerini siparişe ekle
                                 order.api1 = kontor_urunu.api1
@@ -152,12 +152,12 @@ def ApiZnetSiparisKaydet(request):
 
                                 try:
                                     order.save()
-                                    #hareket = BakiyeHareketleri(user=user,
-                                    #                            islem_tutari=paket_tutari,
-                                    #                            onceki_bakiye=Onceki_Bakiye,
-                                    #                            sonraki_bakiye=SonrakiBakiye,
-                                    #                            aciklama = f"Kullanıcısı {gsmno} Nolu Hatta {paket_tutari} TL'lik bir paket satın aldı")
-                                    #hareket.save()
+                                    hareket = BakiyeHareketleri(user=user,
+                                                                islem_tutari=paket_tutari,
+                                                                onceki_bakiye=Onceki_Bakiye,
+                                                                sonraki_bakiye=SonrakiBakiye,
+                                                                aciklama = f"Kullanıcısı {gsmno} Nolu Hatta {paket_tutari} TL'lik bir paket satın aldı")
+                                    hareket.save()
                                 except Exception as e:
                                     print("Hata:", e)
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import KontorList,Kategori,Apiler,ApiKategori,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler
+from .models import KontorList,Kategori,Apiler,ApiKategori,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri
 from django.utils.html import format_html
 from django.urls import reverse,path
 from django.utils import timesince,timezone
@@ -281,13 +281,13 @@ class AdminApiListesi(admin.ModelAdmin):
 
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
-#@admin.register(Profile)
-#class UserBalanceAdmin(admin.ModelAdmin):
-#    list_display = ('user', 'bakiye')
-#
-#@admin.register(BakiyeHareketleri)
-#class BakiyeHareketleriAdmin(admin.ModelAdmin):
-#    list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
+@admin.register(Bayi_Listesi)
+class Bayi_Bakiyeleri(admin.ModelAdmin):
+    list_display = ('user', 'Bayi_Bakiyesi')
+
+@admin.register(BakiyeHareketleri)
+class BakiyeHareketleriAdmin(admin.ModelAdmin):
+    list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
 
 
 
