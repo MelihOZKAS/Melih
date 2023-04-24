@@ -324,4 +324,4 @@ class BakiyeHareketleri(models.Model):
     onceki_bakiye = models.DecimalField(max_digits=10, decimal_places=2)
     sonraki_bakiye = models.DecimalField(max_digits=10, decimal_places=2)
     tarih = models.DateTimeField(auto_now_add=True)
-    aciklama = models.CharField(max_length=254)
+    aciklama = models.CharField(max_length=255)

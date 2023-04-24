@@ -6,7 +6,6 @@ from django.utils import timesince,timezone
 from django.http import HttpResponseRedirect
 
 from django.forms import Select, RadioSelect, PasswordInput
-from django.db import models
 from django import forms
 import inspect
 from django.contrib.auth.models import User
