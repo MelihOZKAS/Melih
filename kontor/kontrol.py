@@ -152,7 +152,7 @@ def ApiZnetSiparisKaydet(request):
 
                                 try:
                                     order.save()
-                                    hareket = BakiyeHareketleri(user=user,
+                                    hareket = BakiyeHareketleri(user=bayi_kodu,
                                                                 islem_tutari=paket_tutari,
                                                                 onceki_bakiye=Onceki_Bakiye,
                                                                 sonraki_bakiye=SonrakiBakiye,
