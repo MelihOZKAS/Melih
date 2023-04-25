@@ -247,15 +247,13 @@ class VodafonePaketler(models.Model):
 
 
 class Siparisler(models.Model):
-
+    #user = models.ForeignKey(User, on_delete=models.CASCADE)
     GelenReferans = models.PositiveIntegerField(unique=True)
     Numara = models.BigIntegerField()
-    #Numara = models.PositiveIntegerField()
     PaketAdi = models.CharField(max_length=200, null=True, blank=True)
     Operator = models.ForeignKey(AnaOperator, on_delete=models.CASCADE, null=True)
     OperatorTip = models.ForeignKey(AltOperator, on_delete=models.CASCADE, null=True)
     PaketKupur = models.PositiveIntegerField()
-    #Durum = models.PositiveIntegerField()
     Durum = models.ForeignKey(Durumlar, on_delete=models.PROTECT)
     AnaPaketVar = models.BooleanField("AnaPaketVar", default=False)
     Aciklama = models.TextField(null=True,blank=True)

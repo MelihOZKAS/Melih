@@ -157,7 +157,7 @@ def ApiZnetSiparisKaydet(request):
                                                                 islem_tutari=paket_tutari,
                                                                 onceki_bakiye=Onceki_Bakiye,
                                                                 sonraki_bakiye=SonrakiBakiye,
-                                                                aciklama=f"Kullanıcısı {gsmno} Nolu Hatta {paket_tutari} TL'lik bir paket satın aldı")
+                                                                aciklama=f"Kullanıcısı {gsmno} Nolu Hatta {operatoru}_{kontor}_{paket_tutari} TL'lik bir paket satın aldı")
                                     hareket.save()
 
                                 except Exception as e:
@@ -589,7 +589,6 @@ def AnaPaketSonucKontrol():
     AnaPaketSorgu = Durumlar.objects.get(durum_id=Durumlar.AnaPaketSonucBekler)
     Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
 
-
     SiparisTum = Siparisler.objects.filter(Durum=AnaPaketSorgu)
     if SiparisTum:
         for Siparis in SiparisTum:
@@ -607,25 +606,13 @@ def AnaPaketSonucKontrol():
             linki = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullanicikodu}&sifre={api.Sifre}&tekilnumara={Siparis.SanalRef}"
             print(linki)
             url = linki
-
-            #   1: olumlu_islem:5.50
-            #   2: islemde:5.50
-            #   3: iptal_nedeni
-
             response = requests.get(url)
             response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
             print(response.text)
             response = response.text.split(":")
             GelenAciklama = Siparis.Aciklama
 
-
             if response[0] == "1":
-
-                # Cevabı işleyin ve veritabanına kaydedin
-                # ...
-                # order.Durum = sorguCevap # Sorgu CEvap olarak güncellenecek
-                # alternatifOrder.Aciklama = response[2]     #TODO buraya bayi aciklaması vs girilmesi lazım.
-                # alternatifOrder.YuklenecekPaketFiyat = response[3]    #TODO Maliyete işlenmesi ve api fiyatında güncellenmesi lazım.
                 Siparis.Durum = Basarili
                 print(response[1])
                 if response[1] == "":
@@ -636,22 +623,15 @@ def AnaPaketSonucKontrol():
 
                 Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ response[1] + "\n"
                 Siparis.save()
-                # api.ApiBakiye -= Decimal(response[3])
-                # api.save()
                 Sonuc = response[2]
                 print("Durum güncellendi.")
                 return Sonuc
             elif response[0] == "2":
-                # Cevabı işleyin ve veritabanına kaydedin
-                # ...
                 Sonuc = "Henüz işlemde"
                 return Sonuc
             elif response[0] == "3":
-                print("Burada Olmam Lazım")
-
                 api.ApiBakiye += Decimal(Siparis.SanalTutar)
                 Sirasi = Siparis.Gonderim_Sirasi +1
-
                 if Sirasi == 2:
                     print("Girdim2")
                     YeniApisi = Siparis.api2
@@ -676,7 +656,6 @@ def AnaPaketSonucKontrol():
                     Siparis.Gonderim_Sirasi = Sirasi
                     Siparis.save()
                     AnaPaketGonder()
-
 
     else:
         Sonuc = "Hiç Sipariş Yok"

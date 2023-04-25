@@ -280,23 +280,13 @@ class AdminApiListesi(admin.ModelAdmin):
 
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
-#@admin.register(Bayi_Listesi)
-#class Bayi_Bakiyeleri(admin.ModelAdmin):
-#    list_display = ('user', 'Bayi_Bakiyesi')
-
-#@admin.register(BakiyeHareketleri)
-#class BakiyeHareketleriAdmin(admin.ModelAdmin):
-#    list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
-
-class BakiyeHareketleriInline(admin.StackedInline):
-    model = BakiyeHareketleri
-    extra = 0
-
-class Bayi_ListesiAdmin(admin.ModelAdmin):
-    inlines = [BakiyeHareketleriInline]
+@admin.register(Bayi_Listesi)
+class Bayi_Bakiyeleri(admin.ModelAdmin):
     list_display = ('user', 'Bayi_Bakiyesi')
 
-admin.site.register(Bayi_Listesi, Bayi_ListesiAdmin)
+@admin.register(BakiyeHareketleri)
+class BakiyeHareketleriAdmin(admin.ModelAdmin):
+    list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
 
 
 
