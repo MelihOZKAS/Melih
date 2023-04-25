@@ -141,6 +141,7 @@ def ApiZnetSiparisKaydet(request):
                                 SonrakiBakiye = Bayi.Bayi_Bakiyesi
 
                                 # Ürün bulundu, api1, api2 ve api3 değerlerini siparişe ekle
+                                order.user = bayi_kodu
                                 order.api1 = kontor_urunu.api1
                                 order.api2 = kontor_urunu.api2
                                 order.api3 = kontor_urunu.api3
@@ -630,6 +631,7 @@ def AnaPaketSonucKontrol():
                 Sonuc = "Henüz işlemde"
                 return Sonuc
             elif response[0] == "3":
+
                 api.ApiBakiye += Decimal(Siparis.SanalTutar)
                 Sirasi = Siparis.Gonderim_Sirasi +1
                 if Sirasi == 2:
@@ -641,12 +643,26 @@ def AnaPaketSonucKontrol():
                     YeniApisi = Siparis.api3
 
                 if not YeniApisi:
-                    print("Girdim ?")
                     Siparis.Durum = iptal
                     Siparis.BayiAciklama = "iptal"
                     Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + response[
                         1] + "iptal olanApiSirasi:" + str(Siparis.Gonderim_Sirasi) + " Başka Api olmadığı için iptal edildi.\n"
                     Siparis.save()
+
+                    paket_tutari = Decimal('95.5')
+                    user = User.objects.get(username=Siparis.user)
+                    Bayi = Bayi_Listesi.objects.get(user=user)
+                    Onceki_Bakiye = Bayi.Bayi_Bakiyesi
+                    Bayi.Bayi_Bakiyesi += paket_tutari
+                    Bayi.save()
+                    SonrakiBakiye = Bayi.Bayi_Bakiyesi
+
+                    hareket = BakiyeHareketleri(user=user,
+                                                islem_tutari=paket_tutari,
+                                                onceki_bakiye=Onceki_Bakiye,
+                                                sonraki_bakiye=SonrakiBakiye,
+                                                aciklama=f"{Siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
+                    hareket.save()
 
                 else:
                     print("Nasip")
