@@ -141,7 +141,7 @@ def ApiZnetSiparisKaydet(request):
                                 SonrakiBakiye = Bayi.Bayi_Bakiyesi
 
                                 # Ürün bulundu, api1, api2 ve api3 değerlerini siparişe ekle
-                                order.user = bayi_kodu
+                                order.user = user
                                 order.api1 = kontor_urunu.api1
                                 order.api2 = kontor_urunu.api2
                                 order.api3 = kontor_urunu.api3
