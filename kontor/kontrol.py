@@ -724,6 +724,20 @@ def AlternatifKontrol(request):
                 siparis.BayiAciklama = siparis.SorguPaketID
                 #siparisler.BayiAciklama = siparis.SorguPaketID
                 siparis.save()
+                paket_tutari = Decimal('95.5')
+                user = User.objects.get(username=siparis.user)
+                Bayi = Bayi_Listesi.objects.get(user=user)
+                Onceki_Bakiye = Bayi.Bayi_Bakiyesi
+                Bayi.Bayi_Bakiyesi += paket_tutari
+                Bayi.save()
+                SonrakiBakiye = Bayi.Bayi_Bakiyesi
+
+                hareket = BakiyeHareketleri(user=user,
+                                            islem_tutari=paket_tutari,
+                                            onceki_bakiye=Onceki_Bakiye,
+                                            sonraki_bakiye=SonrakiBakiye,
+                                            aciklama=f"{siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
+                hareket.save()
                 return "Oto İPTAL edildi"
 
 
