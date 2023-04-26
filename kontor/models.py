@@ -219,11 +219,7 @@ class Turkcell(models.Model):
     Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        #app_label = 'TamProje'
         verbose_name_plural = 'TurkcellTam'
-
-    # class Meta:
-   #     verbose_name_plural = 'Turkcell'
 
     def __str__(self):
         return self.urun_adi
@@ -238,7 +234,6 @@ class VodafonePaketler(models.Model):
     Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        #app_label = 'TamProje'
         verbose_name_plural = 'VodafonePaketler'
     def __str__(self):
         return self.urun_adi
@@ -265,8 +260,7 @@ class Siparisler(models.Model):
     SanalTutar = models.DecimalField("Maliyet",max_digits=100, decimal_places=2, null=True,blank=True)
     SorguPaketID = models.CharField(max_length=1000, blank=True)
     OlusturmaTarihi = models.DateTimeField(auto_now_add=True)
-
-    #HangiApi = models.ForeignKey(Apiler, on_delete=models.CASCADE, null=True,blank=True)
+    #SonucTarihi = models.DateTimeField(auto_now_add=True)
     api1 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_1',null=True, blank=True)
     api2 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_2', null=True, blank=True)
     api3 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_3', null=True, blank=True)

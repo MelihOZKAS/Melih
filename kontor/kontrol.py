@@ -158,7 +158,7 @@ def ApiZnetSiparisKaydet(request):
                                                                 islem_tutari=paket_tutari,
                                                                 onceki_bakiye=Onceki_Bakiye,
                                                                 sonraki_bakiye=SonrakiBakiye,
-                                                                aciklama=f"Kullanıcısı {gsmno} Nolu Hatta {operatoru}_{kontor}_{paket_tutari} TL'lik bir paket satın aldı")
+                                                                aciklama=f"Kullanıcısı {user} Nolu Hatta {operatoru}_{kontor}_{paket_tutari} TL'lik bir paket satın aldı")
                                     hareket.save()
 
                                 except Exception as e:
