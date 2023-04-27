@@ -1040,8 +1040,7 @@ def VodafonePaketleriCek(request):
                         "api1": api1,
                         "api2": api2,
                         "zNetKupur": znetFix
-                    },
-                    primary_key=False
+                    }
                 )
             except Exception as e:
                 print(f'Hata: {e}')
