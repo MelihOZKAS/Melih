@@ -1007,6 +1007,8 @@ def VodafonePaketleriCek(request):
             # Her bir paketin daha önce veritabanında kaydedilip kaydedilmediğini kontrol edin
             try:
                 KategorisiGelen = Kategori.objects.get(pk=3)
+                api1 = Apiler.objects.get(pk=3)
+                api2 = Apiler.objects.get(pk=2)
                 KontorList.objects.update_or_create(
                     Kupur=paketID,
                     defaults={
@@ -1023,8 +1025,8 @@ def VodafonePaketleriCek(request):
                         "YurtDisiDk": 0.00,
                         "Aktifmi": True,
                         "Kategorisi": KategorisiGelen,
-                        "api1": 3,
-                        "api2": 2,
+                        "api1": api1,
+                        "api2": api2,
                         "zNetKupur": float(znetFix)
                     }
                 )
