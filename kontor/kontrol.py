@@ -993,14 +993,14 @@ def VodafonePaketleriCek(request):
         paketler = data.split('|')
         for paket in paketler:
             bilgiler = paket.split('/')
-            paketID = bilgiler[0]
+            paketID = Decimal(bilgiler[0])
             Paket = bilgiler[1]
-            paketDK = bilgiler[2]
-            paketGB = bilgiler[3]
-            paketSMS = bilgiler[4]
-            paketFiyat = bilgiler[5]
-            paketDay = bilgiler[6]
-            znetFix = bilgiler[7]
+            paketDK = Decimal(bilgiler[2])
+            paketGB = Decimal(bilgiler[3])
+            paketSMS = Decimal(bilgiler[4])
+            paketFiyat = Decimal(bilgiler[5])
+            paketDay = Decimal(bilgiler[6])
+            znetFix = Decimal(bilgiler[7])
 
             # Her bir paketin daha önce veritabanında kaydedilip kaydedilmediğini kontrol edin
             try:
@@ -1015,17 +1015,17 @@ def VodafonePaketleriCek(request):
                         "Kupur": paketID,
                         "GunSayisi": paketDay,
                         "MaliyetFiyat": paketFiyat,
-                        "SatisFiyat": int(paketFiyat) + 5,
+                        "SatisFiyat": Decimal(int(paketFiyat) + 5),
                         "HeryoneDK": paketDK,
-                        "Sebekeici": 0.00,
-                        "internet": str(int(paketGB) * 1000),
+                        "Sebekeici": Decimal('0.00'),
+                        "internet": Decimal(str(int(paketGB) * 1000)),
                         "SMS": paketSMS,
-                        "YurtDisiDk": 0.00,
+                        "YurtDisiDk": Decimal('0.00'),
                         "Aktifmi": True,
                         "Kategorisi": KategorisiGelen,
                         "api1": api1,
                         "api2": api2,
-                        "zNetKupur": float(znetFix)
+                        "zNetKupur": znetFix
                     },
                     primary_key='Kupur'
                 )
