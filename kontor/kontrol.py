@@ -992,6 +992,7 @@ def VodafonePaketleriCek(request):
         data = response.content.decode('utf-8')
         paketler = data.split('|')
         for paket in paketler:
+            print(paket)
             bilgiler = paket.split('/')
             paketID = Decimal(bilgiler[0])
             Paket = bilgiler[1]
@@ -1027,7 +1028,7 @@ def VodafonePaketleriCek(request):
                         "api2": api2,
                         "zNetKupur": znetFix
                     },
-                    primary_key='Kupur'
+                    primary_key='paketID'
                 )
             except Exception as e:
                 print(f'Hata: {e}')
