@@ -1024,9 +1024,9 @@ def VodafonePaketleriCek(request):
                 KontorList.objects.update_or_create(
                     Kupur=paketID,
                     defaults={
+                        "Kupur": paketID,
                         "Urun_adi": Paket,
                         "Urun_Detay": Paket,
-                        "Kupur": paketID,
                         "GunSayisi": paketDay,
                         "MaliyetFiyat": paketFiyat,
                         "SatisFiyat": Decimal(int(paketFiyat) + 5),
@@ -1041,7 +1041,6 @@ def VodafonePaketleriCek(request):
                         "api2": api2,
                         "zNetKupur": znetFix
                     },
-                    primary_key=True
                 )
             except Exception as e:
                 print(f'Hata: {e}')
