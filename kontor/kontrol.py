@@ -1003,6 +1003,7 @@ def VodafonePaketleriCek(request):
             paketDay = Decimal(bilgiler[6])
 
             znetGelen = bilgiler[7]
+            print("znetGelen -------   "+znetGelen)
             if znetGelen == "Bulamadım." or znetGelen == "Bulamadım. ":
                 Decimal('0.00')
             else:
@@ -1033,7 +1034,7 @@ def VodafonePaketleriCek(request):
                         "api2": api2,
                         "zNetKupur": znetFix
                     },
-                    primary_key=True
+                    primary_key=False
                 )
             except Exception as e:
                 print(f'Hata: {e}')
