@@ -996,13 +996,13 @@ def VodafonePaketleriCek(request):
         for paket in paketler:
             print(paket)
             bilgiler = paket.split('/')
-            paketID = Decimal(bilgiler[0])
+            paketID = float(bilgiler[0])
             Paket = bilgiler[1]
-            paketDK = Decimal(bilgiler[2])
-            paketGB = Decimal(bilgiler[3])
-            paketSMS = Decimal(bilgiler[4])
-            paketFiyat = Decimal(bilgiler[5])
-            paketDay = Decimal(bilgiler[6])
+            paketDK = float(bilgiler[2])
+            paketGB = float(bilgiler[3])
+            paketSMS = float(bilgiler[4])
+            paketFiyat = float(bilgiler[5])
+            paketDay = float(bilgiler[6])
 
             znetGelen = bilgiler[7]
             print("znetGelen -------   "+znetGelen)
