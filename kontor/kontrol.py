@@ -1007,7 +1007,7 @@ def VodafonePaketleriCek(request):
             # Her bir paketin daha önce veritabanında kaydedilip kaydedilmediğini kontrol edin
             try:
                 KontorList.objects.update_or_create(
-                    kupur=paketID,
+                    Kupur=paketID,
                     defaults={
                         "Urun_adi": Paket,
                         "Urun_Detay": Paket,
