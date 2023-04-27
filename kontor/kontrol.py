@@ -988,79 +988,221 @@ def VodafonePaketleriCek(request):
     response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
         'python': 'PaketCekVodafoneAll'
     })
-
-    # Gelen verileri uygun bir şekilde ayrıştırın ve teker teker kontrol edin
     if response.status_code == 200:
+
         data = response.content.decode('utf-8')
+
         paketler = data.split('|')
+
         for paket in paketler:
+
             bilgiler = paket.split('/')
+
             paketID = bilgiler[0]
+
             Paket = bilgiler[1]
+
             paketDK = bilgiler[2]
+
             paketGB = bilgiler[3]
+
             paketSMS = bilgiler[4]
+
             paketFiyat = bilgiler[5]
+
             paketDay = bilgiler[6]
+
             znetFix = bilgiler[7]
 
+
+
             # Her bir paketin daha önce veritabanında kaydedilip kaydedilmediğini kontrol edin
+
             try:
+
                 KategorisiGelen = Kategori.objects.get(pk=3)
+
                 api1 = Apiler.objects.get(pk=3)
+
                 api2 = Apiler.objects.get(pk=2)
+
                 KontorList.objects.update_or_create(
+
                     Kupur=paketID,
+
                     defaults={
+
                         "Urun_adi": Paket,
+
                         "Urun_Detay": Paket,
+
                         "Kupur": paketID,
+
                         "GunSayisi": paketDay,
+
                         "MaliyetFiyat": paketFiyat,
+
                         "SatisFiyat": int(paketFiyat)+5,
+
                         "HeryoneDK": paketDK,
+
                         "Sebekeici": 0.00,
+
                         "internet": str(int(paketGB)*1000),
+
                         "SMS": paketSMS,
+
                         "YurtDisiDk": 0.00,
+
                         "Aktifmi": True,
+
                         "Kategorisi": KategorisiGelen,
+
                         "api1": api1,
+
                         "api2": api2,
+
                         "zNetKupur": float(znetFix)
+
                     }
+
                 )
 
 
 
 
+
+
+
+
+
                 #vodafone_paket = KontorList.objects.get(kupur=paketID,Kategorisi=3)
+
                 ## Eğer paket zaten kaydedilmişse, güncelleme işlemini yapın
+
                 #vodafone_paket.Urun_adi = Paket
+
                 #vodafone_paket.Urun_Detay = Paket
+
                 #vodafone_paket.Kupur = paketID
+
                 #vodafone_paket.zNetKupur = paketFiyat
+
                 #vodafone_paket.GunSayisi = paketFiyat
+
                 #vodafone_paket.MaliyetFiyat = paketFiyat
+
                 #vodafone_paket.SatisFiyat = paketFiyat
+
                 #vodafone_paket.HeryoneDK = paketFiyat
+
                 #vodafone_paket.Sebekeici = paketFiyat
+
                 #vodafone_paket.internet = paketFiyat
+
                 #vodafone_paket.SMS = paketFiyat
+
                 #vodafone_paket.YurtDisiDk = paketFiyat
+
                 #vodafone_paket.Aktifmi = True
+
                 #vodafone_paket.Kategorisi = 3
+
                 #vodafone_paket.save()
+
                 print(f"{Paket} güncellendi or Guncellendi")
+
             except VodafonePaketler.DoesNotExist:
+
                 # Eğer paket daha önce kaydedilmediyse, Django veritabanına ekleyin
+
                 TOKEN = "5895525060:AAEFtAyVktmDrxnTQ_3S3mDgLDidfcFIZxs"
+
                 chat_id = "@mustafadurtucu"
+
                 url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={paketID} eklenemedi"
+
                 request.get(url)
 
+
+
     else:
+
         print("Bir hata oluştu.")
+
+
+    # Gelen verileri uygun bir şekilde ayrıştırın ve teker teker kontrol edin
+    #####if response.status_code == 200:
+    #####    data = response.content.decode('utf-8')
+    #####    paketler = data.split('|')
+    #####    for paket in paketler:
+    #####        bilgiler = paket.split('/')
+    #####        paketID = bilgiler[0]
+    #####        Paket = bilgiler[1]
+    #####        paketDK = bilgiler[2]
+    #####        paketGB = bilgiler[3]
+    #####        paketSMS = bilgiler[4]
+    #####        paketFiyat = bilgiler[5]
+    #####        paketDay = bilgiler[6]
+    #####        znetFix = bilgiler[7]
+#####
+    #####        # Her bir paketin daha önce veritabanında kaydedilip kaydedilmediğini kontrol edin
+    #####        try:
+    #####            KategorisiGelen = Kategori.objects.get(pk=3)
+    #####            api1 = Apiler.objects.get(pk=3)
+    #####            api2 = Apiler.objects.get(pk=2)
+    #####            KontorList.objects.update_or_create(
+    #####                Kupur=paketID,
+    #####                defaults={
+    #####                    "Urun_adi": Paket,
+    #####                    "Urun_Detay": Paket,
+    #####                    "Kupur": paketID,
+    #####                    "GunSayisi": paketDay,
+    #####                    "MaliyetFiyat": paketFiyat,
+    #####                    "SatisFiyat": int(paketFiyat)+5,
+    #####                    "HeryoneDK": paketDK,
+    #####                    "Sebekeici": 0.00,
+    #####                    "internet": str(int(paketGB)*1000),
+    #####                    "SMS": paketSMS,
+    #####                    "YurtDisiDk": 0.00,
+    #####                    "Aktifmi": True,
+    #####                    "Kategorisi": KategorisiGelen,
+    #####                    "api1": api1,
+    #####                    "api2": api2,
+    #####                    "zNetKupur": float(znetFix)
+    #####                }
+    #####            )
+#####
+#####
+#####
+#####
+    #####            #vodafone_paket = KontorList.objects.get(kupur=paketID,Kategorisi=3)
+    #####            ## Eğer paket zaten kaydedilmişse, güncelleme işlemini yapın
+    #####            #vodafone_paket.Urun_adi = Paket
+    #####            #vodafone_paket.Urun_Detay = Paket
+    #####            #vodafone_paket.Kupur = paketID
+    #####            #vodafone_paket.zNetKupur = paketFiyat
+    #####            #vodafone_paket.GunSayisi = paketFiyat
+    #####            #vodafone_paket.MaliyetFiyat = paketFiyat
+    #####            #vodafone_paket.SatisFiyat = paketFiyat
+    #####            #vodafone_paket.HeryoneDK = paketFiyat
+    #####            #vodafone_paket.Sebekeici = paketFiyat
+    #####            #vodafone_paket.internet = paketFiyat
+    #####            #vodafone_paket.SMS = paketFiyat
+    #####            #vodafone_paket.YurtDisiDk = paketFiyat
+    #####            #vodafone_paket.Aktifmi = True
+    #####            #vodafone_paket.Kategorisi = 3
+    #####            #vodafone_paket.save()
+    #####            print(f"{Paket} güncellendi or Guncellendi")
+    #####        except VodafonePaketler.DoesNotExist:
+    #####            # Eğer paket daha önce kaydedilmediyse, Django veritabanına ekleyin
+    #####            TOKEN = "5895525060:AAEFtAyVktmDrxnTQ_3S3mDgLDidfcFIZxs"
+    #####            chat_id = "@mustafadurtucu"
+    #####            url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={paketID} eklenemedi"
+    #####            request.get(url)
+#####
+    #####else:
+    #####    print("Bir hata oluştu.")
 
 
 
