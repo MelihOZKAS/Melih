@@ -88,36 +88,18 @@ class DirekGonderInline(admin.TabularInline):
     verbose_name = 'Direk Gönder'
     verbose_name_plural = 'Direk Gönder'
 
-class DurumFilter(admin.SimpleListFilter):
-    title = _('durum')
-    parameter_name = 'durum'
 
-    def lookups(self, request, model_admin):
-        return (
-            (Durumlar.ISLEMDE.value, _('İşlemde')),
-            (Durumlar.askida.value, _('Askıda')),
-            (Durumlar.ALTERNATIF_DENEYEN.value, _('Alternatif Paketler Deneniyor')),
-            (Durumlar.BASARILI.value, _('Başarılı')),
-            (Durumlar.IPTAL.value, _('İptal')),
-        )
-
-    def queryset(self, request, queryset):
-        if self.value() == Durumlar.BASARILI.value:
-            return queryset.filter(Durum=Durumlar.BASARILI.value)
-        elif self.value() == Durumlar.IPTAL.value:
-            return queryset.filter(Durum=Durumlar.IPTAL.value)
-        else:
-            durumlar = [Durumlar.ISLEMDE, Durumlar.askida, Durumlar.ALTERNATIF_DENEYEN]
-            return queryset.filter(Durum__in=durumlar)
 
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
     list_display = ("id","Numara","Operator","PaketAdi","SanalTutar","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","gecen_sure",)
     search_fields = ("Numara",)
     list_editable = ("Durum","ManuelApi","BayiAciklama")
-  #  list_filter = ("OperatorTip","Durum",)
-    list_filter = (DurumFilter, "OperatorTip",)
+    list_filter = ("OperatorTip","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
+
+
+
 
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
