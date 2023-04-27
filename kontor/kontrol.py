@@ -995,6 +995,8 @@ def VodafonePaketleriCek(request):
         paketler = data.split('|')
         for paket in paketler:
             print(paket)
+            if paket == "" or paket == " ":
+                continue
             bilgiler = paket.split('/')
             paketID = float(bilgiler[0])
             Paket = bilgiler[1]
