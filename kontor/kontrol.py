@@ -1007,7 +1007,6 @@ def VodafonePaketleriCek(request):
             paketDay = float(bilgiler[6])
 
             znetGelen = bilgiler[7]
-            #print("znetGelen -------   "+znetGelen)
             if znetGelen == "Bulamadım." or znetGelen == "Bulamadım. " or znetGelen == "0" or znetGelen == "0 " or znetGelen == " " or znetGelen == "":
                 Decimal('0.00')
             else:
@@ -1021,27 +1020,25 @@ def VodafonePaketleriCek(request):
                 KategorisiGelen = Kategori.objects.get(pk=3)
                 api1 = Apiler.objects.get(pk=3)
                 api2 = Apiler.objects.get(pk=2)
-                KontorList.objects.update_or_create(
+                kontor_obj = KontorList(
                     Kupur=paketID,
-                    defaults={
-                        "Kupur": paketID,
-                        "Urun_adi": Paket,
-                        "Urun_Detay": Paket,
-                        "GunSayisi": paketDay,
-                        "MaliyetFiyat": paketFiyat,
-                        "SatisFiyat": Decimal(int(paketFiyat) + 5),
-                        "HeryoneDK": paketDK,
-                        "Sebekeici": Decimal('0.00'),
-                        "internet": Decimal(str(int(paketGB) * 1000)),
-                        "SMS": paketSMS,
-                        "YurtDisiDk": Decimal('0.00'),
-                        "Aktifmi": True,
-                        "Kategorisi": KategorisiGelen,
-                        "api1": api1,
-                        "api2": api2,
-                        "zNetKupur": znetFix
-                    },
+                    Urun_adi=Paket,
+                    Urun_Detay=Paket,
+                    GunSayisi=paketDay,
+                    MaliyetFiyat=paketFiyat,
+                    SatisFiyat=Decimal(int(paketFiyat) + 5),
+                    HeryoneDK=paketDK,
+                    Sebekeici=Decimal('0.00'),
+                    internet=Decimal(str(int(paketGB) * 1000)),
+                    SMS=paketSMS,
+                    YurtDisiDk=Decimal('0.00'),
+                    Aktifmi=True,
+                    Kategorisi=KategorisiGelen,
+                    api1=api1,
+                    api2=api2,
+                    zNetKupur=znetFix
                 )
+                kontor_obj.save()
             except Exception as e:
                 print(f'Hata: {e}')
 
