@@ -1020,7 +1020,7 @@ def VodafonePaketleriCek(request):
                 KategorisiGelen = Kategori.objects.get(pk=3)
                 api1 = Apiler.objects.get(pk=3)
                 api2 = Apiler.objects.get(pk=2)
-                obj, created = KontorList.objects.get_or_create(
+                paket_obj, created = KontorList.objects.update_or_create(
                     Kupur=paketID,
                     defaults={
                         "Urun_adi": Paket,
@@ -1041,6 +1041,8 @@ def VodafonePaketleriCek(request):
                         "zNetKupur": znetFix
                     }
                 )
+                if not created:
+                    print(f'{Paket} paketi zaten var, güncellendi.')
             except Exception as e:
                 print(f'Hata: {e}')
 
