@@ -1001,7 +1001,12 @@ def VodafonePaketleriCek(request):
             paketSMS = Decimal(bilgiler[4])
             paketFiyat = Decimal(bilgiler[5])
             paketDay = Decimal(bilgiler[6])
-            znetFix = Decimal(bilgiler[7])
+
+            znetGelen = bilgiler[7]
+            if znetGelen == "Bulamadım." or znetGelen == "Bulamadım. ":
+                Decimal('0.00')
+            else:
+                znetFix = Decimal(bilgiler[7])
 
             # Her bir paketin daha önce veritabanında kaydedilip kaydedilmediğini kontrol edin
             try:
@@ -1028,7 +1033,7 @@ def VodafonePaketleriCek(request):
                         "api2": api2,
                         "zNetKupur": znetFix
                     },
-                    primary_key='paketID'
+                    primary_key=True
                 )
             except Exception as e:
                 print(f'Hata: {e}')
