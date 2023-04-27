@@ -81,5 +81,10 @@ def PaketEkleDB (request):
     Sonuc = PaketEkle(request)
     return HttpResponse(Sonuc)
 
+@csrf_exempt
+def VodafoneSesEkle (request):
+    Sonuc = VodafonePaketleriCek(request)
+    return HttpResponse(Sonuc)
+
 #def movies_details(request,slug):
 #    return render(request,'movie-details.html',{"slug":slug})
