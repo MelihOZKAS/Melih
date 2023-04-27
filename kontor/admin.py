@@ -100,8 +100,9 @@ class AdminSiparisler(admin.ModelAdmin):
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        # Sadece durumu 1, 100 ve 10 olan siparişleri göster
-        queryset = queryset.filter(status__in=[1, 100, 10])
+        # Sadece "İşlemde", "Askıda" ve "Alternatif Paketler Deneniyor" durumunda olan siparişleri göster
+        durumlar = [Durumlar.ISLEMDE, Durumlar.askida, Durumlar.ALTERNATIF_DENEYEN]
+        queryset = queryset.filter(Durum__in=durumlar)
         return queryset
 
 
