@@ -985,7 +985,7 @@ def AlternatifYuklemeGonder():
 
 
 def VodafonePaketleriCek(request):
-    response = requests.post('http://92.205.129.63:4244.com/Sorgu.php', data={
+    response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
         'python': 'PaketCekVodafoneAll'
     })
 
