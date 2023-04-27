@@ -103,8 +103,9 @@ class AdminSiparisler(admin.ModelAdmin):
         # Sadece "İşlemde", "Askıda" ve "Alternatif Paketler Deneniyor" durumunda olan siparişleri göster
         durumlar = [Durumlar.ISLEMDE, Durumlar.askida, Durumlar.ALTERNATIF_DENEYEN]
         queryset = queryset.filter(Durum__in=durumlar)
+        # Sadece "Durum" sütununda bulunan siparişleri göster
+        queryset = queryset.exclude(Durum=None)
         return queryset
-
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
 
