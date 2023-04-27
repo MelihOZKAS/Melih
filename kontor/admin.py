@@ -98,6 +98,11 @@ class AdminSiparisler(admin.ModelAdmin):
     list_filter = ("OperatorTip","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
 
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        # Sadece durumu 1, 100 ve 10 olan siparişleri göster
+        queryset = queryset.filter(status__in=[1, 100, 10])
+        return queryset
 
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]

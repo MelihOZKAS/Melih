@@ -114,6 +114,7 @@ class ApiKategori(models.Model):
 
 
 
+
 class Apiler(models.Model):
     ApiTuru = models.ForeignKey(ApiKategori, on_delete=models.CASCADE, null=True)
     Apiadi = models.CharField(max_length=100,default="ApiAdiGiriniz")
