@@ -1006,7 +1006,7 @@ def VodafonePaketleriCek(request):
 
             znetGelen = bilgiler[7]
             print("znetGelen -------   "+znetGelen)
-            if znetGelen == "Bulamadım." or znetGelen == "Bulamadım. " or znetGelen == "0" or znetGelen == "0 ":
+            if znetGelen == "Bulamadım." or znetGelen == "Bulamadım. " or znetGelen == "0" or znetGelen == "0 " or znetGelen == " " or znetGelen == "":
                 Decimal('0.00')
             else:
                 try:
