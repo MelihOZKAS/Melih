@@ -1,3 +1,5 @@
+import decimal
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri
@@ -1007,7 +1009,10 @@ def VodafonePaketleriCek(request):
             if znetGelen == "Bulamadım." or znetGelen == "Bulamadım. " or znetGelen == "0" or znetGelen == "0 ":
                 Decimal('0.00')
             else:
-                znetFix = Decimal(bilgiler[7])
+                try:
+                    znetFix = Decimal(bilgiler[7])
+                except decimal.InvalidOperation as e:
+                    print("Hata ayrıntıları:", e)
 
             # Her bir paketin daha önce veritabanında kaydedilip kaydedilmediğini kontrol edin
             try:
