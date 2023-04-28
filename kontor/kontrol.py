@@ -87,13 +87,13 @@ def AnaPaketGonder():
 
 def ApiZnetSiparisKaydet(request):
     # Gelen GET isteğindeki değerleri alın
-    bayi_kodu = request.GET.get('bayi_kodu').strip().replace(' ','')
-    sifre = request.GET.get('sifre').strip().replace(' ','')
-    operatoru = request.GET.get('operator').strip().replace(' ','')
-    tip = request.GET.get('tip').strip().replace(' ','')
-    kontor = request.GET.get('kontor').strip().replace(' ','').replace('.00','')
-    gsmno = request.GET.get('gsmno').strip().replace(' ','')
-    tekilnumara = request.GET.get('tekilnumara').strip().replace(' ','')
+    bayi_kodu = request.GET.get('bayi_kodu').strip().replace(' ','').lower()
+    sifre = request.GET.get('sifre').strip().replace(' ','').lower()
+    operatoru = request.GET.get('operator').strip().replace(' ','').lower()
+    tip = request.GET.get('tip').strip().replace(' ','').lower()
+    kontor = request.GET.get('kontor').strip().replace(' ','').replace('.00','').lower()
+    gsmno = request.GET.get('gsmno').strip().replace(' ','').lower()
+    tekilnumara = request.GET.get('tekilnumara').strip().replace(' ','').lower()
 
     # Gelen değerler doğruysa database'e kaydedins
     if bayi_kodu and sifre and operatoru and tip and kontor and gsmno and tekilnumara:
@@ -103,9 +103,17 @@ def ApiZnetSiparisKaydet(request):
 
             if user.check_password(sifre):
                 order = Siparisler()
+                try:
+                    operator_model = AnaOperator.objects.get(AnaOperatorler=operatoru)
+                except AnaOperator.DoesNotExist:
+                    return HttpResponse("Operatör bilgisi hatalı.", status=400)  # 400 Bad Request HTTP response code
+                try:
+                    Tip_operator_model = AltOperator.objects.get(AltOperatorler=tip)
+                except AltOperator.DoesNotExist:
+                    return HttpResponse("Tip bilgisi hatalı.", status=400)
 
-                operator_model = AnaOperator.objects.get(AnaOperatorler=operatoru)
-                Tip_operator_model = AltOperator.objects.get(AltOperatorler=tip)
+                #operator_model = AnaOperator.objects.get(AnaOperatorler=operatoru)
+                #Tip_operator_model = AltOperator.objects.get(AltOperatorler=tip)
 
                 order.Operator = operator_model
                 order.OperatorTip = Tip_operator_model
