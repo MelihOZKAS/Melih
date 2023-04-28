@@ -92,7 +92,7 @@ class DirekGonderInline(admin.TabularInline):
 
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
-    list_display = ("id","Numara","Operator","PaketAdi","SanalTutar","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","gecen_sure",)
+    list_display = ("id","Numara","PaketAdi","SanalTutar","Operator","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","gecen_sure",)
     search_fields = ("Numara",)
     list_editable = ("Durum","ManuelApi","BayiAciklama")
     list_filter = ("OperatorTip","Durum",)
