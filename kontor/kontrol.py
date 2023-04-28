@@ -1017,20 +1017,26 @@ def VodafonePaketleriCek(request):
             api1 = Apiler.objects.get(pk=3)
             api2 = Apiler.objects.get(pk=2)
             api3 = Apiler.objects.get(pk=1)
-            YurtDisiDk = Decimal('0.00')
             SatisFiyat = paketFiyat + Decimal('5.00')
             GelenPaket = KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID)
-            print(GelenPaket)
-            print("Yukarida")
             if GelenPaket.exists():
                 print("Paket ---Update girdim")
                 # güncelleme işlemi yapılır
                 PaketiGuncelle = GelenPaket.first()
-                PaketiGuncelle.YurtDisiDk = YurtDisiDk
-               # PaketiGuncelle.api3 = api3
+                PaketiGuncelle.Urun_adi = Paket,
+                PaketiGuncelle.Urun_Detay = Paket,
+                PaketiGuncelle.Kupur = paketID,
+                PaketiGuncelle.zNetKupur = znetFix,
+                PaketiGuncelle.GunSayisi = paketDay,
+                PaketiGuncelle.MaliyetFiyat = paketFiyat,
+                PaketiGuncelle.SatisFiyat = SatisFiyat,
+                PaketiGuncelle.HeryoneDK = paketDK,
+                PaketiGuncelle.Sebekeici = Decimal('0.00'),
+                PaketiGuncelle.internet = paketGB,
+                PaketiGuncelle.SMS = paketSMS,
+                PaketiGuncelle.api3 = api3
                 PaketiGuncelle.save()
             else:
-                print("Paket +++++Ekleye girdim")
                 # yeni kayıt oluşturma işlemi yapılır
                 paketEkle = KontorList(
                     Kupur=paketID,
@@ -1077,6 +1083,7 @@ def VodafonePaketleriCek(request):
             #    kontor_obj.save()
             #except Exception as e:
             #    print(f'Hata: {e}')
+
 
 
     # Gelen verileri uygun bir şekilde ayrıştırın ve teker teker kontrol edin
