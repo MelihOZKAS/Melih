@@ -1028,11 +1028,13 @@ def VodafonePaketleriCek(request):
                 KategorisiGelen = Kategori.objects.get(pk=3)
                 api1 = Apiler.objects.get(pk=3)
                 api2 = Apiler.objects.get(pk=2)
+                api3 = Apiler.objects.get(pk=1)
                 paketler = KontorList.objects.filter(kategori=KategorisiGelen, Kupur=paketID)
                 if paketler.exists():
                     # güncelleme işlemi yapılır
                     paket = paketler.first()
                     paket.YurtDisiDk = Decimal('1.00'),
+                    paket.api3 = api3
                     paket.save()
                 else:
                     # yeni kayıt oluşturma işlemi yapılır
