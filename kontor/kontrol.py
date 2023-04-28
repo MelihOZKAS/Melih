@@ -1023,17 +1023,17 @@ def VodafonePaketleriCek(request):
                 print("Paket ---Update girdim")
                 # güncelleme işlemi yapılır
                 PaketiGuncelle = GelenPaket.first()
-                PaketiGuncelle.Urun_adi = Paket,
-                PaketiGuncelle.Urun_Detay = Paket,
-                PaketiGuncelle.Kupur = paketID,
-                PaketiGuncelle.zNetKupur = znetFix,
-                PaketiGuncelle.GunSayisi = paketDay,
-                PaketiGuncelle.MaliyetFiyat = paketFiyat,
-                PaketiGuncelle.SatisFiyat = SatisFiyat,
-                PaketiGuncelle.HeryoneDK = paketDK,
-                PaketiGuncelle.Sebekeici = Decimal('0.00'),
-                PaketiGuncelle.internet = paketGB,
-                PaketiGuncelle.SMS = paketSMS,
+                PaketiGuncelle.Urun_adi = Paket
+                PaketiGuncelle.Urun_Detay = Paket
+                PaketiGuncelle.Kupur = paketID
+                PaketiGuncelle.zNetKupur = znetFix
+                PaketiGuncelle.GunSayisi = paketDay
+                PaketiGuncelle.MaliyetFiyat = paketFiyat
+                PaketiGuncelle.SatisFiyat = SatisFiyat
+                PaketiGuncelle.HeryoneDK = paketDK
+                PaketiGuncelle.Sebekeici = Decimal('0.00')
+                PaketiGuncelle.internet = paketGB
+                PaketiGuncelle.SMS = paketSMS
                 PaketiGuncelle.api3 = api3
                 PaketiGuncelle.save()
             else:
