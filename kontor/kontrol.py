@@ -1021,6 +1021,7 @@ def VodafonePaketleriCek(request):
             SatisFiyat = paketFiyat + Decimal('5.00')
             GelenPaket = KontorList.objects.filter(kategori=KategorisiGelen, Kupur=paketID)
             print(GelenPaket)
+            print("Yukarida")
             if GelenPaket.exists():
                 # güncelleme işlemi yapılır
                 PaketiGuncelle = GelenPaket.first()
