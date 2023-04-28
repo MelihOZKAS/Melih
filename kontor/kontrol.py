@@ -1002,8 +1002,7 @@ def VodafonePaketleriCek(request):
         data = response.content.decode('utf-8')
         paketler = data.split('|')
         for paket in paketler:
-            print(paket)
-            if paket == "" or paket == " ":
+            if not paket.strip():
                 continue
             bilgiler = paket.split('/')
             paketID = float(bilgiler[0])
@@ -1011,53 +1010,44 @@ def VodafonePaketleriCek(request):
             paketDK = float(bilgiler[2])
             paketGB = float(bilgiler[3])
             paketSMS = float(bilgiler[4])
-            paketFiyat = float(bilgiler[5])
+            paketFiyat = Decimal(bilgiler[5])
             paketDay = float(bilgiler[6])
-
-            znetGelen = bilgiler[7]
-            if znetGelen == "Bulamadım." or znetGelen == "Bulamadım. " or znetGelen == "0" or znetGelen == "0 " or znetGelen == " " or znetGelen == "":
-                Decimal('0.00')
+            znetFix = Decimal(bilgiler[7]) if bilgiler[7].strip() and bilgiler[7] != 'Bulamadım.' else Decimal('0.00')
+            KategorisiGelen = Kategori.objects.get(pk=3)
+            api1 = Apiler.objects.get(pk=3)
+            api2 = Apiler.objects.get(pk=2)
+            api3 = Apiler.objects.get(pk=1)
+            YurtDisiDk = Decimal('1.00') if paketID == 20 else Decimal('0.00')
+            SatisFiyat = paketFiyat + Decimal('5.00')
+            GelenPaket = KontorList.objects.filter(kategori=KategorisiGelen, Kupur=paketID)
+            print(GelenPaket)
+            if GelenPaket.exists():
+                # güncelleme işlemi yapılır
+                PaketiGuncelle = GelenPaket.first()
+                PaketiGuncelle.YurtDisiDk = YurtDisiDk
+                PaketiGuncelle.api3 = api3
+                PaketiGuncelle.save()
             else:
-                try:
-                    znetFix = Decimal(bilgiler[7])
-                except decimal.InvalidOperation as e:
-                    print("Hata ayrıntıları:", e)
-
-            # Her bir paketin daha önce veritabanında kaydedilip kaydedilmediğini kontrol edin
-            try:
-                KategorisiGelen = Kategori.objects.get(pk=3)
-                api1 = Apiler.objects.get(pk=3)
-                api2 = Apiler.objects.get(pk=2)
-                api3 = Apiler.objects.get(pk=1)
-                GelenPaket = KontorList.objects.filter(kategori=KategorisiGelen, Kupur=paketID)
-                print(GelenPaket)
-                if GelenPaket.exists():
-                    # güncelleme işlemi yapılır
-                    PaketiGuncelle = GelenPaket.first()
-                    PaketiGuncelle.YurtDisiDk = Decimal('1.00'),
-                    PaketiGuncelle.api3 = api3
-                    PaketiGuncelle.save()
-                else:
-                    # yeni kayıt oluşturma işlemi yapılır
-                    paketEkle = KontorList(
-                        Kupur=paketID,
-                        Urun_adi=Paket,
-                        Urun_Detay=Paket,
-                        GunSayisi=paketDay,
-                        MaliyetFiyat=paketFiyat,
-                        SatisFiyat=Decimal(int(paketFiyat) + 5),
-                        HeryoneDK=paketDK,
-                        Sebekeici=Decimal('0.00'),
-                        internet=Decimal(str(int(paketGB) * 1000)),
-                        SMS=paketSMS,
-                        YurtDisiDk=Decimal('0.00'),
-                        Aktifmi=True,
-                        Kategorisi=KategorisiGelen,
-                        api1=api1,
-                        api2=api2,
-                        zNetKupur=znetFix
-                    )
-                    paketEkle.save()
+                # yeni kayıt oluşturma işlemi yapılır
+                paketEkle = KontorList(
+                    Kupur=paketID,
+                    Urun_adi=Paket,
+                    Urun_Detay=Paket,
+                    GunSayisi=paketDay,
+                    MaliyetFiyat=paketFiyat,
+                    SatisFiyat=Decimal(int(paketFiyat) + 5),
+                    HeryoneDK=paketDK,
+                    Sebekeici=Decimal('0.00'),
+                    internet=Decimal(str(int(paketGB) * 1000)),
+                    SMS=paketSMS,
+                    YurtDisiDk=Decimal('0.00'),
+                    Aktifmi=True,
+                    Kategorisi=KategorisiGelen,
+                    api1=api1,
+                    api2=api2,
+                    zNetKupur=znetFix
+                )
+                paketEkle.save()
 
             #try:
             #    KategorisiGelen = Kategori.objects.get(pk=3)
@@ -1082,8 +1072,8 @@ def VodafonePaketleriCek(request):
             #        zNetKupur=znetFix
             #    )
             #    kontor_obj.save()
-            except Exception as e:
-                print(f'Hata: {e}')
+            #except Exception as e:
+            #    print(f'Hata: {e}')
 
 
     # Gelen verileri uygun bir şekilde ayrıştırın ve teker teker kontrol edin
