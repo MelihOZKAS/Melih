@@ -24,8 +24,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('',include("kontor.urls")),
     #path('bayi/',include("kontor.urls")),
-    path('servis/tl%20servis.php', include("kontor.urls")),
-    path('servis/tl servis.php', include("kontor.urls")),
+    #path('servis/tl%20servis.php', include("kontor.urls")),
+    #path('servis/tl servis.php', include("kontor.urls")),
     path("admin/", admin.site.urls),
 ]
 
