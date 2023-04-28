@@ -1029,16 +1029,17 @@ def VodafonePaketleriCek(request):
                 api1 = Apiler.objects.get(pk=3)
                 api2 = Apiler.objects.get(pk=2)
                 api3 = Apiler.objects.get(pk=1)
-                paketler = KontorList.objects.filter(kategori=KategorisiGelen, Kupur=paketID)
-                if paketler.exists():
+                GelenPaket = KontorList.objects.filter(kategori=KategorisiGelen, Kupur=paketID)
+                print(GelenPaket)
+                if GelenPaket.exists():
                     # güncelleme işlemi yapılır
-                    paket = paketler.first()
-                    paket.YurtDisiDk = Decimal('1.00'),
-                    paket.api3 = api3
-                    paket.save()
+                    PaketiGuncelle = GelenPaket.first()
+                    PaketiGuncelle.YurtDisiDk = Decimal('1.00'),
+                    PaketiGuncelle.api3 = api3
+                    PaketiGuncelle.save()
                 else:
                     # yeni kayıt oluşturma işlemi yapılır
-                    paket = KontorList(
+                    paketEkle = KontorList(
                         Kupur=paketID,
                         Urun_adi=Paket,
                         Urun_Detay=Paket,
@@ -1056,7 +1057,7 @@ def VodafonePaketleriCek(request):
                         api2=api2,
                         zNetKupur=znetFix
                     )
-                    paket.save()
+                    paketEkle.save()
 
             #try:
             #    KategorisiGelen = Kategori.objects.get(pk=3)
