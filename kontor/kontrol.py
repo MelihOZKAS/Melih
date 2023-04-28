@@ -1017,7 +1017,7 @@ def VodafonePaketleriCek(request):
             api1 = Apiler.objects.get(pk=3)
             api2 = Apiler.objects.get(pk=2)
             api3 = Apiler.objects.get(pk=1)
-            YurtDisiDk = Decimal('1.00') if paketID == 20 else Decimal('0.00')
+            YurtDisiDk = Decimal('0.00')
             SatisFiyat = paketFiyat + Decimal('5.00')
             GelenPaket = KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID)
             print(GelenPaket)
@@ -1027,7 +1027,7 @@ def VodafonePaketleriCek(request):
                 # güncelleme işlemi yapılır
                 PaketiGuncelle = GelenPaket.first()
                 PaketiGuncelle.YurtDisiDk = YurtDisiDk
-                PaketiGuncelle.api3 = api3
+               # PaketiGuncelle.api3 = api3
                 PaketiGuncelle.save()
             else:
                 print("Paket +++++Ekleye girdim")
