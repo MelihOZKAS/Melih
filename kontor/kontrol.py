@@ -1071,7 +1071,9 @@ def VodafonePaketleriCek(request):
     # Olmayah Paketleri Siler
     # Gelen listedeki her bir paketi döngü ile kontrol et
 
+    print("Paketleri cektim")
     for paketi in paketlerYeni:
+        print("PaketID")
         if not paketi.strip():
             print("--------Neden ?>" + str(paketi))
             continue
