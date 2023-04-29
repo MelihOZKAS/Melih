@@ -1058,6 +1058,12 @@ def VodafonePaketleriCek(request):
                 )
                 paketEkle.save()
 
+    response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
+        'python': 'PaketCekVodafoneAll'
+    })
+    if response.status_code == 200:
+        data = response.content.decode('utf-8')
+        paketlerYeni = data.split('|')
     # Vodafoneye ait Mevcut paketleri veritabanından getir
     KategorisiGelen = Kategori.objects.get(pk=3)
     mevcut_paketler = KontorList.objects.filter(Kategorisi=KategorisiGelen)
@@ -1065,7 +1071,7 @@ def VodafonePaketleriCek(request):
     # Olmayah Paketleri Siler
     # Gelen listedeki her bir paketi döngü ile kontrol et
 
-    for paketi in paketler:
+    for paketi in paketlerYeni:
         if not paketi.strip():
             print("--------Neden ?>" + str(paketi))
             continue
