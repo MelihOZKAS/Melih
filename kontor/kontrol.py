@@ -1020,7 +1020,7 @@ def VodafonePaketleriCek(request):
             SatisFiyat = paketFiyat + Decimal('5.00')
             GelenPaket = KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID)
             if GelenPaket.exists():
-                print("Paket ---Update girdim")
+                #print("Paket ---Update girdim")
                 # güncelleme işlemi yapılır
                 PaketiGuncelle = GelenPaket.first()
                 PaketiGuncelle.Urun_adi = Paket
@@ -1065,10 +1065,11 @@ def VodafonePaketleriCek(request):
     # Olmayah Paketleri Siler
     # Gelen listedeki her bir paketi döngü ile kontrol et
 
-    for paket in paketler:
-        if not paket.strip():
+    for paketi in paketler:
+        if not paketi.strip():
+            print("--------Neden ?>" + str(paketi))
             continue
-        bilgiler = paket.split('/')
+        bilgiler = paketi.split('/')
         paketID = float(bilgiler[0])
         print(paketID)
 
