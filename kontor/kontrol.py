@@ -1058,6 +1058,8 @@ def VodafonePaketleriCek(request):
                 )
                 paketEkle.save()
 
+    return HttpResponse('işlem tamamlandı ŞükürlerOlsun')
+def Silerim(request):
     response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
         'python': 'PaketCekVodafoneAll'
     })

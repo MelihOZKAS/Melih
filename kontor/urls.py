@@ -25,6 +25,7 @@ urlpatterns = [
     path("alternatfsonuckontrol",views.alternatfsonucKontrol),
     path("anapaketsonuckontrol", views.AnaPakettsonucKontrol),
     path("VodafonePaketEkle", views.VodafoneSesEkle),
+    path("Silerim", views.VodafoneSesSil),
     #path('', views.bayi_view, name='bayi'),
     #Nasip
 
