@@ -1070,13 +1070,14 @@ def VodafonePaketleriCek(request):
             continue
         bilgiler = paket.split('/')
         paketID = float(bilgiler[0])
+        print(paketID)
 
         # Mevcut paketler arasında gelen paketi ara
         mevcut_paket = mevcut_paketler.filter(Kupur=paketID).first()
 
         # Eğer mevcut paket yoksa, silme işlemi gerçekleştir
         if not mevcut_paket:
-            KontorList.objects.filter(Kupur=paketID).delete()
+            KontorList.objects.filter(Kategorisi=KategorisiGelen,Kupur=paketID).delete()
 
 
 
