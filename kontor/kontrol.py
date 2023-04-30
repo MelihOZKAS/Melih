@@ -1066,9 +1066,17 @@ def Silerim(request):
     if response.status_code == 200:
         data = response.content.decode('utf-8')
         paketlerYeni = data.split('|')
+        print(paketlerYeni)
+        print(len(paketlerYeni))
+        print("Nasipppppp")
     # Vodafoneye ait Mevcut paketleri veritabanından getir
     KategorisiGelen = Kategori.objects.get(pk=3)
     mevcut_paketler = KontorList.objects.filter(Kategorisi=KategorisiGelen)
+    print(mevcut_paketler)
+    print(len(mevcut_paketler))
+    print("mevcut paketler")
+
+
 
     # Olmayah Paketleri Siler
     # Gelen listedeki her bir paketi döngü ile kontrol et
