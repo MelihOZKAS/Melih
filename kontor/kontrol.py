@@ -462,12 +462,19 @@ def SorguSonucKontrol():
 
 
 def AlternatifSonucKontrol():
-    iptal = Durumlar.objects.get(durum_id=Durumlar.IPTAL_EDILDI)
-    sorgusutamam = Durumlar.objects.get(durum_id=Durumlar.SorguTamam)
-    sorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
-    aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
+    AlternatifVarmiBaska = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderim_Bekliyor)
+    AlternatifVarmiBaska = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
+    AnaPaketGoner = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
+
+    #Alternatif_islemde = Durumlar.objects.get(durum_id=Durumlar.Alternatif_islemde)
+    #askida = Durumlar.objects.get(durum_id=Durumlar.askida)
+    #Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
+    #sorgusutamam = Durumlar.objects.get(durum_id=Durumlar.SorguTamam)
+    #sorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
+    #aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
     Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
     Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
+    iptal = Durumlar.objects.get(durum_id=Durumlar.IPTAL_EDILDI)
 
     orders = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=Alternatif_Cevap_Bekliyor)
     if orders:
@@ -534,55 +541,56 @@ def AlternatifSonucKontrol():
                 Sonuc = "Henüz işlemde"
                 return Sonuc
             elif response[0] == "3":
-                print("Burada Olmam Lazım")
-                # GelenAciklama = order.Aciklama
-                input("Nasipppp")
-
-                api.ApiBakiye += Decimal(Siparis.SanalTutar)
-                Sirasi = Siparis.Gonderim_Sirasi + 1
+                api.ApiBakiye += Decimal(alternatifOrder.YuklenecekPaketFiyat)
+                Sirasi = alternatifOrder.Gonderim_Sirasi + 1
 
                 if Sirasi == 2:
                     print("Girdim2")
-                    YeniApisi = Siparis.api2
+                    YeniApisi = alternatifOrder.Yuklenecek_api2
 
                 if Sirasi == 3:
                     print("Girdim3")
-                    YeniApisi = Siparis.api3
+                    YeniApisi = alternatifOrder.Yuklenecek_api2
 
                 if not YeniApisi:
-                    print("Girdim ?")
-                    Siparis.Durum = iptal
-                    Siparis.BayiAciklama = "iptal"
-                    Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + \
-                                       response[
-                                           1] + "iptal olanApiSirasi:" + str(
-                        Siparis.Gonderim_Sirasi) + " Başka Api olmadığı için iptal edildi.\n"
-                    Siparis.save()
+                    alternatifOrder.YuklenecekPaketDurumu = iptal
+
+                    GelenAciklama = ANA_Siparis.Aciklama
+                    ANA_Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + \
+                                           response[
+                                               1] + "iptal olanApiSirasi:" + str(
+                        alternatifOrder.Gonderim_Sirasi) + "\n"
+                    alternatifOrder.save()
+                    ANA_Siparis.save()
+
+                    baskaAlternatifVarmi = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=AlternatifVarmiBaska).first()
+
+
+                    if not  baskaAlternatifVarmi:
+                        if ANA_Siparis.AnaPaketVar:
+                            ANA_Siparis.Durum = AnaPaketGoner
+                            ANA_Siparis.Aciklama = GelenAciklama + " Alternatif hiç bulunamadı AnaPaketAktifOlduğu için Gönderime alındı. \n"
+                            ANA_Siparis.save()
+                            AnaPaketGonder()
+                        else:
+                            ANA_Siparis.Durum = iptal
+                            ANA_Siparis.Aciklama = GelenAciklama + " Alternatif hiç bulunamadı AnaPaketde olmadığı için iptal edildi. \n  Abone Bu Paketi Alamıyor Sanırım Yani Galiba. " + response[1]
+                            ANA_Siparis.BayiAciklama = "Abone Bu Paketi Alamıyor Sanırım Yani Galiba. " + response[1]
+                            ANA_Siparis.save()
 
                 else:
                     print("Nasip")
 
-                    Siparis.Durum = AnaPaket
-                    Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + \
-                                       response[1] + " iptal olanApiSirasi:" + str(Siparis.Gonderim_Sirasi) + "\n"
-                    Siparis.Gonderim_Sirasi = Sirasi
-                    Siparis.save()
-                    AnaPaketGonder()
+                    alternatifOrder.YuklenecekPaketDurumu = AlternatifVarmiBaska
+                    ANA_Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + \
+                                       response[1] + " iptal olanApiSirasi:" + str(alternatifOrder.Gonderim_Sirasi) + "\n"
+                    alternatifOrder.Gonderim_Sirasi = Sirasi
+                    alternatifOrder.save()
+                    ANA_Siparis.save()
 
 
 
-            #        order.Durum = sorgusutamam
-            #       # order.Aciklama = GelenAciklama + response[1]
-            #        order.SorguPaketID = response[1].replace('|',',')
-            #        order.save()
-            #        Sonuc = response[1]
-            #      return Sonuc
-            # else:
-            #    order.Durum = 97
-            #    order.Aciklama = response[2]
-            #    order.save()
-            #    Sonuc = response[2]
-            #    return Sonuc
+
     else:
         Sonuc = "Hiç Sipariş Yok"
         return Sonuc
@@ -701,6 +709,8 @@ def AlternatifKontrol(request):
     sorgusutamam = Durumlar.objects.get(durum_id=Durumlar.SorguTamam)
     AnaPaketGonderDurumu = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
 
+
+
     AltPaketID = Durumlar.objects.get(durum_id=Durumlar.AltKontrol)
     siparisler = Siparisler.objects.filter(Durum=sorgusutamam)
 
@@ -763,7 +773,6 @@ def AlternatifKontrol(request):
 
         # 5- en son o listeyi print ile yazdırıyoruz.
         if len(cikan_idler) > 0:
-            print("Siparisin paketi ile uyumlu alternatifler: ", cikan_idler)
             GelenAciklama = siparis.Aciklama
             siparis.Durum = AltPaketID
 
@@ -775,7 +784,8 @@ def AlternatifKontrol(request):
             GelenAciklama = GelenAciklama + "Bulunan Alternatif ID = " + str_cikan_idler + "\n"
             siparis.Aciklama = GelenAciklama
             siparis.save()
-
+#todo burada anapaket var mı yok mu kontrol etmen ona göre iptal etmen yada yüklemeye gödnermen lazım.
+        # Todo Olmadı bir testini yap ona göre bak.
         else:
             print("Siparisin paketi ile uyumlu alternatif bulunamadi")
             GelenAciklama = siparis.Aciklama
@@ -783,9 +793,6 @@ def AlternatifKontrol(request):
 
             GelenAciklama = GelenAciklama + "\n PaketSorgudan Gelen ID = " + siparis.SorguPaketID + "\n"
             siparis.SorguPaketID = ""
-            print(siparis.AnaPaketVar)
-            print("ÜsteBak")
-
             GelenAciklama = GelenAciklama + "Hiç Eşleşen Alternatif Bulunamadi. Orjinal Paket Yüklemeye Gönderiliyor.\n"
             siparis.Aciklama = GelenAciklama
             siparis.save()
