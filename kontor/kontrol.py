@@ -1100,4 +1100,4 @@ def Silerim(request):
 
 
 
-    return HttpResponse('işlem tamamlandı ŞükürlerOlsun')
+    return HttpResponse(mevcut_paketler)
