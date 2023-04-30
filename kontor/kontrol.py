@@ -1075,7 +1075,7 @@ def VodafonePaketleriCek(request):
         paketID = paket.Kupur
 
         # Mevcut paketler arasında gelen paketi ara
-        if not any(paketID == float(bilgiler[0]) for bilgiler in paketler):
+        if not any(paketID == float(bilgiler[0].strip()) for bilgiler in paketler):
             # Eğer mevcut paket yoksa, silme işlemi gerçekleştir
             KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID).delete()
 
