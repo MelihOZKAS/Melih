@@ -995,6 +995,8 @@ def AlternatifYuklemeGonder():
 
 
 def VodafonePaketleriCek(request):
+    eklenen_paketler=[]
+    silinen_paketler=[]
     response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
         'python': 'PaketCekVodafoneAll'
     })
@@ -1037,6 +1039,7 @@ def VodafonePaketleriCek(request):
                 PaketiGuncelle.api3 = api3
                 PaketiGuncelle.save()
             else:
+                eklenen_paketler.append(str(paketID))
                 # yeni kayıt oluşturma işlemi yapılır
                 paketEkle = KontorList(
                     Kupur=paketID,
@@ -1077,6 +1080,7 @@ def VodafonePaketleriCek(request):
     for paket in mevcut_paketler:
         paketID = paket.Kupur
         if paketID not in kontrol:
+            silinen_paketler.append(str(paketID))
             KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID).delete()
 
-    return HttpResponse('işlem tamamlandı ŞükürlerOlsun')
+    return HttpResponse(f'İşlem tamamlandı. Eklenen paketler: {eklenen_paketler}, silinen paketler: {silinen_paketler}')
