@@ -1064,21 +1064,19 @@ def VodafonePaketleriCek(request):
 
     # Olmayah Paketleri Siler
     # Gelen listedeki her bir paketi döngü ile kontrol et
+    kontrol = []
 
-    #for paketi in paketler:
-    #    if not paketi.strip():
-    #        continue
-    #    bilgiler = paketi.split('/')
-    #    paketID = float(bilgiler[0])
+    for paketi in paketler:
+        if not paketi.strip():
+            continue
+        bilgiler = paketi.split('/')
+        paketID = float(bilgiler[0])
+        kontrol.append(paketID)
 
+    mevcut_paketler = KontorList.objects.filter(Kategorisi=KategorisiGelen)
     for paket in mevcut_paketler:
         paketID = paket.Kupur
-
-        # Mevcut paketler arasında gelen paketi ara
-        if not any(paketID == float(bilgiler[0].strip()) for bilgiler in paketler):
-            # Eğer mevcut paket yoksa, silme işlemi gerçekleştir
+        if paketID not in kontrol:
             KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID).delete()
-
-
 
     return HttpResponse('işlem tamamlandı ŞükürlerOlsun')
