@@ -85,10 +85,6 @@ def PaketEkleDB (request):
 def VodafoneSesEkle (request):
     Sonuc = VodafonePaketleriCek(request)
     return HttpResponse(Sonuc)
-@csrf_exempt
-def VodafoneSesSil(request):
-    Sonuc = Silerim(request)
-    return HttpResponse(Sonuc)
 
 
 

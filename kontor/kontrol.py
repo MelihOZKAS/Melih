@@ -1058,46 +1058,27 @@ def VodafonePaketleriCek(request):
                 )
                 paketEkle.save()
 
-    return HttpResponse('işlem tamamlandı ŞükürlerOlsun')
-def Silerim(request):
-    response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
-        'python': 'PaketCekVodafoneAll'
-    })
-    if response.status_code == 200:
-        data = response.content.decode('utf-8')
-        paketlerYeni = data.split('|')
-        print(paketlerYeni)
-        print(len(paketlerYeni))
-        print("Nasipppppp")
     # Vodafoneye ait Mevcut paketleri veritabanından getir
     KategorisiGelen = Kategori.objects.get(pk=3)
     mevcut_paketler = KontorList.objects.filter(Kategorisi=KategorisiGelen)
-    print(mevcut_paketler)
-    print(len(mevcut_paketler))
-    print("mevcut paketler")
-
-
 
     # Olmayah Paketleri Siler
     # Gelen listedeki her bir paketi döngü ile kontrol et
 
-    print("Paketleri cektim")
-    for paketi in paketlerYeni:
-        print("PaketID")
-        if not paketi.strip():
-            print("--------Neden ?>" + str(paketi))
-            continue
-        bilgiler = paketi.split('/')
-        paketID = float(bilgiler[0])
-        print(paketID)
+    #for paketi in paketler:
+    #    if not paketi.strip():
+    #        continue
+    #    bilgiler = paketi.split('/')
+    #    paketID = float(bilgiler[0])
+
+    for paket in mevcut_paketler:
+        paketID = paket.Kupur
 
         # Mevcut paketler arasında gelen paketi ara
-        mevcut_paket = mevcut_paketler.filter(Kupur=paketID).first()
-
-        # Eğer mevcut paket yoksa, silme işlemi gerçekleştir
-        if not mevcut_paket:
-            KontorList.objects.filter(Kategorisi=KategorisiGelen,Kupur=paketID).delete()
+        if not any(paketID == float(bilgiler[0]) for bilgiler in paketler):
+            # Eğer mevcut paket yoksa, silme işlemi gerçekleştir
+            KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID).delete()
 
 
 
-    return HttpResponse(paketlerYeni)
+    return HttpResponse('işlem tamamlandı ŞükürlerOlsun')
