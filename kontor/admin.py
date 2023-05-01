@@ -110,13 +110,25 @@ class DurumFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
+        AlternatifVarmiBaska = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderim_Bekliyor)
+        AlternatifVarmiBaskagonder = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
+        AnaPaketGoner = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
+
+        Alternatif_islemde = Durumlar.objects.get(durum_id=Durumlar.Alternatif_islemde)
+        sorgusutamam = Durumlar.objects.get(durum_id=Durumlar.SorguTamam)
+        sorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
+        aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
+        Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
         Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
+        iptal = Durumlar.objects.get(durum_id=Durumlar.IPTAL_EDILDI)
+
         if self.value() == 'Basarili':
             return queryset.filter(Durum=Basarili)
         elif self.value() == 'Iptal':
-            return queryset.filter(Durum=Durumlar.IPTAL_EDILDI)
+            return queryset.filter(Durum=iptal)
         elif self.value() == 'Islemde':
-            return queryset.filter(Durum=Durumlar.ISLEMDE)
+            return queryset.filter(Durum__in=[Alternatif_Cevap_Bekliyor, aski,sorguCevap,sorgusutamam,Alternatif_Cevap_Bekliyor,Alternatif_islemde,AnaPaketGoner,AlternatifVarmiBaskagonder,AlternatifVarmiBaska])
+           # return queryset.filter(Durum=Durumlar.ISLEMDE)
 
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]

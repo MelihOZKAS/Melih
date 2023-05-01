@@ -68,7 +68,6 @@ class Durumlar(models.Model):
         (Alternatif_islemde, 'Alternatif islemde'),#71
         (Alternatif_Cevap_Bekliyor, 'Alternatif Cevap Bekliyor'),#72
         (Alternatif_Direk_Gonder, 'Alternatif Direk Gönder'),#80
-        (Alternatif_Direk_Gonder, 'Alternatif Direk Gönder'),#80
     )
 
     durum_id = models.PositiveSmallIntegerField(choices=DURUM_CHOICES, unique=True)
