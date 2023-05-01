@@ -98,6 +98,7 @@ class DirekGonderInline(admin.TabularInline):
     verbose_name_plural = 'Direk Gönder'
 
 from django.utils.translation import gettext_lazy as _
+from django.contrib.admin import DateFieldListFilter
 class DurumFilter(admin.SimpleListFilter):
     title = _('Durum')
     parameter_name = 'Durum'
@@ -143,7 +144,7 @@ class AdminSiparisler(admin.ModelAdmin):
    # list_filter = ("Operator","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
 
-    list_filter = (DurumFilter,"OlusturmaTarihi")
+    list_filter = (DurumFilter,('OlusturmaTarihi', DateFieldListFilter))
 
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
