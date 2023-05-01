@@ -42,7 +42,7 @@ class AdminKontorListesi(admin.ModelAdmin):
             alternatif_urunler = []
             AlternativeProduct.objects.filter(main_product=obj).delete()
             for urun in KontorList.objects.exclude(id=obj.id).order_by('MaliyetFiyat'):
-                if urun.Aktifmi == True and urun.AlternatifYapilmasin == False:
+                if urun.Aktifmi == True and urun.AlternatifYapilmasin == False and obj.AlternatifYapilmasin == False:
                     if urun.MaliyetFiyat < obj.MaliyetFiyat and urun.HeryoneDK >= obj.HeryoneDK and urun.internet >= obj.internet and urun.GunSayisi >= obj.GunSayisi and urun.Kategorisi == obj.Kategorisi:
                         AlternativeProduct.objects.create(
                             main_product=obj,
