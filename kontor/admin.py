@@ -107,7 +107,7 @@ class AdminSiparisler(admin.ModelAdmin):
     list_filter = [
         ('Durum', admin.ChoicesFieldListFilter, ['+', 'Basarili', 'IPTAL_EDILDI']),
         'Bayi',
-        'BitisTarihi'
+        'SonucTarihi'
     ]
     #list_filter = ("OperatorTip","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
