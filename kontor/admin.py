@@ -169,7 +169,7 @@ class AdminSiparisler(admin.ModelAdmin):
         return True
 
     def gecen_sure(self, obj):
-        if obj.BitirmeTarihi:
+        if obj.SonucTarihi:
             gecen_zaman = obj.SonucTarihi - obj.OlusturmaTarihi
             return '{:.0f} saniye'.format(gecen_zaman.total_seconds())
         else:
