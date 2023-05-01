@@ -98,6 +98,7 @@ class DirekGonderInline(admin.TabularInline):
     verbose_name_plural = 'Direk Gönder'
 
 from django.db.models import Q
+from django.utils.translation import gettext_lazy as _
 
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
