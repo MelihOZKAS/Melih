@@ -31,7 +31,7 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action']
+    actions = ['otoyap_action','TumAlternetifiSil_action']
 
 
 
@@ -55,6 +55,15 @@ class AdminKontorListesi(admin.ModelAdmin):
         self.message_user(request, "Seçilen Tüm Ürünlerin Alternatif işlemleri  başarıyla tamamlandı.")
 
     otoyap_action.short_description = "AlternatifleriniYap"
+    def TumAlternetifiSil_action(self, request, queryset):
+
+        selected = queryset
+        for obj in selected:
+            alternatif_urunler = []
+            AlternativeProduct.objects.filter(main_product=obj).delete()
+        self.message_user(request, "Seçilen Tüm Ürünlerin Alternatif listesi başarıyla silindi.")
+
+    otoyap_action.short_description = "TumAlternetifiSil"
 
     def alternatif_urunler_count(self, obj):
         return obj.alternativeproduct_set.count()
