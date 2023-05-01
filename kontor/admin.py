@@ -97,8 +97,25 @@ class DirekGonderInline(admin.TabularInline):
     verbose_name = 'Direk Gönder'
     verbose_name_plural = 'Direk Gönder'
 
-from django.db.models import Q
-from django.utils.translation import gettext_lazy as _
+
+class DurumFilter(admin.SimpleListFilter):
+    title = _('Durum')
+    parameter_name = 'Durum'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('Basarili', _('Basarili')),
+            ('Iptal', _('Iptal')),
+            ('Islemde', _('Islemde')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'Basarili':
+            return queryset.filter(Durum=Durumlar.BASARILI)
+        elif self.value() == 'Iptal':
+            return queryset.filter(Durum=Durumlar.IPTAL_EDILDI)
+        elif self.value() == 'Islemde':
+            return queryset.filter(Durum=Durumlar.ISLEMDE)
 
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
@@ -107,17 +124,9 @@ class AdminSiparisler(admin.ModelAdmin):
    # list_filter = ("Operator","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
 
-    list_filter = (
-        ('Durum', admin.ChoicesFieldListFilter, (
-            ('Basarili', _('Basarili')),
-            ('Iptal', _('Iptal')),
-            ('Islemde', _('Islemde')),
-        )),
-    )
+    list_filter = (DurumFilter,)
 
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        return qs.filter(Durum__in=[Durumlar.ISLEMDE, Durumlar.IPTAL_EDILDI, Durumlar.Basarili])
+
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
 
