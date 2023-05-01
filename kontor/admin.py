@@ -97,7 +97,7 @@ class DirekGonderInline(admin.TabularInline):
     verbose_name = 'Direk Gönder'
     verbose_name_plural = 'Direk Gönder'
 
-
+from django.utils.translation import gettext_lazy as _
 class DurumFilter(admin.SimpleListFilter):
     title = _('Durum')
     parameter_name = 'Durum'
