@@ -143,7 +143,10 @@ class AdminSiparisler(admin.ModelAdmin):
    # list_filter = ("Operator","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
 
-    list_filter = (DurumFilter,)
+    list_filter = (DurumFilter,"olusturma_tarihi")
+
+    def olusturma_tarihi(self, obj):
+        return obj.OlusturmaTarihi.date()
 
 
 
