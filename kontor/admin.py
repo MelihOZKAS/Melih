@@ -169,11 +169,20 @@ class AdminSiparisler(admin.ModelAdmin):
         return True
 
     def gecen_sure(self, obj):
-        suanki_zaman = timezone.now()
-        gecen_zaman = suanki_zaman - obj.OlusturmaTarihi
-        return '{:.0f} saniye'.format(gecen_zaman.total_seconds())
+        if obj.BitirmeTarihi:
+            gecen_zaman = obj.SonucTarihi - obj.OlusturmaTarihi
+            return '{:.0f} saniye'.format(gecen_zaman.total_seconds())
+        else:
+            return 'devam ediyor'
 
     gecen_sure.short_description = 'Geçen Süre'
+
+    #def gecen_sure(self, obj):
+    #    suanki_zaman = timezone.now()
+    #    gecen_zaman = suanki_zaman - obj.OlusturmaTarihi
+    #    return '{:.0f} saniye'.format(gecen_zaman.total_seconds())
+#
+    #gecen_sure.short_description = 'Geçen Süre'
 
 
 class AdminAnaOperator(admin.ModelAdmin):
