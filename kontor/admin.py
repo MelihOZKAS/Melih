@@ -104,19 +104,15 @@ class AdminSiparisler(admin.ModelAdmin):
     list_display = ("id","Numara","PaketAdi","SanalTutar","Operator","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","gecen_sure",)
     search_fields = ("Numara",)
     list_editable = ("Durum","ManuelApi","BayiAciklama")
-    list_filter = [
-        ('Durum', admin.ChoicesFieldListFilter, ['+', 'Basarili', 'IPTAL_EDILDI']),
-        'Bayi',
-        'SonucTarihi'
-    ]
+    Siparisler.objects.filter(
+        Q(Durum=Durumlar.IPTAL_EDILDI) | Q(Durum=Durumlar.Basarili),
+        SonucTarihi__isnull=False,
+        BitisTarihi=Q('SonucTarihi')
+    )
+
     #list_filter = ("OperatorTip","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
-    def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        queryset = queryset.filter(
-            Q(SonucTarihi__isnull=True) | Q(Durum__in=[Durumlar.Basarili, Durumlar.IPTAL_EDILDI])
-        )
-        return queryset
+
 
 
 
