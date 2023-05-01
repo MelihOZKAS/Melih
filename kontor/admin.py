@@ -110,8 +110,9 @@ class DurumFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
+        Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
         if self.value() == 'Basarili':
-            return queryset.filter(Durum=Durumlar.BASARILI)
+            return queryset.filter(Durum=Durumlar.Basarili)
         elif self.value() == 'Iptal':
             return queryset.filter(Durum=Durumlar.IPTAL_EDILDI)
         elif self.value() == 'Islemde':
