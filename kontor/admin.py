@@ -138,16 +138,12 @@ class DurumFilter(admin.SimpleListFilter):
 
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
-    list_display = ("id","Numara","PaketAdi","SanalTutar","Operator","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","gecen_sure",)
+    list_display = ("id","Numara","PaketAdi","SanalTutar","Operator","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","OlusturmaTarihi","gecen_sure",)
     search_fields = ("Numara",)
    # list_filter = ("Operator","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
 
-    list_filter = (DurumFilter,"olusturma_tarihi")
-
-    def olusturma_tarihi(self, obj):
-        return obj.OlusturmaTarihi.date()
-
+    list_filter = (DurumFilter,"OlusturmaTarihi")
 
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
