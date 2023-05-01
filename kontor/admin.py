@@ -114,7 +114,7 @@ class AdminSiparisler(admin.ModelAdmin):
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         queryset = queryset.filter(
-            Q(BitisTarihi__isnull=True) | Q(Durum__in=[Durumlar.Basarili, Durumlar.IPTAL_EDILDI])
+            Q(SonucTarihi__isnull=True) | Q(Durum__in=[Durumlar.Basarili, Durumlar.IPTAL_EDILDI])
         )
         return queryset
 
