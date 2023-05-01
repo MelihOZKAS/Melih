@@ -63,7 +63,7 @@ class AdminKontorListesi(admin.ModelAdmin):
             AlternativeProduct.objects.filter(main_product=obj).delete()
         self.message_user(request, "Seçilen Tüm Ürünlerin Alternatif listesi başarıyla silindi.")
 
-    otoyap_action.short_description = "TumAlternetifiSil"
+    TumAlternetifiSil_action.short_description = "TumAlternetifiSil"
 
     def alternatif_urunler_count(self, obj):
         return obj.alternativeproduct_set.count()
