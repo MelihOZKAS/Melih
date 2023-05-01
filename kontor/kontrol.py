@@ -6,6 +6,7 @@ from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Katego
 import requests
 from decimal import Decimal
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 def AnaPaketGonder():
     AnaPaket = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
@@ -222,32 +223,6 @@ def SonucKontrolGelen(request):
             return "Hatalı kullanıcı adı veya şifre"
     except (User.DoesNotExist, Siparisler.DoesNotExist):
         return "Kullanıcı veya sipariş bulunamadı"
-#def SonucKontrolGelen(request):
-#    bayi_kodu = request.GET.get('bayi_kodu').strip().replace(' ','')
-#    sifre = request.GET.get('sifre').strip().replace(' ','')
-#    tekilnumara = request.GET.get('tekilnumara').strip().replace(' ','')
-
-#    iptal = Durumlar.objects.get(durum_id=Durumlar.IPTAL_EDILDI)
-#    Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
-
-#    try:
-#        siparis = Siparisler.objects.get(GelenReferans=tekilnumara)
-#        Sonuc_Durumu = siparis.Durum
-
-#        if Sonuc_Durumu == Basarili:
-#            aciklama = siparis.BayiAciklama
-#            tutar = siparis.SanalTutar
-#            return f"1:{aciklama}:{tutar}"
-#        elif Sonuc_Durumu == iptal:
-#            aciklama = siparis.BayiAciklama
-#            return f"3:{aciklama}:0"
-#        else:
-#            return "2:islemde:44"
-#    except Siparisler.DoesNotExist:
-#        print("SiparişYok")
-
-
-# sipariş yok
 
 
 def PaketEkle(request):
@@ -512,7 +487,6 @@ def AlternatifSonucKontrol():
                 alternatifOrder.YuklenecekPaketDurumu = Basarili
                 print(response[1])
                 if response[1] == "":
-                    print("NasipGrimesi lazım")
                     ANA_Siparis.BayiAciklama = "Basarili"
                 else:
                     if response[1] =="Y%C3%BCklendi+-ONAYLANDI":
@@ -525,9 +499,7 @@ def AlternatifSonucKontrol():
                 alternatifOrder.Yukelenecek_Numara.Durum = Basarili
                 ANA_Siparis.SanalTutar = alternatifOrder.YuklenecekPaketFiyat
                 ANA_Siparis.Durum = Basarili
-
-
-
+                ANA_Siparis.SonucTarihi = timezone.now()
                 alternatifOrder.save()
                 ANA_Siparis.save()
                 # api.ApiBakiye -= Decimal(response[3])
@@ -556,6 +528,7 @@ def AlternatifSonucKontrol():
                     alternatifOrder.YuklenecekPaketDurumu = iptal
 
                     GelenAciklama = ANA_Siparis.Aciklama
+                    ANA_Siparis.SonucTarihi = timezone.now()
                     ANA_Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + \
                                            response[
                                                1] + "iptal olanApiSirasi:" + str(
@@ -574,6 +547,7 @@ def AlternatifSonucKontrol():
                             AnaPaketGonder()
                         else:
                             ANA_Siparis.Durum = iptal
+                            ANA_Siparis.SonucTarihi = timezone.now()
                             ANA_Siparis.Aciklama = GelenAciklama + " Alternatif hiç bulunamadı AnaPaketde olmadığı için iptal edildi. \n  Abone Bu Paketi Alamıyor Sanırım Yani Galiba. " + response[1]
                             ANA_Siparis.BayiAciklama = "Abone Bu Paketi Alamıyor Sanırım Yani Galiba. " + response[1]
                             ANA_Siparis.save()
@@ -633,7 +607,7 @@ def AnaPaketSonucKontrol():
 
             if response[0] == "1":
                 Siparis.Durum = Basarili
-                print(response[1])
+                Siparis.SonucTarihi = timezone.now()
                 if response[1] == "":
                     print("NasipGrimesi lazım")
                     Siparis.BayiAciklama = "Basarili"
@@ -662,6 +636,7 @@ def AnaPaketSonucKontrol():
 
                 if not YeniApisi:
                     Siparis.Durum = iptal
+                    Siparis.SonucTarihi = timezone.now()
                     Siparis.BayiAciklama = "iptal"
                     Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + response[
                         1] + "iptal olanApiSirasi:" + str(Siparis.Gonderim_Sirasi) + " Başka Api olmadığı için iptal edildi.\n"
@@ -681,10 +656,7 @@ def AnaPaketSonucKontrol():
                                                 sonraki_bakiye=SonrakiBakiye,
                                                 aciklama=f"{Siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
                     hareket.save()
-
                 else:
-                    print("Nasip")
-
                     Siparis.Durum = AnaPaket
                     Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + response[1] +" iptal olanApiSirasi:"+str(Siparis.Gonderim_Sirasi)+ "\n"
                     Siparis.Gonderim_Sirasi = Sirasi
@@ -741,6 +713,7 @@ def AlternatifKontrol(request):
 
             if siparis.SorguPaketID == "VodafoneDegilKi,GNC001" or  siparis.SorguPaketID == "TurkcellDegilKi,GNC001":
                 siparis.Durum = iptalEdildi
+                siparis.SonucTarihi = timezone.now()
                 siparis.BayiAciklama = siparis.SorguPaketID
                 #siparisler.BayiAciklama = siparis.SorguPaketID
                 siparis.save()
