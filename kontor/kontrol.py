@@ -1022,6 +1022,12 @@ def VodafonePaketleriCek(request):
             paketFiyat = Decimal(bilgiler[5])
             paketDay = float(bilgiler[6])
             znetFix = Decimal(bilgiler[7]) if bilgiler[7].strip() and bilgiler[7] != 'Bulamadım.' else Decimal('0.00')
+            if bilgiler[8] == "evet":
+                alternatif_bilgisi = True
+            else:
+                alternatif_bilgisi = False
+            alternatifyapilmasin = alternatif_bilgisi
+            PaketNames = bilgiler[9]
             KategorisiGelen = Kategori.objects.get(pk=3)
             api1 = Apiler.objects.get(pk=3)
             api2 = Apiler.objects.get(pk=2)
@@ -1032,7 +1038,7 @@ def VodafonePaketleriCek(request):
                 #print("Paket ---Update girdim")
                 # güncelleme işlemi yapılır
                 PaketiGuncelle = GelenPaket.first()
-                PaketiGuncelle.Urun_adi = Paket
+                PaketiGuncelle.Urun_adi = PaketNames
                 PaketiGuncelle.Urun_Detay = Paket
                 PaketiGuncelle.Kupur = paketID
                 PaketiGuncelle.zNetKupur = znetFix
@@ -1044,13 +1050,16 @@ def VodafonePaketleriCek(request):
                 PaketiGuncelle.internet = paketGB
                 PaketiGuncelle.SMS = paketSMS
                 PaketiGuncelle.api3 = api3
+                PaketiGuncelle.AlternatifYapilmasin = alternatifyapilmasin
+
                 PaketiGuncelle.save()
+
             else:
                 eklenen_paketler.append(str(paketID))
                 # yeni kayıt oluşturma işlemi yapılır
                 paketEkle = KontorList(
                     Kupur=paketID,
-                    Urun_adi=Paket,
+                    Urun_adi=PaketNames,
                     Urun_Detay=Paket,
                     GunSayisi=paketDay,
                     MaliyetFiyat=paketFiyat,
@@ -1064,7 +1073,8 @@ def VodafonePaketleriCek(request):
                     Kategorisi=KategorisiGelen,
                     api1=api1,
                     api2=api2,
-                    zNetKupur=znetFix
+                    zNetKupur=znetFix,
+                    AlternatifYapilmasin = alternatifyapilmasin
                 )
                 paketEkle.save()
 
