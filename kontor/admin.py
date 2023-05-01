@@ -103,11 +103,20 @@ class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
     list_display = ("id","Numara","PaketAdi","SanalTutar","Operator","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","gecen_sure",)
     search_fields = ("Numara",)
-    list_filter = ("Operator","Durum",)
+   # list_filter = ("Operator","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
 
+    list_filter = (
+        ('Durum', admin.ChoicesFieldListFilter, (
+            ('Basarili', _('Basarili')),
+            ('Iptal', _('Iptal')),
+            ('Islemde', _('Islemde')),
+        )),
+    )
 
-
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(Durum__in=[Durumlar.ISLEMDE, Durumlar.IPTAL_EDILDI, Durumlar.Basarili])
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
 
