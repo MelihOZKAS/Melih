@@ -97,16 +97,26 @@ class DirekGonderInline(admin.TabularInline):
     verbose_name = 'Direk Gönder'
     verbose_name_plural = 'Direk Gönder'
 
-
+from django.db.models import Q
 
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
     list_display = ("id","Numara","PaketAdi","SanalTutar","Operator","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","gecen_sure",)
     search_fields = ("Numara",)
     list_editable = ("Durum","ManuelApi","BayiAciklama")
-    list_filter = [('Durum', admin.ChoicesFieldListFilter, ['+', 'Basarili', 'Iptal']), 'Bayi', 'BitisTarihi']
+    list_filter = [
+        ('Durum', admin.ChoicesFieldListFilter, ['+', 'Basarili', 'IPTAL_EDILDI']),
+        'Bayi',
+        'BitisTarihi'
+    ]
     #list_filter = ("OperatorTip","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.filter(
+            Q(BitisTarihi__isnull=True) | Q(Durum__in=[Durumlar.Basarili, Durumlar.IPTAL_EDILDI])
+        )
+        return queryset
 
 
 
