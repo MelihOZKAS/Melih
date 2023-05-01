@@ -164,7 +164,7 @@ class KontorList(models.Model):
 
     YurtDisiDk = models.DecimalField(max_digits=100, decimal_places=2, default=0)
     Aktifmi = models.BooleanField("Aktif mi ?", default=True)
-    AlternatifYapilmasin = models.BooleanField("Aktif mi ?", default=False)
+    AlternatifYapilmasin = models.BooleanField("Alternatif Yapmıyorum", default=False)
     Kategorisi = models.ForeignKey(Kategori, on_delete=models.CASCADE, null=True)
     api1 = models.ForeignKey(Apiler, on_delete=models.CASCADE, null=True,blank=True)
     api2 = models.ForeignKey(Apiler, on_delete=models.CASCADE,related_name='api2', null=True,blank=True)
