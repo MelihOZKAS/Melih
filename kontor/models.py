@@ -360,6 +360,7 @@ class Bayi_Listesi(models.Model):
 
         # Tutar alanını sıfırla
         self.Tutar = 0
+        self.secili_banka = ""
         super(Bayi_Listesi, self).save(update_fields=['Tutar'])
 
     class Meta:
