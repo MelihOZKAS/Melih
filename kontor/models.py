@@ -341,7 +341,7 @@ class Bayi_Listesi(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     Bayi_Bakiyesi = models.DecimalField(max_digits=10, decimal_places=2)
     Tutar = models.DecimalField(max_digits=10, decimal_places=2,default=0)
-    secili_banka = models.ForeignKey(Banka, on_delete=models.CASCADE,null=True)
+    secili_banka = models.ForeignKey(Banka, on_delete=models.CASCADE,null=True,default=None)
 
     def save(self, *args, **kwargs):
         if self.pk is None:  # Yeni bir nesne oluşturuluyorsa

@@ -348,18 +348,12 @@ class AdminApiListesi(admin.ModelAdmin):
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
 
-class BayiListesiForm(ModelForm):
-    class Meta:
-        model = Bayi_Listesi
-        fields = '__all__'
-        widgets = {'secili_banka': forms.Select(attrs={'value': None})}
+
 
 
 @admin.register(Bayi_Listesi)
 class Bayi_Bakiyeleri(admin.ModelAdmin):
     list_display = ('user', 'Bayi_Bakiyesi')
-    form = BayiListesiForm
-
 
 @admin.register(BakiyeHareketleri)
 class BakiyeHareketleriAdmin(admin.ModelAdmin):
