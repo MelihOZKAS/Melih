@@ -336,14 +336,33 @@ class Banka(models.Model):
         verbose_name = "Bankalar"
         verbose_name_plural = "Bankalar"
 
+#class BakiyeHareketleriDurumlari(models.Model):
+#    isim = models.CharField(max_length=255)
+#
+#    def __str__(self):
+#        return self.isim
+#
+#    class Meta:
+#        verbose_name = "Bakiye Hareketleri Durumu"
+#        verbose_name_plural = "Bakiye Hareketleri Durumları"
 
 
 
 class Bayi_Listesi(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     Bayi_Bakiyesi = models.DecimalField(max_digits=10, decimal_places=2)
+    Borc = models.DecimalField(max_digits=10, decimal_places=2)
     Tutar = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     secili_banka = models.ForeignKey(Banka, on_delete=models.CASCADE,null=True,default=None)
+    islem_durumu = models.CharField(max_length=20, choices=(
+        ('islem_sec', 'işlem Türünü Seç'),
+        ('nakit_ekle', 'Nakit/Havele/EFT Bakiye Ekle'),
+        ('borc_ve_bakiye_ekle', 'Hem Borç Hem Bakiye Ekle'),
+        ('bakiye_dus', 'Bakiye Düş'),
+        ('sadece_borc_ekle', 'Sadece Borç Ekle'),
+    ))
+
+
 
     def save(self, *args, **kwargs):
         if self.pk is None:  # Yeni bir nesne oluşturuluyorsa
@@ -351,26 +370,40 @@ class Bayi_Listesi(models.Model):
 
         # Önce bayi bakiyesine tutarı ekle
         onceki_bakiye = self.Bayi_Bakiyesi
-        self.Bayi_Bakiyesi += self.Tutar
-        sonraki_bakiye = self.Bayi_Bakiyesi
+        onceki_Borc = self.Borc
 
-        # Sonra seçili bankanın bakiyesine de tutarı ekle
-        if self.secili_banka is not None and self.Tutar > 0:
-            self.secili_banka.bakiye += self.Tutar
-            self.secili_banka.save()
+
+
+        if self.islem_durumu == "nakit_ekle":
+
+            self.Bayi_Bakiyesi += self.Tutar
+            # Sonra seçili bankanın bakiyesine de tutarı ekle
+            if self.secili_banka is not None and self.Tutar > 0:
+                self.secili_banka.bakiye += self.Tutar
+                self.secili_banka.save()
+
+
+        elif self.islem_durumu == "borc_ve_bakiye_ekle":
+            self.Bayi_Bakiyesi += self.Tutar
+            self.Borc += self.Tutar
+
+        # En son Bayi_Listesi nesnesini kaydet
+
+        sonraki_bakiye = self.Bayi_Bakiyesi
+        sonraki_Borc = self.Borc
 
         bakiye_hareketi = BakiyeHareketleri.objects.create(
             user=self.user,
             islem_tutari=self.Tutar,
             onceki_bakiye=onceki_bakiye,
             sonraki_bakiye=sonraki_bakiye,
-            tarih=timezone.now(),
+            onceki_Borc=onceki_Borc,
+            sonraki_Borc=sonraki_Borc,
+#            tarih=timezone.now(),
             aciklama='BankaBakiyesi Eklendi',
 
         )
         bakiye_hareketi.save()
-
-        # En son Bayi_Listesi nesnesini kaydet
         super(Bayi_Listesi, self).save(*args, **kwargs)
 
 
@@ -384,9 +417,11 @@ class Bayi_Listesi(models.Model):
 
 class BakiyeHareketleri(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    islem_tutari = models.DecimalField(max_digits=10, decimal_places=2)
-    onceki_bakiye = models.DecimalField(max_digits=10, decimal_places=2)
-    sonraki_bakiye = models.DecimalField(max_digits=10, decimal_places=2)
+    islem_tutari = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    onceki_bakiye = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    sonraki_bakiye = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    onceki_Borc = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    sonraki_Borc = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     tarih = models.DateTimeField(auto_now_add=True)
     aciklama = models.CharField(max_length=255)
     class Meta:

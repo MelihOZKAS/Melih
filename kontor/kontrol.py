@@ -141,6 +141,7 @@ def ApiZnetSiparisKaydet(request):
                         paket_tutari = Decimal('95.5')
                         Bayi = Bayi_Listesi.objects.get(user=user)
                         Onceki_Bakiye = Bayi.Bayi_Bakiyesi
+                        onceki_Borc = Bayi.Borc
 
 
 
@@ -150,6 +151,7 @@ def ApiZnetSiparisKaydet(request):
                                 Bayi.save()
 
                                 SonrakiBakiye = Bayi.Bayi_Bakiyesi
+                                sonraki_Borc = Bayi.Borc
 
                                 # Ürün bulundu, api1, api2 ve api3 değerlerini siparişe ekle
                                 order.user = user
@@ -169,6 +171,8 @@ def ApiZnetSiparisKaydet(request):
                                                                 islem_tutari=paket_tutari,
                                                                 onceki_bakiye=Onceki_Bakiye,
                                                                 sonraki_bakiye=SonrakiBakiye,
+                                                                onceki_Borc=onceki_Borc,
+                                                                sonraki_Borc=sonraki_Borc,
                                                                 aciklama=f"Kullanıcısı {user} Nolu Hatta {operatoru} {kontor} {paket_tutari} TL'lik bir paket satın aldı")
                                     hareket.save()
 
@@ -646,14 +650,18 @@ def AnaPaketSonucKontrol():
                     user = User.objects.get(username=Siparis.user)
                     Bayi = Bayi_Listesi.objects.get(user=user)
                     Onceki_Bakiye = Bayi.Bayi_Bakiyesi
+                    onceki_Borc = Bayi.Borc
                     Bayi.Bayi_Bakiyesi += paket_tutari
                     Bayi.save()
                     SonrakiBakiye = Bayi.Bayi_Bakiyesi
+                    sonraki_Borc = Bayi.Borc
 
                     hareket = BakiyeHareketleri(user=user,
                                                 islem_tutari=paket_tutari,
                                                 onceki_bakiye=Onceki_Bakiye,
                                                 sonraki_bakiye=SonrakiBakiye,
+                                                onceki_Borc=onceki_Borc,
+                                                sonraki_Borc=sonraki_Borc,
                                                 aciklama=f"{Siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
                     hareket.save()
                 else:
@@ -721,14 +729,18 @@ def AlternatifKontrol(request):
                 user = User.objects.get(username=siparis.user)
                 Bayi = Bayi_Listesi.objects.get(user=user)
                 Onceki_Bakiye = Bayi.Bayi_Bakiyesi
+                onceki_Borc = Bayi.Borc
                 Bayi.Bayi_Bakiyesi += paket_tutari
                 Bayi.save()
                 SonrakiBakiye = Bayi.Bayi_Bakiyesi
+                sonraki_Borc = Bayi.Borc
 
                 hareket = BakiyeHareketleri(user=user,
                                             islem_tutari=paket_tutari,
                                             onceki_bakiye=Onceki_Bakiye,
                                             sonraki_bakiye=SonrakiBakiye,
+                                            onceki_Borc=onceki_Borc,
+                                            sonraki_Borc=sonraki_Borc,
                                             aciklama=f"{siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
                 hareket.save()
                 return "Oto İPTAL edildi"
@@ -780,14 +792,18 @@ def AlternatifKontrol(request):
                 user = User.objects.get(username=siparis.user)
                 Bayi = Bayi_Listesi.objects.get(user=user)
                 Onceki_Bakiye = Bayi.Bayi_Bakiyesi
+                onceki_Borc = Bayi.Borc
                 Bayi.Bayi_Bakiyesi += paket_tutari
                 Bayi.save()
                 SonrakiBakiye = Bayi.Bayi_Bakiyesi
+                sonraki_Borc = Bayi.Borc
 
                 hareket = BakiyeHareketleri(user=user,
                                             islem_tutari=paket_tutari,
                                             onceki_bakiye=Onceki_Bakiye,
                                             sonraki_bakiye=SonrakiBakiye,
+                                            onceki_Borc=onceki_Borc,
+                                            sonraki_Borc=sonraki_Borc,
                                             aciklama=f"{siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket & Ana Paket bulunamadı Bakiyesi iade edildii.")
                 hareket.save()
 
