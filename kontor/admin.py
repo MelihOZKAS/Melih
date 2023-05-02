@@ -25,6 +25,7 @@ class AlternativeProductInline(admin.TabularInline):
 
 class AdminBanka(admin.ModelAdmin):
     list_display = ('banka_adi', 'hesap_sahibi', 'bakiye','BayiGormesin','Aktifmi')
+    readonly_fields = ('bakiye',)
 
 
 
