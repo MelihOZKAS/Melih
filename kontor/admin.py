@@ -100,7 +100,7 @@ class DirekGonderInline(admin.TabularInline):
 
 from django.utils.translation import gettext_lazy as _
 from django.contrib.admin import DateFieldListFilter
-from import_export.admin import ExportMixin
+
 
 
 
@@ -152,7 +152,7 @@ class AdminSiparisler(admin.ModelAdmin):
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
     date_hierarchy = 'OlusturmaTarihi'
 
-    list_filter = (DurumFilter,)
+    list_filter = (DurumFilter,('OlusturmaTarihi', DateFieldListFilter),)
 
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
