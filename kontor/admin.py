@@ -155,7 +155,7 @@ class AdminSiparisler(admin.ModelAdmin):
     list_filter = (DurumFilter,)
 
 
-    actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action",export_to_excel]
+    actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
 
 
 
