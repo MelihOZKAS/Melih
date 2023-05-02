@@ -143,25 +143,34 @@ class DurumFilter(admin.SimpleListFilter):
             return queryset.filter(Durum__in=[Alternatif_Cevap_Bekliyor,Alternatif_Direk_Gonder,AnaPaketSonucBekler,AltKontrol,ALTERNATIF_DENEYEN,ISLEMDE, sorguda,aski,sorguCevap,sorgusutamam,Alternatif_Cevap_Bekliyor,Alternatif_islemde,AnaPaketGoner,AlternatifVarmiBaskagonder,AlternatifVarmiBaska])
            # return queryset.filter(Durum=Durumlar.ISLEMDE)
 def export_to_excel(modeladmin, request, queryset):
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename=exported_data.xlsx'
-    workbook = Workbook()
-    worksheet = workbook.active
-    # Başlık satırını yaz
-    columns = [field.name for field in modeladmin.model._meta.fields]
-    row_num = 1
-    for col_num, column_title in enumerate(columns, 1):
-        cell = worksheet.cell(row=row_num, column=col_num)
-        cell.value = column_title
-    # Verileri yaz
-    for obj in queryset:
-        row_num += 1
-        row = [getattr(obj, field.name) for field in modeladmin.model._meta.fields]
-        for col_num, cell_value in enumerate(row, 1):
-            cell = worksheet.cell(row=row_num, column=col_num)
-            cell.value = cell_value
-    workbook.save(response)
-    return response
+    def export_orders_excel(request):
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="orders.xlsx"'
+
+        workbook = openpyxl.Workbook()
+        worksheet = workbook.active
+        worksheet.title = 'Orders'
+
+        # header row
+        header = ['Order Number', 'Customer', 'Order Date']
+        for col_num, column_title in enumerate(header, 1):
+            cell = worksheet.cell(row=1, column=col_num)
+            cell.value = column_title
+
+        # data rows
+        orders = Order.objects.all().filter(date__month=5, date__year=2023)
+        for row_num, order in enumerate(orders, 1):
+            row = [
+                order.order_number,
+                order.customer.username,
+                order.date.strftime('%Y-%m-%d'),
+            ]
+            for col_num, cell_value in enumerate(row, 1):
+                cell = worksheet.cell(row=row_num + 1, column=col_num)
+                cell.value = cell_value
+
+        workbook.save(response)
+        return response
 
 export_to_excel.short_description = 'Export to Excel'
 
