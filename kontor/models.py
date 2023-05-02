@@ -366,7 +366,7 @@ class Bayi_Listesi(models.Model):
             sonraki_bakiye=sonraki_bakiye,
             tarih=timezone.now(),
             aciklama='BankaBakiyesi Eklendi',
-            bayi=self,
+
         )
         bakiye_hareketi.save()
 
