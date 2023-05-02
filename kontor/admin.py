@@ -354,13 +354,14 @@ class AdminApiKagetori(admin.ModelAdmin):
 @admin.register(Bayi_Listesi)
 class Bayi_Bakiyeleri(admin.ModelAdmin):
     list_display = ('user', 'Bayi_Bakiyesi','Borc')
+    readonly_fields = ('user','Bayi_Bakiyesi','Borc')
 
 
 
 @admin.register(BakiyeHareketleri)
 class BakiyeHareketleriAdmin(admin.ModelAdmin):
     list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'onceki_Borc', 'sonraki_Borc','tarih', 'aciklama')
-
+    readonly_fields = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'onceki_Borc', 'sonraki_Borc','tarih', 'aciklama')
 
 
 admin.site.register(Durumlar,DurumlarAdmin)
