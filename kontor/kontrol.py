@@ -760,23 +760,42 @@ def AlternatifKontrol(request):
 #todo burada anapaket var mı yok mu kontrol etmen ona göre iptal etmen yada yüklemeye gödnermen lazım.
         # Todo Olmadı bir testini yap ona göre bak.
         else:
-            print("Siparisin paketi ile uyumlu alternatif bulunamadi")
-            GelenAciklama = siparis.Aciklama
-            siparis.Durum = AnaPaketGonderDurumu
+            if siparis.AnaPaketVar:
+                GelenAciklama = siparis.Aciklama
+                siparis.Durum = AnaPaketGonderDurumu
 
-            GelenAciklama = GelenAciklama + "\n PaketSorgudan Gelen ID = " + siparis.SorguPaketID + "\n"
-            siparis.SorguPaketID = ""
-            GelenAciklama = GelenAciklama + "Hiç Eşleşen Alternatif Bulunamadi. Orjinal Paket Yüklemeye Gönderiliyor.\n"
-            siparis.Aciklama = GelenAciklama
-            siparis.save()
-            AnaPaketGonder()
+                GelenAciklama = GelenAciklama + "\n PaketSorgudan Gelen ID = " + siparis.SorguPaketID + "\n"
+                siparis.SorguPaketID = ""
+                GelenAciklama = GelenAciklama + "Hiç Eşleşen Alternatif Bulunamadi. Orjinal Paket Yüklemeye Gönderiliyor.\n"
+                siparis.Aciklama = GelenAciklama
+                siparis.save()
+                AnaPaketGonder()
+            else:
+                siparis.Durum = iptalEdildi
+                siparis.SonucTarihi = timezone.now()
+                siparis.BayiAciklama = siparis.SorguPaketID
+                # siparisler.BayiAciklama = siparis.SorguPaketID
+                siparis.save()
+                paket_tutari = Decimal('95.5')
+                user = User.objects.get(username=siparis.user)
+                Bayi = Bayi_Listesi.objects.get(user=user)
+                Onceki_Bakiye = Bayi.Bayi_Bakiyesi
+                Bayi.Bayi_Bakiyesi += paket_tutari
+                Bayi.save()
+                SonrakiBakiye = Bayi.Bayi_Bakiyesi
+
+                hareket = BakiyeHareketleri(user=user,
+                                            islem_tutari=paket_tutari,
+                                            onceki_bakiye=Onceki_Bakiye,
+                                            sonraki_bakiye=SonrakiBakiye,
+                                            aciklama=f"{siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket & Ana Paket bulunamadı Bakiyesi iade edildii.")
+                hareket.save()
 
 
 
 
 
 def YuklenecekPaketler(request):
-    print("Nasip-00")
     #TODO aşası Tamam HAzır kod sakın bozma
     # Durumu 31 olan siparişleri çekiyoruz
     #siparisler = Siparisler.objects.filter(Durum=31)

@@ -317,16 +317,24 @@ class YuklenecekSiparisler(models.Model):
 class Bayi_Listesi(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     Bayi_Bakiyesi = models.DecimalField(max_digits=10, decimal_places=2)
+    Tutar = models.DecimalField(max_digits=10, decimal_places=2)
+    secili_banka = models.ForeignKey(Banka, on_delete=models.CASCADE)
 
-    def add_balance(self, banka, tutar):
-        with transaction.atomic():
-            self.Bayi_Bakiyesi += tutar
-            self.full_clean()
-            self.save()
+    def save(self, *args, **kwargs):
+        # Önce bayi bakiyesine tutarı ekle
+        self.Bayi_Bakiyesi += self.Tutar
 
-            banka.bakiye += tutar
-            banka.full_clean()
-            banka.save()
+        # Sonra seçili bankanın bakiyesine de tutarı ekle
+        self.secili_banka.bakiye += self.Tutar
+        self.secili_banka.save()
+
+        # En son Bayi_Listesi nesnesini kaydet
+        super(Bayi_Listesi, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Bayi Listesi"
+        verbose_name_plural = "Bayi Listesi"
+
 
 
     class Meta:
