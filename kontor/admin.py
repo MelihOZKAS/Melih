@@ -4,6 +4,7 @@ from django.utils.html import format_html
 from django.urls import reverse,path
 from django.utils import timesince,timezone
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 
 from django.forms import Select, RadioSelect, PasswordInput
 from django import forms
@@ -99,8 +100,10 @@ class DirekGonderInline(admin.TabularInline):
 
 from django.utils.translation import gettext_lazy as _
 from django.contrib.admin import DateFieldListFilter
-from datetime import timedelta
-from django.contrib.admin.widgets import AdminDateWidget
+from openpyxl import Workbook
+
+
+
 
 class DurumFilter(admin.SimpleListFilter):
     title = _('Durum')
@@ -139,7 +142,28 @@ class DurumFilter(admin.SimpleListFilter):
         elif self.value() == 'Islemde':
             return queryset.filter(Durum__in=[Alternatif_Cevap_Bekliyor,Alternatif_Direk_Gonder,AnaPaketSonucBekler,AltKontrol,ALTERNATIF_DENEYEN,ISLEMDE, sorguda,aski,sorguCevap,sorgusutamam,Alternatif_Cevap_Bekliyor,Alternatif_islemde,AnaPaketGoner,AlternatifVarmiBaskagonder,AlternatifVarmiBaska])
            # return queryset.filter(Durum=Durumlar.ISLEMDE)
+def export_to_excel(modeladmin, request, queryset):
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=exported_data.xlsx'
+    workbook = Workbook()
+    worksheet = workbook.active
+    # Başlık satırını yaz
+    columns = [field.name for field in modeladmin.model._meta.fields]
+    row_num = 1
+    for col_num, column_title in enumerate(columns, 1):
+        cell = worksheet.cell(row=row_num, column=col_num)
+        cell.value = column_title
+    # Verileri yaz
+    for obj in queryset:
+        row_num += 1
+        row = [getattr(obj, field.name) for field in modeladmin.model._meta.fields]
+        for col_num, cell_value in enumerate(row, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = cell_value
+    workbook.save(response)
+    return response
 
+export_to_excel.short_description = 'Export to Excel'
 
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
@@ -152,7 +176,7 @@ class AdminSiparisler(admin.ModelAdmin):
     list_filter = (DurumFilter,)
 
 
-    actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
+    actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action",export_to_excel]
 
 
 
