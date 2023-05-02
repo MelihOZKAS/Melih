@@ -137,22 +137,13 @@ class DurumFilter(admin.SimpleListFilter):
         elif self.value() == 'Islemde':
             return queryset.filter(Durum__in=[Alternatif_Cevap_Bekliyor,Alternatif_Direk_Gonder,AnaPaketSonucBekler,AltKontrol,ALTERNATIF_DENEYEN,ISLEMDE, sorguda,aski,sorguCevap,sorgusutamam,Alternatif_Cevap_Bekliyor,Alternatif_islemde,AnaPaketGoner,AlternatifVarmiBaskagonder,AlternatifVarmiBaska])
            # return queryset.filter(Durum=Durumlar.ISLEMDE)
-class CustomDateFilter(admin.DateField):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def get_filter_predicate(self, v):
-        return Q(**{
-            f"{self.field_name}__date__gte": v[0],
-            f"{self.field_name}__date__lte": v[1],
-        })
-
+class CustomDateFilter(DateFieldListFilter):
     def queryset(self, request, queryset):
-        if self.form.cleaned_data.get('daterange', ''):
-            date_range = self.form.cleaned_data.get('daterange', '').split(' - ')
-            queryset = queryset.filter(self.get_filter_predicate(date_range))
+        if self.value():
+            start_date = self.value().split(" to ")[0].strip()
+            end_date = self.value().split(" to ")[1].strip()
+            queryset = queryset.filter(OlusturmaTarihi__range=[start_date, end_date])
         return queryset
-
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
     list_display = ("id","Numara","PaketAdi","SanalTutar","Operator","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","OlusturmaTarihi","gecen_sure",)
