@@ -347,15 +347,18 @@ class AdminApiListesi(admin.ModelAdmin):
 
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
+
+class BayiListesiForm(ModelForm):
+    class Meta:
+        model = Bayi_Listesi
+        fields = '__all__'
+        widgets = {'secili_banka': forms.Select(attrs={'value': None})}
+
+
 @admin.register(Bayi_Listesi)
 class Bayi_Bakiyeleri(admin.ModelAdmin):
     list_display = ('user', 'Bayi_Bakiyesi')
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        if obj is None:
-            form.base_fields['secili_banka'].initial = None
-        return form
+    form = BayiListesiForm
 
 
 @admin.register(BakiyeHareketleri)
