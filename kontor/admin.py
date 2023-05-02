@@ -351,10 +351,10 @@ class AdminApiKagetori(admin.ModelAdmin):
 class Bayi_Bakiyeleri(admin.ModelAdmin):
     list_display = ('user', 'Bayi_Bakiyesi')
 
-    def save_model(self, request, obj, form, change):
-        if obj.secili_banka is None:
-            obj.secili_banka = Banka.objects.first()  # varsayılan banka ataması
-        obj.save()
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['secili_banka'].initial = None
+        return form
 
 @admin.register(BakiyeHareketleri)
 class BakiyeHareketleriAdmin(admin.ModelAdmin):
