@@ -348,12 +348,25 @@ class Bayi_Listesi(models.Model):
             self.Tutar = 0  # Tutar alanını sıfırla
 
         # Önce bayi bakiyesine tutarı ekle
+        onceki_bakiye = self.Bayi_Bakiyesi
         self.Bayi_Bakiyesi += self.Tutar
+        sonraki_bakiye = self.Bayi_Bakiyesi
 
         # Sonra seçili bankanın bakiyesine de tutarı ekle
         if self.secili_banka is not None and self.Tutar > 0:
             self.secili_banka.bakiye += self.Tutar
             self.secili_banka.save()
+
+        bakiye_hareketi = BakiyeHareketleri.objects.create(
+            user=self.user,
+            islem_tutari=self.Tutar,
+            onceki_bakiye=onceki_bakiye,
+            sonraki_bakiye=sonraki_bakiye,
+            tarih=timezone.now(),
+            aciklama='BankaBakiyesi Eklendi',
+            bayi=self,
+        )
+        bakiye_hareketi.save()
 
         # En son Bayi_Listesi nesnesini kaydet
         super(Bayi_Listesi, self).save(*args, **kwargs)
