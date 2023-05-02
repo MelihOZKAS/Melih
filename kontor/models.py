@@ -328,6 +328,7 @@ class Bayi_Listesi(models.Model):
             banka.full_clean()
             banka.save()
 
+
     class Meta:
         verbose_name = "Bayi Listesi"
         verbose_name_plural = "Bayi Listesi"
