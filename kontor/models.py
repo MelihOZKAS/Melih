@@ -147,8 +147,8 @@ class Apiler(models.Model):
 
 
 class KontorList(models.Model):
-    Urun_adi = models.CharField(max_length=100)
-    Urun_Detay = models.CharField(max_length=100)
+    Urun_adi = models.CharField(max_length=255)
+    Urun_Detay = models.CharField(max_length=255)
     Kupur = models.DecimalField(max_digits=100, decimal_places=2)
     zNetKupur = models.DecimalField(max_digits=100, decimal_places=2, null=True,blank=True)
     GunSayisi = models.DecimalField(max_digits=31, decimal_places=2, default=0)
