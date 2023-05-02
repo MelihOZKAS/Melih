@@ -137,7 +137,13 @@ class DurumFilter(admin.SimpleListFilter):
         elif self.value() == 'Islemde':
             return queryset.filter(Durum__in=[Alternatif_Cevap_Bekliyor,Alternatif_Direk_Gonder,AnaPaketSonucBekler,AltKontrol,ALTERNATIF_DENEYEN,ISLEMDE, sorguda,aski,sorguCevap,sorgusutamam,Alternatif_Cevap_Bekliyor,Alternatif_islemde,AnaPaketGoner,AlternatifVarmiBaskagonder,AlternatifVarmiBaska])
            # return queryset.filter(Durum=Durumlar.ISLEMDE)
-
+class CustomDateFilter(DateFieldListFilter):
+    def queryset(self, request, queryset):
+        if self.value():
+            start_date = self.value().split(" to ")[0].strip()
+            end_date = self.value().split(" to ")[1].strip()
+            queryset = queryset.filter(OlusturmaTarihi__range=[start_date, end_date])
+        return queryset
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
     list_display = ("id","Numara","PaketAdi","SanalTutar","Operator","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","OlusturmaTarihi","gecen_sure",)
@@ -146,7 +152,7 @@ class AdminSiparisler(admin.ModelAdmin):
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
     date_hierarchy = 'OlusturmaTarihi'
 
-    list_filter = (DurumFilter,('OlusturmaTarihi', date_hierarchy))
+    list_filter = (DurumFilter,('OlusturmaTarihi', CustomDateFilter))
 
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
