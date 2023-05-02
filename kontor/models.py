@@ -322,3 +322,19 @@ class BakiyeHareketleri(models.Model):
     class Meta:
         verbose_name = "Bayi Listesi"
         verbose_name_plural = "Bayi Listesi"
+
+
+
+class Banka(models.Model):
+    banka_adi = models.CharField(max_length=100)
+    hesap_sahibi = models.CharField(max_length=100)
+    hesap_numarasi = models.CharField(max_length=100)
+    sube_kodu = models.CharField(max_length=100)
+    iban = models.CharField(max_length=50)
+    aciklama = models.TextField(blank=True)
+    bakiye = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    BayiGormesin = models.BooleanField("Bayi Gormesin", default=False)
+    Aktifmi = models.BooleanField("Aktif mi ?", default=True)
+
+    def __str__(self):
+        return self.banka_adi

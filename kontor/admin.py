@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import KontorList,Kategori,Apiler,ApiKategori,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri
+from .models import KontorList,Kategori,Apiler,ApiKategori,Banka,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri
 from django.utils.html import format_html
 from django.urls import reverse,path
 from django.utils import timesince,timezone
@@ -22,6 +22,9 @@ class AlternativeProductInline(admin.TabularInline):
     verbose_name_plural = "Alternatif ürünler"
 
 
+
+class AdminBanka(admin.ModelAdmin):
+    list_display = ('banka_adi', 'hesap_sahibi', 'bakiye','BayiGormesin','Aktifmi')
 
 
 
@@ -355,6 +358,7 @@ class BakiyeHareketleriAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Durumlar,DurumlarAdmin)
+admin.site.register(Banka,AdminBanka)
 admin.site.register(AnaOperator,AdminAnaOperator)
 admin.site.register(AltOperator,AdminAltOperator)
 admin.site.register(KontorList,AdminKontorListesi)
