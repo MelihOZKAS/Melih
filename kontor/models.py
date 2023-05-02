@@ -307,13 +307,30 @@ class YuklenecekSiparisler(models.Model):
         return self.YuklenecekPaketAdi
 
 
+#class Bayi_Listesi(models.Model):
+#    user = models.OneToOneField(User, on_delete=models.CASCADE)
+#    Bayi_Bakiyesi = models.DecimalField(max_digits=10, decimal_places=2)
+#    class Meta:
+#        verbose_name = "Bayi Listesi"
+#        verbose_name_plural = "Bayi Listesi"
+
 class Bayi_Listesi(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     Bayi_Bakiyesi = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def add_balance(self, banka, tutar):
+        with transaction.atomic():
+            self.Bayi_Bakiyesi += tutar
+            self.full_clean()
+            self.save()
+
+            banka.bakiye += tutar
+            banka.full_clean()
+            banka.save()
+
     class Meta:
         verbose_name = "Bayi Listesi"
         verbose_name_plural = "Bayi Listesi"
-
 
 class BakiyeHareketleri(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
