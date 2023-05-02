@@ -100,6 +100,7 @@ class DirekGonderInline(admin.TabularInline):
 from django.utils.translation import gettext_lazy as _
 from django.contrib.admin import DateFieldListFilter
 from datetime import timedelta
+from django.contrib.admin.widgets import AdminDateWidget
 
 class DurumFilter(admin.SimpleListFilter):
     title = _('Durum')
