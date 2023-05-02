@@ -1109,3 +1109,106 @@ def VodafonePaketleriCek(request):
             KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID).delete()
 
     return HttpResponse(f'İşlem tamamlandı. Eklenen paketler: {eklenen_paketler}, silinen paketler: {silinen_paketler}')
+
+
+def TurkcellPaketleriCek(request):
+    eklenen_paketler=[]
+    silinen_paketler=[]
+    response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
+        'python': 'PaketCekTurkcellAll'
+    })
+    if response.status_code == 200:
+        data = response.content.decode('utf-8')
+        paketler = data.split('|')
+        for paket in paketler:
+            if not paket.strip():
+                continue
+            bilgiler = paket.split('/')
+            paketID = float(bilgiler[0])
+            Paket = bilgiler[1]
+            paketDK = float(bilgiler[2])
+            paketGB = float(bilgiler[3])
+            paketSMS = float(bilgiler[4])
+            paketFiyat = Decimal(bilgiler[5])
+            paketDay = float(bilgiler[6])
+            znetFix = Decimal(bilgiler[7]) if bilgiler[7].strip() and bilgiler[7] != 'Bulamadım.' else Decimal('0.00')
+            if bilgiler[8] == "evet":
+                alternatif_bilgisi = True
+            else:
+                alternatif_bilgisi = False
+            alternatifyapilmasin = alternatif_bilgisi
+            PaketNames = bilgiler[9]
+
+            KategorisiGelen = Kategori.objects.get(pk=1)
+            api1 = Apiler.objects.get(pk=3)
+            api2 = Apiler.objects.get(pk=2)
+            api3 = Apiler.objects.get(pk=1)
+            SatisFiyat = paketFiyat + Decimal('5.00')
+            GelenPaket = KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID)
+            if GelenPaket.exists():
+                #print("Paket ---Update girdim")
+                # güncelleme işlemi yapılır
+                PaketiGuncelle = GelenPaket.first()
+                PaketiGuncelle.Urun_adi = PaketNames
+                PaketiGuncelle.Urun_Detay = Paket
+                PaketiGuncelle.Kupur = paketID
+                PaketiGuncelle.zNetKupur = znetFix
+                PaketiGuncelle.GunSayisi = paketDay
+                PaketiGuncelle.MaliyetFiyat = paketFiyat
+                PaketiGuncelle.SatisFiyat = SatisFiyat
+                PaketiGuncelle.HeryoneDK = paketDK
+                PaketiGuncelle.Sebekeici = Decimal('0.00')
+                PaketiGuncelle.internet = paketGB
+                PaketiGuncelle.SMS = paketSMS
+                PaketiGuncelle.api3 = api3
+                PaketiGuncelle.AlternatifYapilmasin = alternatifyapilmasin
+
+                PaketiGuncelle.save()
+
+            else:
+                eklenen_paketler.append(str(paketID))
+                # yeni kayıt oluşturma işlemi yapılır
+                paketEkle = KontorList(
+                    Kupur=paketID,
+                    Urun_adi=PaketNames,
+                    Urun_Detay=Paket,
+                    GunSayisi=paketDay,
+                    MaliyetFiyat=paketFiyat,
+                    SatisFiyat=Decimal(int(paketFiyat) + 5),
+                    HeryoneDK=paketDK,
+                    Sebekeici=Decimal('0.00'),
+                    internet=Decimal(str(int(paketGB) * 1000)),
+                    SMS=paketSMS,
+                    YurtDisiDk=Decimal('0.00'),
+                    Aktifmi=True,
+                    Kategorisi=KategorisiGelen,
+                    api1=api1,
+                    api2=api2,
+                    zNetKupur=znetFix,
+                    AlternatifYapilmasin = alternatifyapilmasin
+                )
+                paketEkle.save()
+
+    # Vodafoneye ait Mevcut paketleri veritabanından getir
+    KategorisiGelen = Kategori.objects.get(pk=1)
+    mevcut_paketler = KontorList.objects.filter(Kategorisi=KategorisiGelen)
+
+    # Olmayah Paketleri Siler
+    # Gelen listedeki her bir paketi döngü ile kontrol et
+    kontrol = []
+
+    for paketi in paketler:
+        if not paketi.strip():
+            continue
+        bilgiler = paketi.split('/')
+        paketID = float(bilgiler[0])
+        kontrol.append(paketID)
+
+    mevcut_paketler = KontorList.objects.filter(Kategorisi=KategorisiGelen)
+    for paket in mevcut_paketler:
+        paketID = paket.Kupur
+        if paketID not in kontrol:
+            silinen_paketler.append(str(paketID))
+            KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID).delete()
+
+    return HttpResponse(f'İşlem tamamlandı. Eklenen paketler: {eklenen_paketler}, silinen paketler: {silinen_paketler}')
