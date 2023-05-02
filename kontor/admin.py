@@ -357,7 +357,7 @@ class Bayi_Bakiyeleri(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj and obj.islem_durumu == 'borc_ve_bakiye_ekle':
-            return ['banka_adi']
+            return ['secili_banka']
         return []
 
 @admin.register(BakiyeHareketleri)
