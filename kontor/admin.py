@@ -143,6 +143,7 @@ class AdminSiparisler(admin.ModelAdmin):
     search_fields = ("Numara",)
    # list_filter = ("Operator","Durum",)
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
+    date_hierarchy = 'OlusturmaTarihi'
 
     list_filter = (DurumFilter,('OlusturmaTarihi', DateFieldListFilter))
 
