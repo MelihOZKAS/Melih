@@ -358,6 +358,7 @@ class Bayi_Listesi(models.Model):
         # En son Bayi_Listesi nesnesini kaydet
         super(Bayi_Listesi, self).save(*args, **kwargs)
 
+
         # Tutar alanını sıfırla
         self.Tutar = 0
         super(Bayi_Listesi, self).save(update_fields=['Tutar'])
