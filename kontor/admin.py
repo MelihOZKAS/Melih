@@ -355,6 +355,11 @@ class AdminApiKagetori(admin.ModelAdmin):
 class Bayi_Bakiyeleri(admin.ModelAdmin):
     list_display = ('user', 'Bayi_Bakiyesi')
 
+    def get_readonly_fields(self, request, obj=None):
+        if obj and obj.islem_durumu == 'borc_ve_bakiye_ekle':
+            return ['banka_adi']
+        return []
+
 @admin.register(BakiyeHareketleri)
 class BakiyeHareketleriAdmin(admin.ModelAdmin):
     list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')

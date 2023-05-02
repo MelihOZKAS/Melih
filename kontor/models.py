@@ -360,7 +360,7 @@ class Bayi_Listesi(models.Model):
         ('borc_ve_bakiye_ekle', 'Hem Borç Hem Bakiye Ekle'),
         ('bakiye_dus', 'Bakiye Düş'),
         ('sadece_borc_ekle', 'Sadece Borç Ekle'),
-    ))
+    ), default='islem_sec')
 
 
 
