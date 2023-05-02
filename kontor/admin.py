@@ -359,7 +359,7 @@ class Bayi_Bakiyeleri(admin.ModelAdmin):
 
 @admin.register(BakiyeHareketleri)
 class BakiyeHareketleriAdmin(admin.ModelAdmin):
-    list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
+    list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'onceki_Borc', 'sonraki_Borc','tarih', 'aciklama')
 
 
 
