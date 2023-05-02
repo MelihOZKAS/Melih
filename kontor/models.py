@@ -353,7 +353,6 @@ class Bayi_Listesi(models.Model):
         # Sonra seçili bankanın bakiyesine de tutarı ekle
         if self.secili_banka is not None and self.Tutar > 0:
             self.secili_banka.bakiye += self.Tutar
-            self.secili_banka = None
             self.secili_banka.save()
 
         # En son Bayi_Listesi nesnesini kaydet
@@ -361,17 +360,8 @@ class Bayi_Listesi(models.Model):
 
         # Tutar alanını sıfırla
         self.Tutar = 0
-        super(Bayi_Listesi, self).save(update_fields=['Tutar'])
-
-    class Meta:
-        verbose_name = "Bayi Listesi"
-        verbose_name_plural = "Bayi Listesi"
-
-    class Meta:
-        verbose_name = "Bayi Listesi"
-        verbose_name_plural = "Bayi Listesi"
-
-
+        self.secili_banka = None
+        self.save(update_fields=['Tutar', 'secili_banka'])
 
     class Meta:
         verbose_name = "Bayi Listesi"
