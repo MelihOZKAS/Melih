@@ -353,8 +353,10 @@ class Bayi_Bakiyeleri(admin.ModelAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
-        form.base_fields['secili_banka'].initial = None
+        if obj is None:
+            form.base_fields['secili_banka'].initial = None
         return form
+
 
 @admin.register(BakiyeHareketleri)
 class BakiyeHareketleriAdmin(admin.ModelAdmin):
