@@ -310,6 +310,9 @@ class YuklenecekSiparisler(models.Model):
 class Bayi_Listesi(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     Bayi_Bakiyesi = models.DecimalField(max_digits=10, decimal_places=2)
+    class Meta:
+        verbose_name = "Bayi Listesi"
+        verbose_name_plural = "Bayi Listesi"
 
 
 class BakiyeHareketleri(models.Model):
@@ -320,8 +323,8 @@ class BakiyeHareketleri(models.Model):
     tarih = models.DateTimeField(auto_now_add=True)
     aciklama = models.CharField(max_length=255)
     class Meta:
-        verbose_name = "Bayi Listesi"
-        verbose_name_plural = "Bayi Listesi"
+        verbose_name = "Bakiye Hareketleri"
+        verbose_name_plural = "Bakiye Hareketleri"
 
 
 
@@ -338,3 +341,7 @@ class Banka(models.Model):
 
     def __str__(self):
         return self.banka_adi
+
+    class Meta:
+        verbose_name = "Bankalar"
+        verbose_name_plural = "Bankalar"
