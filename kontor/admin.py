@@ -99,6 +99,7 @@ class DirekGonderInline(admin.TabularInline):
 
 from django.utils.translation import gettext_lazy as _
 from django.contrib.admin import DateFieldListFilter
+
 class DurumFilter(admin.SimpleListFilter):
     title = _('Durum')
     parameter_name = 'Durum'
@@ -145,7 +146,7 @@ class AdminSiparisler(admin.ModelAdmin):
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
     date_hierarchy = 'OlusturmaTarihi'
 
-    list_filter = (DurumFilter,('OlusturmaTarihi', DateFieldListFilter))
+    list_filter = (DurumFilter,('OlusturmaTarihi', date_hierarchy))
 
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
