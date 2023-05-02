@@ -152,7 +152,7 @@ class AdminSiparisler(admin.ModelAdmin):
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
     date_hierarchy = 'OlusturmaTarihi'
 
-    list_filter = (DurumFilter,('OlusturmaTarihi', CustomDateFilter))
+    list_filter = (DurumFilter,('OlusturmaTarihi', CustomDateFilter),)
 
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
