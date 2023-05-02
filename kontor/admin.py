@@ -141,65 +141,6 @@ class DurumFilter(admin.SimpleListFilter):
            # return queryset.filter(Durum=Durumlar.ISLEMDE)
 
 
-class CustomDateFilter(DateFieldListFilter):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.lookup_kwarg_since = '%s__gte' % self.field_path
-        self.lookup_kwarg_until = '%s__lte' % self.field_path
-        self.lookup_kwarg_range = '%s__range' % self.field_path
-        self.widget = CustomAdminDateWidget
-
-    def queryset(self, request, queryset):
-        if self.value():
-            start_date = self.value().get('since')
-            end_date = self.value().get('until')
-            if start_date and end_date:
-                queryset = queryset.filter(**{
-                    self.lookup_kwarg_range: (start_date, end_date)
-                })
-            elif start_date:
-                queryset = queryset.filter(**{
-                    self.lookup_kwarg_since: start_date
-                })
-            elif end_date:
-                queryset = queryset.filter(**{
-                    self.lookup_kwarg_until: end_date
-                })
-        return queryset
-
-    def choices(self, changelist):
-        yield {
-            'selected': self.value() is None,
-            'query_string': changelist.get_query_string(
-                remove=[self.lookup_kwarg_range, self.lookup_kwarg_since, self.lookup_kwarg_until]),
-            'display': 'All',
-        }
-        now = timezone.now()
-        for title, days in (
-                ('Today', 1),
-                ('Past 7 days', 7),
-                ('This month', now.day),
-                ('This year', now.timetuple().tm_yday),
-        ):
-            since = (now - datetime.timedelta(days=days)).strftime('%Y-%m-%d')
-            until = now.strftime('%Y-%m-%d')
-            url_params = changelist.params.copy()
-            if self.lookup_kwarg_range in url_params:
-                del url_params[self.lookup_kwarg_range]
-            if self.lookup_kwarg_since in url_params:
-                del url_params[self.lookup_kwarg_since]
-            if self.lookup_kwarg_until in url_params:
-                del url_params[self.lookup_kwarg_until]
-            if since == until:
-                title = since
-            else:
-                title = '%s to %s' % (since, until)
-            yield {
-                'selected': self.value() == {'since': since, 'until': until},
-                'query_string': changelist.get_query_string(
-                    {self.lookup_kwarg_since: since, self.lookup_kwarg_until: until}),
-                'display': title,
-            }
 class AdminSiparisler(admin.ModelAdmin):
     inlines = [YuklenecekSiparislerInline,DirekGonderInline]
     list_display = ("id","Numara","PaketAdi","SanalTutar","Operator","OperatorTip","PaketKupur","Durum","BayiAciklama","ManuelApi","OlusturmaTarihi","gecen_sure",)
@@ -208,7 +149,7 @@ class AdminSiparisler(admin.ModelAdmin):
     readonly_fields = ('PaketKupur',)#tam ortada 'SorguPaketID',    'Aciklama',
     date_hierarchy = 'OlusturmaTarihi'
 
-    list_filter = (DurumFilter,('OlusturmaTarihi', CustomDateFilter),)
+    list_filter = (DurumFilter,)
 
 
     actions = ["tamamlandi_action","BeklemeyeAL_action","iptalEt_action"]
