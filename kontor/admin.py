@@ -353,7 +353,7 @@ class AdminApiKagetori(admin.ModelAdmin):
 
 @admin.register(Bayi_Listesi)
 class Bayi_Bakiyeleri(admin.ModelAdmin):
-    list_display = ('user', 'Bayi_Bakiyesi')
+    list_display = ('user', 'Bayi_Bakiyesi','Borc')
 
 
 

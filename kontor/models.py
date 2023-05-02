@@ -375,7 +375,6 @@ class Bayi_Listesi(models.Model):
 
 
         if self.islem_durumu == "nakit_ekle":
-
             self.Bayi_Bakiyesi += self.Tutar
             # Sonra seçili bankanın bakiyesine de tutarı ekle
             if self.secili_banka is not None and self.Tutar > 0:
@@ -386,6 +385,11 @@ class Bayi_Listesi(models.Model):
         elif self.islem_durumu == "borc_ve_bakiye_ekle":
             self.Bayi_Bakiyesi += self.Tutar
             self.Borc += self.Tutar
+        elif self.islem_durumu == "bakiye_dus":
+            self.Bayi_Bakiyesi -= self.Tutar
+        elif self.islem_durumu == "sadece_borc_ekle":
+            self.Borc += self.Tutar
+
 
         # En son Bayi_Listesi nesnesini kaydet
 
@@ -400,7 +404,7 @@ class Bayi_Listesi(models.Model):
             onceki_Borc=onceki_Borc,
             sonraki_Borc=sonraki_Borc,
 #            tarih=timezone.now(),
-            aciklama='BankaBakiyesi Eklendi',
+            aciklama=f'{self.islem_durumu} bakiye işlemi yapildi.',
 
         )
         bakiye_hareketi.save()
