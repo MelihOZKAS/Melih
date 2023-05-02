@@ -351,6 +351,11 @@ class AdminApiKagetori(admin.ModelAdmin):
 class Bayi_Bakiyeleri(admin.ModelAdmin):
     list_display = ('user', 'Bayi_Bakiyesi')
 
+    def save_model(self, request, obj, form, change):
+        if obj.secili_banka is None:
+            obj.secili_banka = Banka.objects.first()  # varsayılan banka ataması
+        obj.save()
+
 @admin.register(BakiyeHareketleri)
 class BakiyeHareketleriAdmin(admin.ModelAdmin):
     list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
