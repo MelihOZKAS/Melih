@@ -355,6 +355,14 @@ class AdminApiKagetori(admin.ModelAdmin):
 class Bayi_Bakiyeleri(admin.ModelAdmin):
     list_display = ('user', 'Bayi_Bakiyesi')
 
+    class Meta:
+        model = Bayi_Listesi
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['secili_banka'].initial = None
+
 @admin.register(BakiyeHareketleri)
 class BakiyeHareketleriAdmin(admin.ModelAdmin):
     list_display = ('user', 'islem_tutari', 'onceki_bakiye', 'sonraki_bakiye', 'tarih', 'aciklama')
