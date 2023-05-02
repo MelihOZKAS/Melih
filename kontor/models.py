@@ -344,15 +344,27 @@ class Bayi_Listesi(models.Model):
     secili_banka = models.ForeignKey(Banka, on_delete=models.CASCADE,null=True)
 
     def save(self, *args, **kwargs):
+        if self.pk is None:  # Yeni bir nesne oluşturuluyorsa
+            self.Tutar = 0  # Tutar alanını sıfırla
+
         # Önce bayi bakiyesine tutarı ekle
         self.Bayi_Bakiyesi += self.Tutar
 
         # Sonra seçili bankanın bakiyesine de tutarı ekle
-        self.secili_banka.bakiye += self.Tutar
-        self.secili_banka.save()
+        if self.secili_banka is not None and self.Tutar > 0:
+            self.secili_banka.bakiye += self.Tutar
+            self.secili_banka.save()
 
         # En son Bayi_Listesi nesnesini kaydet
         super(Bayi_Listesi, self).save(*args, **kwargs)
+
+        # Tutar alanını sıfırla
+        self.Tutar = 0
+        super(Bayi_Listesi, self).save(update_fields=['Tutar'])
+
+    class Meta:
+        verbose_name = "Bayi Listesi"
+        verbose_name_plural = "Bayi Listesi"
 
     class Meta:
         verbose_name = "Bayi Listesi"
