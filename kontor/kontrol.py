@@ -620,29 +620,29 @@ def AnaPaketSonucKontrol():
                 if Siparis.Gonderim_Sirasi == 3:
                     print("Girdim3")
                     api = Siparis.api3
-            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+            if api.ApiTuruadi == 'Znet' or api.ApiTuruadi == "Gencan":
                 url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={Siparis.SanalRef}"
-            elif ApiTuruadi == "grafi":
+            elif api.ApiTuruadi == "grafi":
                 url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullaniciadi}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={Siparis.SanalRef}"
             response = requests.get(url)
             response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
             print(response.text)
-            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+            if api.ApiTuruadi == 'Znet' or api.ApiTuruadi == "Gencan":
                 response = response.text.split(":")
-            elif ApiTuruadi == "grafi":
+            elif api.ApiTuruadi == "grafi":
                 response = response.text.split(" ")
             GelenAciklama = Siparis.Aciklama
 
             if response[0] == "1" or response[0] == "OK":
                 Siparis.Durum = Basarili
                 Siparis.SonucTarihi = timezone.now()
-                if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                if api.ApiTuruadi == 'Znet' or api.ApiTuruadi == "Gencan":
                     if response[1] == "":
                         print("NasipGrimesi lazım")
                         Siparis.BayiAciklama = "Basarili"
                     else:
                         Siparis.BayiAciklama = response[1]
-                elif ApiTuruadi == "grafi":
+                elif api.ApiTuruadi == "grafi":
                     Siparis.BayiAciklama = "Basarili"
                     api.ApiBakiye -= Decimal(response[1])
                     Siparis.SanalTutar = response[1]
