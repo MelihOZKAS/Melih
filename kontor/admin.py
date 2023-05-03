@@ -305,6 +305,15 @@ def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
                         eslestirme_operator_tipi=GelenRef[1],
                         eslestirme_kupur=kontor.Kupur
                     )
+                elif SecilenApi == "grafi":
+                    VodafonePaketler.objects.create(
+                        apiler=api,
+                        urun_adi=kontor.Urun_adi,
+                        kupur=kontor.Kupur,
+                        #eslestirme_operator_adi="vodafone",
+                        #eslestirme_operator_tipi="ses",
+                        eslestirme_kupur=0
+                    )
                 else:
                     print("Nasip Patladık.")
 

@@ -46,42 +46,67 @@ def AnaPaketGonder():
                 print(str(eslestirme_operator_adi) + " " + str(eslestirme_operator_tipi) + " " + str(eslestirme_kupur))
             #                eslestirme_kupur = eslestirme_kupur.replace('.00','')
 
-            linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullanicikodu}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={Siparis.Numara}&tekilnumara={gidenRefNumarasi}"
-            url = linki
-            print(linki)
+                url = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={Siparis.Numara}&tekilnumara={gidenRefNumarasi}"
+            elif ApiTuruadi == "grafi":
+                paketler = VodafonePaketler.objects.filter(apiler=api)
+                # Filtrelenmiş paketler listesinden, belirli bir kupür için ilgili bilgileri alın
+                paket = paketler.filter(kupur=Siparis.PaketKupur).values('eslestirme_kupur').first()
+                # İstenen bilgileri değişkenlere atayın
+                eslestirme_kupur = paket['eslestirme_kupur']
+                url = f"https://www.{api.SiteAdresi}/api/islemal.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&ope={eslestirme_kupur}&turu=5&miktar=0&telno={Siparis.Numara}&ref={gidenRefNumarasi}"
+
             response = requests.get(url)
             print(response.text)
             # TODO: işlem için Verilen Yeni Ref kayıt Yeri --- OK
             # TODO: işlem için Çekilen Tutarı kaydet olumlu olursa zaten düşmüş oluyorsun olumsuz olursa eklemen lazım.
             # TODO: işlem için Api ID si
-            response = response.text.split("|")
-            GelenAciklama = Siparis.Aciklama
-            if response[0] == "OK":
-                if response[1] == "1":
-                    Siparis.SanalTutar = response[3]
-                    Siparis.SanalRef = gidenRefNumarasi
+            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                response = response.text.split("|")
+                GelenAciklama = Siparis.Aciklama
+                if response[0] == "OK":
+                    if response[1] == "1":
+                        Siparis.SanalTutar = response[3]
+                        Siparis.SanalRef = gidenRefNumarasi
+                        Siparis.Durum = AnaPaketSonucBekler
+                        Siparis.save()
+                        api.ApiBakiye -= Decimal(response[3])
+                        api.save()
+                        Sonuc = response[2]
+
+                    elif response[1] == "8" or response[1] == "3":
+                        # Cevabı işleyin ve veritabanına kaydedin
+                        # ...
+                        Siparis.Durum = askida
+                        Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + response[2]+" \n"
+                        Siparis.save()
+                        Sonuc = response[2]
+
+                    else:
+                        # Cevabı işleyin ve veritabanına kaydedin
+                        # ...
+                        Siparis.Durum = askida
+                        Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + response[2]+" \n"
+                        Siparis.save()
+                        Sonuc = response[2]
+
+                    return Sonuc
+
+            elif ApiTuruadi == "grafi":
+                response = response.text.split(" ")
+                GelenAciklama = Siparis.Aciklama
+                if response[0] == "OK":
+                    Siparis.SanalRef = response[1]
                     Siparis.Durum = AnaPaketSonucBekler
                     Siparis.save()
-                    api.ApiBakiye -= Decimal(response[3])
                     api.save()
-                    Sonuc = response[2]
-                    return Sonuc
-                elif response[1] == "8" or response[1] == "3":
-                    # Cevabı işleyin ve veritabanına kaydedin
-                    # ...
-                    Siparis.Durum = askida
-                    Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + response[2]+" \n"
-                    Siparis.save()
-                    Sonuc = response[2]
-                    return Sonuc
+                    Sonuc = response
                 else:
-                    # Cevabı işleyin ve veritabanına kaydedin
-                    # ...
                     Siparis.Durum = askida
-                    Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + response[2]+" \n"
+                    Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + response + " \n"
                     Siparis.save()
-                    Sonuc = response[2]
-                    return Sonuc
+                    Sonuc = response
+                return Sonuc
+
         else:
             Sonuc = "Hiç Sipariş Yok"
             return Sonuc
@@ -565,10 +590,6 @@ def AlternatifSonucKontrol():
                     alternatifOrder.Gonderim_Sirasi = Sirasi
                     alternatifOrder.save()
                     ANA_Siparis.save()
-
-
-
-
     else:
         Sonuc = "Hiç Sipariş Yok"
         return Sonuc
@@ -599,36 +620,45 @@ def AnaPaketSonucKontrol():
                 if Siparis.Gonderim_Sirasi == 3:
                     print("Girdim3")
                     api = Siparis.api3
-
-            linki = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullanicikodu}&sifre={api.Sifre}&tekilnumara={Siparis.SanalRef}"
-            print(linki)
-            url = linki
+            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={Siparis.SanalRef}"
+            elif ApiTuruadi == "grafi":
+                url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullaniciadi}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={Siparis.SanalRef}"
             response = requests.get(url)
             response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
             print(response.text)
-            response = response.text.split(":")
+            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                response = response.text.split(":")
+            elif ApiTuruadi == "grafi":
+                response = response.text.split(" ")
             GelenAciklama = Siparis.Aciklama
 
-            if response[0] == "1":
+            if response[0] == "1" or response[0] == "OK":
                 Siparis.Durum = Basarili
                 Siparis.SonucTarihi = timezone.now()
-                if response[1] == "":
-                    print("NasipGrimesi lazım")
+                if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                    if response[1] == "":
+                        print("NasipGrimesi lazım")
+                        Siparis.BayiAciklama = "Basarili"
+                    else:
+                        Siparis.BayiAciklama = response[1]
+                elif ApiTuruadi == "grafi":
                     Siparis.BayiAciklama = "Basarili"
-                else:
-                    Siparis.BayiAciklama = response[1]
+                    api.ApiBakiye -= Decimal(response[1])
+                    Siparis.SanalTutar = response[1]
+
+
 
                 Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ response[1] + "\n"
                 Siparis.save()
-                Sonuc = response[2]
-                print("Durum güncellendi.")
+                Sonuc = "Basarili İslem"
                 return Sonuc
-            elif response[0] == "2":
+            elif response[0] == "2" or response[0] == "99":
                 Sonuc = "Henüz işlemde"
                 return Sonuc
-            elif response[0] == "3":
-
-                api.ApiBakiye += Decimal(Siparis.SanalTutar)
+            elif response[0] == "3" or response[0] == "98":
+                if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                    api.ApiBakiye += Decimal(Siparis.SanalTutar)
                 Sirasi = Siparis.Gonderim_Sirasi +1
                 if Sirasi == 2:
                     print("Girdim2")
