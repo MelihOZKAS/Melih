@@ -622,29 +622,29 @@ def AnaPaketSonucKontrol():
                     api = Siparis.api3
             ApiTuru = api.ApiTuru
             ApiTuruadi = ApiTuru.ApiYazilimAdi
-            if api.ApiTuruadi == 'Znet' or api.ApiTuruadi == "Gencan":
+            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                 url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={Siparis.SanalRef}"
-            elif api.ApiTuruadi == "grafi":
+            elif ApiTuruadi == "grafi":
                 url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullaniciadi}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={Siparis.SanalRef}"
             response = requests.get(url)
             response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
             print(response.text)
-            if api.ApiTuruadi == 'Znet' or api.ApiTuruadi == "Gencan":
+            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                 response = response.text.split(":")
-            elif api.ApiTuruadi == "grafi":
+            elif ApiTuruadi == "grafi":
                 response = response.text.split(" ")
             GelenAciklama = Siparis.Aciklama
 
             if response[0] == "1" or response[0] == "OK":
                 Siparis.Durum = Basarili
                 Siparis.SonucTarihi = timezone.now()
-                if api.ApiTuruadi == 'Znet' or api.ApiTuruadi == "Gencan":
+                if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                     if response[1] == "":
                         print("NasipGrimesi lazım")
                         Siparis.BayiAciklama = "Basarili"
                     else:
                         Siparis.BayiAciklama = response[1]
-                elif api.ApiTuruadi == "grafi":
+                elif ApiTuruadi== "grafi":
                     Siparis.BayiAciklama = "Basarili"
                     api.ApiBakiye -= Decimal(response[1])
                     Siparis.SanalTutar = response[1]
