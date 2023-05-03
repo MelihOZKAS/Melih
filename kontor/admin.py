@@ -84,12 +84,13 @@ class YuklenecekSiparislerInline(admin.TabularInline):
     list_filter = ['Yuklenecek_Api_1', 'Yuklenecek_Api_2']
 
     def get_queryset(self, request):
+        Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
         qs = super().get_queryset(request)
-        return qs.filter(YuklenecekPaketDurumu__DurumAdi="Başarılı").values_list('Yukelenecek_Numara__id', flat=True)
+        return qs.filter(YuklenecekPaketDurumu__DurumAdi=Basarili).values_list('Yukelenecek_Numara__id', flat=True)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "YuklenecekPaketDurumu":
-            queryset = Durumlar.objects.filter(DurumAdi="Başarılı")
+            queryset = Durumlar.objects.filter(DurumAdi=Basarili)
             attrs = {"style": "color:red;"}
             if self.get_queryset(request):
                 attrs = {"style": "color:green;"}
