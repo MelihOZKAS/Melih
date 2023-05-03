@@ -620,6 +620,8 @@ def AnaPaketSonucKontrol():
                 if Siparis.Gonderim_Sirasi == 3:
                     print("Girdim3")
                     api = Siparis.api3
+            ApiTuru = api.ApiTuru
+            ApiTuruadi = ApiTuru.ApiYazilimAdi
             if api.ApiTuruadi == 'Znet' or api.ApiTuruadi == "Gencan":
                 url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={Siparis.SanalRef}"
             elif api.ApiTuruadi == "grafi":
