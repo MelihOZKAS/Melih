@@ -1160,7 +1160,7 @@ def TurkcellPaketleriCek(request):
             paketID = float(bilgiler[0])
             Paket = bilgiler[1]
             paketDK = float(bilgiler[2])
-            paketGB = float(bilgiler[3])
+            paketGB = str(int(bilgiler[3]) * 1000) #    str(int(bilgiler[3]) * 1000)
             paketSMS = float(bilgiler[4])
             paketFiyat = Decimal(bilgiler[5])
             paketDay = float(bilgiler[6])
@@ -1210,7 +1210,7 @@ def TurkcellPaketleriCek(request):
                     SatisFiyat=Decimal(int(paketFiyat) + 5),
                     HeryoneDK=paketDK,
                     Sebekeici=Decimal('0.00'),
-                    internet=Decimal(str(int(paketGB) * 1000)),
+                    internet=Decimal(paketGB),
                     SMS=paketSMS,
                     YurtDisiDk=Decimal('0.00'),
                     Aktifmi=True,
