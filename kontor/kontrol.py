@@ -1160,7 +1160,7 @@ def TurkcellPaketleriCek(request):
             paketID = float(bilgiler[0])
             Paket = bilgiler[1]
             paketDK = float(bilgiler[2])
-            paketGB = bilgiler[3]  #    str(int(bilgiler[3]) * 1000)
+            paketGB = float(bilgiler[3])*1000  #    str(int(bilgiler[3]) * 1000)
             print(paketGB)
             print('YUkardaa+++++')
             paketSMS = float(bilgiler[4])
