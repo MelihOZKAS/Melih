@@ -784,21 +784,34 @@ def AlternatifKontrol(request):
         # AnaPaketVar mi Kontrollü
 
         #vergiList=['8703','7353','7354','7355']
+        print(cikan_idler)
 
         vergiTutari = "Nasip"
         if len(cikan_idler) == 0:
             if '8703.00' in PaketSorguListesi:
                 print("En az 18TL lik vergi Borcu var.")
                 vergiTutari = "En az 18TL yüklemesi gerekiyor vergi borcu var."
+            if '8703' in PaketSorguListesi:
+                print("En az 18TL lik vergi Borcu var.")
+                vergiTutari = "En az 18TL yüklemesi gerekiyor vergi borcu var-"
             if '7353.00' in PaketSorguListesi:
                 print("En az 36TL lik vergi Borcu var.")
                 vergiTutari = "En az 36TL yüklemesi gerekiyor vergi borcu var."
+            if '7353' in PaketSorguListesi:
+                print("En az 36TL lik vergi Borcu var.")
+                vergiTutari = "En az 36TL yüklemesi gerekiyor vergi borcu var-"
             if '7354.00' in PaketSorguListesi:
                 print("En az 54TL lik vergi Borcu var.")
                 vergiTutari = "En az 54TL yüklemesi gerekiyor vergi borcu var."
+            if '7354' in PaketSorguListesi:
+                print("En az 54TL lik vergi Borcu var.")
+                vergiTutari = "En az 54TL yüklemesi gerekiyor vergi borcu var-"
             if '7355.00' in PaketSorguListesi:
                 print("En az 72TL lik vergi Borcu var.")
                 vergiTutari = "En az 72TL yüklemesi gerekiyor vergi borcu var."
+            if '7355' in PaketSorguListesi:
+                print("En az 72TL lik vergi Borcu var.")
+                vergiTutari = "En az 72TL yüklemesi gerekiyor vergi borcu var-"
             if vergiTutari != "Nasip":
                 siparis.Durum = iptalEdildi
                 siparis.SonucTarihi = timezone.now()
