@@ -651,11 +651,11 @@ def AnaPaketSonucKontrol():
                 elif ApiTuruadi== "grafi":
                     Siparis.BayiAciklama = "Basarili"
                     api.ApiBakiye -= Decimal(response[1].replace(" ",""))
-                    Siparis.SanalTutar = response[1]
+                    Siparis.SanalTutar = response[1].replace(" ","")
 
 
 
-                Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ response[1] + "\n"
+                Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ str(response[1]) + "\n"
                 Siparis.save()
                 Sonuc = "Basarili İslem"
                 return Sonuc
