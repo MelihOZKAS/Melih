@@ -274,12 +274,13 @@ class VodafoneSesInlineForm(forms.ModelForm):
 class VodafoneSesInline(admin.TabularInline):
     model = VodafonePaketler
     extra = 1
+    form = VodafoneSesInlineForm
 
 
 class TurkcellInline(admin.TabularInline):
     model = Turkcell
     extra = 1
-    form = VodafoneSesInlineForm
+
 
 
 def add_all_kontors_to_api(modeladmin, request, queryset):
