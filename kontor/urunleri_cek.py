@@ -25,7 +25,7 @@ def paketlericek(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
             SabitSifir = i
         if AradakiHesaplayici == 5:
             kupurFiyati = i
-            grafiTutar = round(float(str(kupurFiyati).replace(" ", "").replace(",", ".")), 2)
+            grafiTutar = Decimal(str(kupurFiyati).replace(" ", "").replace(",", "."))
         if AradakiHesaplayici == 6:
             Tipi = i
         if AradakiHesaplayici == 7:
