@@ -251,24 +251,35 @@ class AdminKategoriListesi(admin.ModelAdmin):
     list_display = ("id","GorunecekName","KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
     list_editable = ("KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
 
+class VodafoneSesInlineForm(forms.ModelForm):
+    class Meta:
+        model = VodafonePaketler
+        exclude = []
+
+    Apiden_gelenler = forms.ModelChoiceField(
+        queryset=ApidenCekilenPaketler.objects.all(),
+        to_field_name='id',
+        widget=forms.Select(attrs={'class': 'vIntegerField', 'onChange': 'update_values(this)'}),
+        label='Apiden Gelenler',
+        empty_label=None,
+        help_text='Choose an ApidenCekilenPaketler',
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['Apiden_gelenler'].label_from_instance = lambda obj: f"{obj.urun_adi} ({obj.kupur})"
+
+
 
 class VodafoneSesInline(admin.TabularInline):
     model = VodafonePaketler
     extra = 1
 
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "Apiden_gelenler":
-            kwargs["queryset"] = ApidenCekilenPaketler.objects.all()
-            kwargs["to_field_name"] = "id"
-            kwargs["widget"] = forms.Select(attrs={'class': 'vIntegerField', 'onChange': 'update_values(this)'})
-            kwargs["label_from_instance"] = lambda obj: f"{obj.urun_adi} ({obj.kupur})"
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-
 class TurkcellInline(admin.TabularInline):
     model = Turkcell
     extra = 1
+    form = VodafoneSesInlineForm
 
 
 def add_all_kontors_to_api(modeladmin, request, queryset):
