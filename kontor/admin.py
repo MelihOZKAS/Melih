@@ -283,15 +283,11 @@ def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
         print(type(api.ApiTuru))
         kontor_listesi = KontorList.objects.filter(Kategorisi__in=[3])
         for kontor in kontor_listesi:
-            # Kontör ile ilgili Vodafone paketi zaten var mı diye kontrol edelim
-            vodafone_paketi_var_mi = VodafonePaketler.objects.filter(
-                apiler=api,
-                urun_adi=kontor.Urun_adi,
-                kupur=kontor.Kupur,
-                eslestirme_kupur=kontor.Kupur
-            ).exists()
-
-            if not vodafone_paketi_var_mi:
+            try:
+                paket = VodafonePaketler.objects.get(apiler=api, urun_adi=kontor.Urun_adi, kupur=kontor.Kupur,
+                                                     eslestirme_kupur=kontor.Kupur)
+                print("Paket zaten ekli: ", paket)
+            except VodafonePaketler.DoesNotExist:
                 if SecilenApi == "Znet":
                     VodafonePaketler.objects.create(
                         apiler=api,
@@ -323,6 +319,7 @@ def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
                     )
                 else:
                     print("Nasip Patladık.")
+
         #for kontor in kontor_listesi:
         #    if not VodafonePaketler.objects.filter(apiler=api, urun_adi=kontor.Urun_adi, kupur=kontor.Kupur, eslestirme_kupur=kontor.Kupur).exists():
         #        if SecilenApi == "Znet":
