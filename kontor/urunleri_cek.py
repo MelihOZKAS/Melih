@@ -37,7 +37,7 @@ def paketlericek(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
         if AradakiHesaplayici == 8:
             AradakiHesaplayici = 1
 
-            print(str(Api)+paketAdi+paketKupur+grafiTutar+Tipi)
+            #print(str(Api)+paketAdi+paketKupur+grafiTutar+Tipi)
             #if not ApidenCekilenPaketler.objects.filter(apiler=Api, kupur=paketKupur).exists():
             ApidenCekilenPaketler.objects.create(
                 apiler=Api,
