@@ -54,7 +54,7 @@ def AnaPaketGonder():
                 # İstenen bilgileri değişkenlere atayın
                 eslestirme_kupur = paket['eslestirme_kupur']
                 url = f"https://{api.SiteAdresi}/api/islemal.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&ope={eslestirme_kupur}&turu=5&miktar=0&telno={Siparis.Numara}&ref={gidenRefNumarasi}"
-
+                print(url)
             response = requests.get(url)
             print(response.text)
             # TODO: işlem için Verilen Yeni Ref kayıt Yeri --- OK
