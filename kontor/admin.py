@@ -255,7 +255,7 @@ class AdminKategoriListesi(admin.ModelAdmin):
 class VodafoneSesInline(admin.TabularInline):
     model = VodafonePaketler
     extra = 1
-    form = VodafoneSesAdminForm
+
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "Apiden_gelenler":
