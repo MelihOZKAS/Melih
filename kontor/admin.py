@@ -301,14 +301,20 @@ class VodafoneSesInlineForm(forms.ModelForm):
     def save(self, commit=True):
         vodafone_paketler = super().save(commit=False)
         if vodafone_paketler.Apiden_gelenler:
-            apiden_gelenler = ApidenCekilenPaketler.objects.get(id=vodafone_paketler.Apiden_gelenler.id, apiler=vodafone_paketler.apiler)
+            apiden_gelenler = vodafone_paketler.Apiden_gelenler
             eslestirme_kupur = apiden_gelenler.kupur
             api_gelen_fiyat = apiden_gelenler.ApiGelen_fiyati
             vodafone_paketler.eslestirme_kupur = eslestirme_kupur
             vodafone_paketler.alis_fiyati = api_gelen_fiyat
+
+            # burada apinin id'sini alıyoruz ve bu id ile ilişkili olan paketleri filtreliyoruz
+            apinin_idsi = apiden_gelenler.apiler.id
+            vodafone_paketler.Apiden_gelenler = ApidenGelen.objects.filter(apiler__id=apinin_idsi)
+
         if commit:
             vodafone_paketler.save()
         return vodafone_paketler
+
 
 
 
