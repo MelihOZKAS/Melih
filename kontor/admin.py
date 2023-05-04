@@ -10,6 +10,7 @@ from django.forms import Select, RadioSelect, PasswordInput
 from django import forms
 import inspect
 from django.contrib.auth.models import User
+from .urunleri_cek import paketlericek
 
 
 # Register your models here.
@@ -354,7 +355,17 @@ def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
 
 add_Vodafone_kontors_to_api.short_description = "Seçilen API'ye Vodafone operatöründeki tüm kontörleri ekle"
 
+def PaketleriCek(modeladmin, request, queryset):
+    for api in queryset:
+        paketler = paketlericek(api,api.SiteAdresi,api.Kullanicikodu,api.Kullaniciadi,api.Sifre)
+        print(paketler)
 
+
+
+    #modeladmin.message_user(request, "Seçilen apilere ait tüm Turkcell kayıtları silindi.")
+
+
+PaketleriCek.short_description = "Seçilen API'lerin PaketleriniCek"
 
 def delete_turkcell(modeladmin, request, queryset):
     for api in queryset:
@@ -390,7 +401,7 @@ class AdminApiListesi(admin.ModelAdmin):
     toplam_kontor.short_description = 'Toplam Kontor'
 
     inlines = [TurkcellInline,VodafoneSesInline]
-    actions = [add_all_kontors_to_api,delete_turkcell,add_Vodafone_kontors_to_api,delete_vodafone]
+    actions = [PaketleriCek,add_all_kontors_to_api,delete_turkcell,add_Vodafone_kontors_to_api,delete_vodafone]
 
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
