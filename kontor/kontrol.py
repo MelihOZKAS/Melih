@@ -53,6 +53,7 @@ def AnaPaketGonder():
                 paket = paketler.filter(kupur=Siparis.PaketKupur).values('eslestirme_kupur').first()
                 # İstenen bilgileri değişkenlere atayın
                 eslestirme_kupur = paket['eslestirme_kupur']
+                eslestirme_kupur = str(eslestirme_kupur).replace(".00","")
                 url = f"https://{api.SiteAdresi}/api/islemal.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&ope={eslestirme_kupur}&turu=5&miktar=0&telno={Siparis.Numara}&ref={gidenRefNumarasi}"
                 print(url)
             response = requests.get(url)
