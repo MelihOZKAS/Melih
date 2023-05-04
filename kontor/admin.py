@@ -256,6 +256,20 @@ class AdminKategoriListesi(admin.ModelAdmin):
 class VodafoneSesInline(admin.TabularInline):
     model = VodafonePaketler
     extra = 1
+    form = VodafoneSesAdminForm
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "apiler":
+            kwargs["queryset"] = Apiler.objects.all().order_by('-ApiAktifmi')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        for form in formset:
+            form.fields['urun_adi'].label = 'Ürün Adı'
+            form.fields['kupur'].label = 'Küpür'
+        return formset
+
 class TurkcellInline(admin.TabularInline):
     model = Turkcell
     extra = 1
