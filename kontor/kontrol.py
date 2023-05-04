@@ -650,8 +650,8 @@ def AnaPaketSonucKontrol():
                         Siparis.BayiAciklama = response[1]
                 elif ApiTuruadi== "grafi":
                     Siparis.BayiAciklama = "Basarili"
-                    api.ApiBakiye -= Decimal(response[1].replace(" ",""))
-                    Siparis.SanalTutar = response[1].replace(" ","")
+                    api.ApiBakiye -= Decimal(response[1].replace(" ","").replace(",","."))
+                    Siparis.SanalTutar = response[1].replace(" ","").replace(",",".")
 
 
 
