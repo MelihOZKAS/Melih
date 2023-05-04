@@ -782,7 +782,7 @@ def AlternatifKontrol(request):
 
         #vergiList=['8703','7353','7354','7355']
 
-
+        vergiTutari = "Nasip"
         if len(cikan_idler) == 0:
             if '8703' in PaketSorguListesi:
                 print("En az 18TL lik vergi Borcu var.")
@@ -796,30 +796,31 @@ def AlternatifKontrol(request):
             if '7355' in PaketSorguListesi:
                 print("En az 72TL lik vergi Borcu var.")
                 vergiTutari = "En az 72TL yüklemesi gerekiyor vergi borcu var."
-            siparis.Durum = iptalEdildi
-            siparis.SonucTarihi = timezone.now()
-            siparis.BayiAciklama = vergiTutari + " Yükleme yaptıkran 5 DK sonra paketi gönderebilirsiniz."
-            # siparisler.BayiAciklama = siparis.SorguPaketID
-            siparis.save()
-            paket_tutari = Decimal('95.5')
-            user = User.objects.get(username=siparis.user)
-            Bayi = Bayi_Listesi.objects.get(user=user)
-            Onceki_Bakiye = Bayi.Bayi_Bakiyesi
-            onceki_Borc = Bayi.Borc
-            Bayi.Bayi_Bakiyesi += paket_tutari
-            Bayi.save()
-            SonrakiBakiye = Bayi.Bayi_Bakiyesi
-            sonraki_Borc = Bayi.Borc
+            if vergiTutari != "Nasip":
+                siparis.Durum = iptalEdildi
+                siparis.SonucTarihi = timezone.now()
+                siparis.BayiAciklama = vergiTutari + " Yükleme yaptıkran 5 DK sonra paketi gönderebilirsiniz."
+                # siparisler.BayiAciklama = siparis.SorguPaketID
+                siparis.save()
+                paket_tutari = Decimal('95.5')
+                user = User.objects.get(username=siparis.user)
+                Bayi = Bayi_Listesi.objects.get(user=user)
+                Onceki_Bakiye = Bayi.Bayi_Bakiyesi
+                onceki_Borc = Bayi.Borc
+                Bayi.Bayi_Bakiyesi += paket_tutari
+                Bayi.save()
+                SonrakiBakiye = Bayi.Bayi_Bakiyesi
+                sonraki_Borc = Bayi.Borc
 
-            hareket = BakiyeHareketleri(user=user,
-                                        islem_tutari=paket_tutari,
-                                        onceki_bakiye=Onceki_Bakiye,
-                                        sonraki_bakiye=SonrakiBakiye,
-                                        onceki_Borc=onceki_Borc,
-                                        sonraki_Borc=sonraki_Borc,
-                                        aciklama=f"{siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
-            hareket.save()
-            return "Oto İPTAL edildi"
+                hareket = BakiyeHareketleri(user=user,
+                                            islem_tutari=paket_tutari,
+                                            onceki_bakiye=Onceki_Bakiye,
+                                            sonraki_bakiye=SonrakiBakiye,
+                                            onceki_Borc=onceki_Borc,
+                                            sonraki_Borc=sonraki_Borc,
+                                            aciklama=f"{siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
+                hareket.save()
+                return "Oto İPTAL edildi"
 
 
 
