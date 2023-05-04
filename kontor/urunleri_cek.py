@@ -4,7 +4,7 @@ from .models import Apiler, ApidenCekilenPaketler
 
 
 def paketlericek(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
-    print(Api+siteadi+kullanicikodu+kullaniciadi+sifre)
+    print(str(Api)+siteadi+kullanicikodu+kullaniciadi+sifre)
     url = f"https://{siteadi}/api/paket_listesi.asp?bayikodu={kullanicikodu}&kadi={kullaniciadi}&sifre={sifre}"
     response = requests.get(url).text
     print(response)
