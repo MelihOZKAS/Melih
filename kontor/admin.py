@@ -251,6 +251,9 @@ class AdminKategoriListesi(admin.ModelAdmin):
     list_display = ("id","GorunecekName","KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
     list_editable = ("KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
 
+from django.db.models import F
+
+
 class VodafoneSesInlineForm(forms.ModelForm):
     class Meta:
         model = VodafonePaketler
@@ -259,11 +262,17 @@ class VodafoneSesInlineForm(forms.ModelForm):
     Apiden_gelenler = forms.ModelChoiceField(
         queryset=ApidenCekilenPaketler.objects.all(),
         to_field_name='id',
-        widget=forms.Select(attrs={'class': 'vIntegerField', 'onChange': 'update_values(this)'}),
+        widget=forms.Select(attrs={'class': 'vIntegerField'}),
         label='Apiden Gelenler',
         empty_label='-PaketSeçiniz.',
         help_text='Choose an ApidenCekilenPaketler',
     )
+
+    ESLESTIRME_KUPUR_CHOICES = tuple(
+        ApidenCekilenPaketler.objects.order_by().values_list('kupur', 'kupur').distinct()
+    )
+
+    Kupur = forms.ChoiceField(choices=ESLESTIRME_KUPUR_CHOICES)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
