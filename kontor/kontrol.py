@@ -627,6 +627,7 @@ def AnaPaketSonucKontrol():
                 url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={Siparis.SanalRef}"
             elif ApiTuruadi == "grafi":
                 url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullaniciadi}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={Siparis.SanalRef}"
+                print(url)
             response = requests.get(url)
             response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
             print(response.text)
