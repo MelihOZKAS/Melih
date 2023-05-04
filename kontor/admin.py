@@ -289,6 +289,8 @@ class VodafoneSesInlineForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.fields['Api'].queryset = AdminApiListesi.objects.all()
+
         apiden_gelenler = self.fields['Apiden_gelenler']
         apiden_gelenler.empty_label = '-Paket Seçiniz.'
 
@@ -306,14 +308,11 @@ class VodafoneSesInlineForm(forms.ModelForm):
             api_gelen_fiyat = apiden_gelenler.ApiGelen_fiyati
             vodafone_paketler.eslestirme_kupur = eslestirme_kupur
             vodafone_paketler.alis_fiyati = api_gelen_fiyat
-
-            # burada apinin id'sini alıyoruz ve bu id ile ilişkili olan paketleri filtreliyoruz
-            apinin_idsi = apiden_gelenler.apiler.id
-            vodafone_paketler.Apiden_gelenler = ApidenGelen.objects.filter(apiler__id=apinin_idsi)
-
+            vodafone_paketler.Api = apiden_gelenler.apiler
         if commit:
             vodafone_paketler.save()
         return vodafone_paketler
+
 
 
 
