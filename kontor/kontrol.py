@@ -53,7 +53,7 @@ def AnaPaketGonder():
                 paket = paketler.filter(kupur=Siparis.PaketKupur).values('eslestirme_kupur').first()
                 # İstenen bilgileri değişkenlere atayın
                 eslestirme_kupur = paket['eslestirme_kupur']
-                url = f"https://www.{api.SiteAdresi}/api/islemal.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&ope={eslestirme_kupur}&turu=5&miktar=0&telno={Siparis.Numara}&ref={gidenRefNumarasi}"
+                url = f"https://{api.SiteAdresi}/api/islemal.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&ope={eslestirme_kupur}&turu=5&miktar=0&telno={Siparis.Numara}&ref={gidenRefNumarasi}"
 
             response = requests.get(url)
             print(response.text)
@@ -102,7 +102,7 @@ def AnaPaketGonder():
                     Sonuc = response
                 else:
                     Siparis.Durum = askida
-                    Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + response + " \n"
+                    Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + str(response) + " \n"
                     Siparis.save()
                     Sonuc = response
                 return Sonuc
@@ -778,8 +778,53 @@ def AlternatifKontrol(request):
                 return "Oto İPTAL edildi"
 
 
-
         # AnaPaketVar mi Kontrollü
+
+        #vergiList=['8703','7353','7354','7355']
+
+
+        if len(cikan_idler) == 0:
+            if '8703' in PaketSorguListesi:
+                print("En az 18TL lik vergi Borcu var.")
+                vergiTutari = "En az 18TL yüklemesi gerekiyor vergi borcu var."
+            if '7353' in PaketSorguListesi:
+                print("En az 36TL lik vergi Borcu var.")
+                vergiTutari = "En az 36TL yüklemesi gerekiyor vergi borcu var."
+            if '7354' in PaketSorguListesi:
+                print("En az 54TL lik vergi Borcu var.")
+                vergiTutari = "En az 54TL yüklemesi gerekiyor vergi borcu var."
+            if '7355' in PaketSorguListesi:
+                print("En az 72TL lik vergi Borcu var.")
+                vergiTutari = "En az 72TL yüklemesi gerekiyor vergi borcu var."
+            siparis.Durum = iptalEdildi
+            siparis.SonucTarihi = timezone.now()
+            siparis.BayiAciklama = vergiTutari + " Yükleme yaptıkran 5 DK sonra paketi gönderebilirsiniz."
+            # siparisler.BayiAciklama = siparis.SorguPaketID
+            siparis.save()
+            paket_tutari = Decimal('95.5')
+            user = User.objects.get(username=siparis.user)
+            Bayi = Bayi_Listesi.objects.get(user=user)
+            Onceki_Bakiye = Bayi.Bayi_Bakiyesi
+            onceki_Borc = Bayi.Borc
+            Bayi.Bayi_Bakiyesi += paket_tutari
+            Bayi.save()
+            SonrakiBakiye = Bayi.Bayi_Bakiyesi
+            sonraki_Borc = Bayi.Borc
+
+            hareket = BakiyeHareketleri(user=user,
+                                        islem_tutari=paket_tutari,
+                                        onceki_bakiye=Onceki_Bakiye,
+                                        sonraki_bakiye=SonrakiBakiye,
+                                        onceki_Borc=onceki_Borc,
+                                        sonraki_Borc=sonraki_Borc,
+                                        aciklama=f"{siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
+            hareket.save()
+            return "Oto İPTAL edildi"
+
+
+
+
+
 
         if siparis_kupur in PaketSorguListesi:
             print("Aranan değer listede var.")
