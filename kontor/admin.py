@@ -282,6 +282,7 @@ class VodafoneSesInlineForm(forms.ModelForm):
 
 
 
+
 class VodafoneSesInline(admin.TabularInline):
     model = VodafonePaketler
     extra = 1
