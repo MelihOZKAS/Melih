@@ -251,10 +251,6 @@ class AdminKategoriListesi(admin.ModelAdmin):
     list_display = ("id","GorunecekName","KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
     list_editable = ("KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
 
-class VodafoneSesAdminForm(forms.ModelForm):
-    class Meta:
-        model = VodafoneSes
-        fields = '__all__'
 
 class VodafoneSesInline(admin.TabularInline):
     model = VodafonePaketler
@@ -262,10 +258,12 @@ class VodafoneSesInline(admin.TabularInline):
     form = VodafoneSesAdminForm
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "urun":
-            kwargs["queryset"] = Urun.objects.filter(urun_adi='Vodafone Ses', kupuru='TL')
+        if db_field.name == "Apiden_gelenler":
+            kwargs["queryset"] = ApidenCekilenPaketler.objects.all()
+            kwargs["to_field_name"] = "id"
+            kwargs["widget"] = forms.Select(attrs={'class': 'vIntegerField', 'onChange': 'update_values(this)'})
+            kwargs["label_from_instance"] = lambda obj: f"{obj.urun_adi} ({obj.kupur})"
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
 
 
 class TurkcellInline(admin.TabularInline):
