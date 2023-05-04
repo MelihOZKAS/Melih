@@ -281,6 +281,12 @@ class AdminKategoriListesi(admin.ModelAdmin):
 #        if commit:
 #            vodafone_paketler.save()
 #        return vodafone_paketler
+
+
+
+from django import forms
+from .models import VodafonePaketler, AdminApiListesi
+
 class VodafoneSesInlineForm(forms.ModelForm):
     class Meta:
         model = VodafonePaketler
@@ -289,16 +295,19 @@ class VodafoneSesInlineForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['Api'].queryset = AdminApiListesi.objects.all()
+        try:
+            api_id = self.instance.apiler.id
+            api = AdminApiListesi.objects.get(pk=api_id)
+            apiden_gelenler = self.fields['Apiden_gelenler']
+            apiden_gelenler.empty_label = '-Paket Seçiniz.'
 
-        apiden_gelenler = self.fields['Apiden_gelenler']
-        apiden_gelenler.empty_label = '-Paket Seçiniz.'
+            if api and api.apilikodu:
+                apiden_gelenler.queryset = apiden_gelenler.queryset.filter(apiler__apilikodu=api.apilikodu)
+                apiden_gelenler.empty_label = None
 
-        if self.instance and self.instance.eslestirme_kupur:
-            apiden_gelenler.queryset = apiden_gelenler.queryset.filter(kupur=self.instance.eslestirme_kupur)
-            apiden_gelenler.empty_label = None
-
-        apiden_gelenler.label_from_instance = lambda obj: f"{obj.urun_adi} ({obj.kupur})"
+            apiden_gelenler.label_from_instance = lambda obj: f"{obj.urun_adi} ({obj.kupur})"
+        except (KeyError, AttributeError):
+            pass
 
     def save(self, commit=True):
         vodafone_paketler = super().save(commit=False)
@@ -308,11 +317,9 @@ class VodafoneSesInlineForm(forms.ModelForm):
             api_gelen_fiyat = apiden_gelenler.ApiGelen_fiyati
             vodafone_paketler.eslestirme_kupur = eslestirme_kupur
             vodafone_paketler.alis_fiyati = api_gelen_fiyat
-            vodafone_paketler.Api = apiden_gelenler.apiler
         if commit:
             vodafone_paketler.save()
         return vodafone_paketler
-
 
 
 
