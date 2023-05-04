@@ -261,7 +261,7 @@ class VodafoneSesInlineForm(forms.ModelForm):
         to_field_name='id',
         widget=forms.Select(attrs={'class': 'vIntegerField', 'onChange': 'update_values(this)'}),
         label='Apiden Gelenler',
-        empty_label=None,
+        empty_label='-PaketSeçiniz.',
         help_text='Choose an ApidenCekilenPaketler',
     )
 
