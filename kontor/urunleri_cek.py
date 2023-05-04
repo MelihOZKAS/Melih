@@ -34,14 +34,14 @@ def paketlericek(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
         if AradakiHesaplayici == 8:
             AradakiHesaplayici = 1
 
-            if not ApidenCekilenPaketler.objects.filter(apiler=Api, kupur=paketKupur).exists():
-                ApidenCekilenPaketler.objects.create(
-                    apiler=apiler,
-                    urun_adi=paketAdi,
-                    kupur=paketKupur,
-                    ApiGelen_fiyati=kupurFiyati,
-                    ApiGelen_operator_adi="Yok",
-                    ApiGelen_operator_tipi=Tipi
-                )
+            #if not ApidenCekilenPaketler.objects.filter(apiler=Api, kupur=paketKupur).exists():
+            ApidenCekilenPaketler.objects.create(
+                apiler=apiler,
+                urun_adi=paketAdi,
+                kupur=paketKupur,
+                ApiGelen_fiyati=kupurFiyati,
+                ApiGelen_operator_adi="Yok",
+                ApiGelen_operator_tipi=Tipi
+            )
 
 
