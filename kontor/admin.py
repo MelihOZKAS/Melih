@@ -27,6 +27,8 @@ class AdminBanka(admin.ModelAdmin):
     list_display = ('banka_adi', 'hesap_sahibi', 'bakiye','BayiGormesin','Aktifmi')
     readonly_fields = ('bakiye',)
 
+class AdminApidenCekilenPaketler(admin.ModelAdmin):
+    list_display = ('apiler', 'urun_adi', 'kupur','ApiGelen_fiyati','ApiGelen_operator_adi','ApiGelen_operator_tipi')
 
 
 class AdminKontorListesi(admin.ModelAdmin):
@@ -411,6 +413,7 @@ class BakiyeHareketleriAdmin(admin.ModelAdmin):
 
 admin.site.register(Durumlar,DurumlarAdmin)
 admin.site.register(Banka,AdminBanka)
+admin.site.register(ApidenCekilenPaketler,AdminApidenCekilenPaketler)
 admin.site.register(AnaOperator,AdminAnaOperator)
 admin.site.register(AltOperator,AdminAltOperator)
 admin.site.register(KontorList,AdminKontorListesi)
