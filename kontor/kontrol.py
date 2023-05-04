@@ -633,11 +633,13 @@ def AnaPaketSonucKontrol():
             print(response.text)
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                 response = response.text.split(":")
+                responses = "responses"
             elif ApiTuruadi == "grafi":
-                response = response.text.split(" ")
+                responses = response.text.split(" ")
+                response = response.text.split("|").replace(" ","")
             GelenAciklama = Siparis.Aciklama
 
-            if response[0] == "1" or response[0] == "OK":
+            if response[0] == "1" or responses[0] == "OK":
                 Siparis.Durum = Basarili
                 Siparis.SonucTarihi = timezone.now()
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
