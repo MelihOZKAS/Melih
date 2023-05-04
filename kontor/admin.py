@@ -283,8 +283,15 @@ def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
         print(type(api.ApiTuru))
         kontor_listesi = KontorList.objects.filter(Kategorisi__in=[3])
         for kontor in kontor_listesi:
-            if not VodafonePaketler.objects.filter(apiler=api, urun_adi=kontor.Urun_adi, kupur=kontor.Kupur, eslestirme_kupur=kontor.Kupur).exists():
+            # Kontör ile ilgili Vodafone paketi zaten var mı diye kontrol edelim
+            vodafone_paketi_var_mi = VodafonePaketler.objects.filter(
+                apiler=api,
+                urun_adi=kontor.Urun_adi,
+                kupur=kontor.Kupur,
+                eslestirme_kupur=kontor.Kupur
+            ).exists()
 
+            if not vodafone_paketi_var_mi:
                 if SecilenApi == "Znet":
                     VodafonePaketler.objects.create(
                         apiler=api,
@@ -310,12 +317,45 @@ def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
                         apiler=api,
                         urun_adi=kontor.Urun_adi,
                         kupur=kontor.Kupur,
-                        #eslestirme_operator_adi="vodafone",
-                        #eslestirme_operator_tipi="ses",
+                        # eslestirme_operator_adi="vodafone",
+                        # eslestirme_operator_tipi="ses",
                         eslestirme_kupur=0
                     )
                 else:
                     print("Nasip Patladık.")
+        #for kontor in kontor_listesi:
+        #    if not VodafonePaketler.objects.filter(apiler=api, urun_adi=kontor.Urun_adi, kupur=kontor.Kupur, eslestirme_kupur=kontor.Kupur).exists():
+        #        if SecilenApi == "Znet":
+        #            VodafonePaketler.objects.create(
+        #                apiler=api,
+        #                urun_adi=kontor.Urun_adi,
+        #                kupur=kontor.Kupur,
+        #                eslestirme_operator_adi="vodafone",
+        #                eslestirme_operator_tipi="ses",
+        #                eslestirme_kupur=kontor.zNetKupur
+        #            )
+        #        elif SecilenApi == "Gencan":
+        #            GelenRef = str(api.ApiTanim).split(",")
+        #            print(GelenRef)
+        #            VodafonePaketler.objects.create(
+        #                apiler=api,
+        #                urun_adi=kontor.Urun_adi,
+        #                kupur=kontor.Kupur,
+        #                eslestirme_operator_adi=GelenRef[0],
+        #                eslestirme_operator_tipi=GelenRef[1],
+        #                eslestirme_kupur=kontor.Kupur
+        #            )
+        #        elif SecilenApi == "grafi":
+        #            VodafonePaketler.objects.create(
+        #                apiler=api,
+        #                urun_adi=kontor.Urun_adi,
+        #                kupur=kontor.Kupur,
+        #                #eslestirme_operator_adi="vodafone",
+        #                #eslestirme_operator_tipi="ses",
+        #                eslestirme_kupur=0
+        #            )
+        #        else:
+        #            print("Nasip Patladık.")
 
 add_Vodafone_kontors_to_api.short_description = "Seçilen API'ye Vodafone operatöründeki tüm kontörleri ekle"
 
