@@ -251,7 +251,6 @@ class AdminKategoriListesi(admin.ModelAdmin):
     list_display = ("id","GorunecekName","KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
     list_editable = ("KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
 
-from django.db.models import F
 
 
 class VodafoneSesInlineForm(forms.ModelForm):
@@ -259,25 +258,17 @@ class VodafoneSesInlineForm(forms.ModelForm):
         model = VodafonePaketler
         exclude = []
 
-    Apiden_gelenler = forms.ModelChoiceField(
-        queryset=ApidenCekilenPaketler.objects.all(),
-        to_field_name='id',
-        widget=forms.Select(attrs={'class': 'vIntegerField'}),
-        label='Apiden Gelenler',
-        empty_label='-PaketSeçiniz.',
-        help_text='Choose an ApidenCekilenPaketler',
-    )
-
-    ESLESTIRME_KUPUR_CHOICES = tuple(
-        ApidenCekilenPaketler.objects.order_by().values_list('kupur', 'kupur').distinct()
-    )
-
-    Kupur = forms.ChoiceField(choices=ESLESTIRME_KUPUR_CHOICES)
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['Apiden_gelenler'].label_from_instance = lambda obj: f"{obj.urun_adi} ({obj.kupur})"
 
+        apiden_gelenler = self.fields['Apiden_gelenler']
+        apiden_gelenler.empty_label = '-Paket Seçiniz.'
+
+        if self.instance and self.instance.eslestirme_kupur:
+            apiden_gelenler.queryset = apiden_gelenler.queryset.filter(kupur=self.instance.eslestirme_kupur)
+            apiden_gelenler.empty_label = None
+
+        apiden_gelenler.label_from_instance = lambda obj: f"{obj.urun_adi} ({obj.kupur})"
 
 
 class VodafoneSesInline(admin.TabularInline):
