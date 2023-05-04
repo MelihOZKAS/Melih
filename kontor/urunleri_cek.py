@@ -25,7 +25,7 @@ def paketlericek(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
             SabitSifir = i
         if AradakiHesaplayici == 5:
             kupurFiyati = i
-            grafiTutar = float(str(kupurFiyati).replace(" ", "").replace(",", "."))
+            grafiTutar = round(float(str(kupurFiyati).replace(" ", "").replace(",", ".")), 2)
         if AradakiHesaplayici == 6:
             Tipi = i
         if AradakiHesaplayici == 7:
@@ -37,6 +37,7 @@ def paketlericek(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
         if AradakiHesaplayici == 8:
             AradakiHesaplayici = 1
 
+            print(str(Api)+paketAdi+paketKupur+grafiTutar+Tipi)
             #if not ApidenCekilenPaketler.objects.filter(apiler=Api, kupur=paketKupur).exists():
             ApidenCekilenPaketler.objects.create(
                 apiler=Api,
