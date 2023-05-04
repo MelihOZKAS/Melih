@@ -492,7 +492,7 @@ class AdminApiListesi(admin.ModelAdmin):
     form = ApilerAdminForm
     list_display = ("id","Apiadi","ApiBakiye","ApiTanim","ApiAktifmi","HataManuel",)
     list_editable = ("ApiBakiye","ApiAktifmi","ApiTanim","HataManuel",)
-    objects = models.Manager()
+
 
     def toplam_kontor(self, obj):
         return "{:,.0f}".format(obj.kontor_list.toplam_kontor())
