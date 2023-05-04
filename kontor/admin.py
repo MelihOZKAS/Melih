@@ -284,8 +284,7 @@ def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
         kontor_listesi = KontorList.objects.filter(Kategorisi__in=[3])
         for kontor in kontor_listesi:
             try:
-                paket = VodafonePaketler.objects.get(apiler=api, urun_adi=kontor.Urun_adi, kupur=kontor.Kupur,
-                                                     eslestirme_kupur=kontor.Kupur)
+                paket = VodafonePaketler.objects.get(kupur=kontor.Kupur)
                 print("Paket zaten ekli: ", paket)
             except VodafonePaketler.DoesNotExist:
                 if SecilenApi == "Znet":
