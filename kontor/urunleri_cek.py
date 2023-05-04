@@ -36,7 +36,7 @@ def paketlericek(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
 
             #if not ApidenCekilenPaketler.objects.filter(apiler=Api, kupur=paketKupur).exists():
             ApidenCekilenPaketler.objects.create(
-                apiler=apiler,
+                apiler=Api,
                 urun_adi=paketAdi,
                 kupur=paketKupur,
                 ApiGelen_fiyati=kupurFiyati,
