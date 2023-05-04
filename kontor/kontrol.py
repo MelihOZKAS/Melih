@@ -654,8 +654,6 @@ def AnaPaketSonucKontrol():
                     api.ApiBakiye -= Decimal(grafiTutar)
                     Siparis.SanalTutar = grafiTutar
 
-
-
                 Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ str(response[1]) + "\n"
                 Siparis.save()
                 Sonuc = "Basarili İslem"
