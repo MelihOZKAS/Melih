@@ -285,7 +285,7 @@ class AdminKategoriListesi(admin.ModelAdmin):
 
 
 from django import forms
-from .models import VodafonePaketler, AdminApiListesi
+
 
 class VodafoneSesInlineForm(forms.ModelForm):
     class Meta:
