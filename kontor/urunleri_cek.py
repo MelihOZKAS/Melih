@@ -24,6 +24,7 @@ def paketlericek(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
             SabitSifir = i
         if AradakiHesaplayici == 5:
             kupurFiyati = i
+            grafiTutar = float(str(kupurFiyati).replace(" ", "").replace(",", "."))
         if AradakiHesaplayici == 6:
             Tipi = i
         if AradakiHesaplayici == 7:
@@ -40,7 +41,7 @@ def paketlericek(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
                 apiler=Api,
                 urun_adi=paketAdi,
                 kupur=paketKupur,
-                ApiGelen_fiyati=kupurFiyati,
+                ApiGelen_fiyati=grafiTutar,
                 ApiGelen_operator_adi="Yok",
                 ApiGelen_operator_tipi=Tipi
             )
