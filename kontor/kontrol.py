@@ -785,9 +785,15 @@ def AlternatifKontrol(request):
 
         #vergiList=['8703','7353','7354','7355']
         print(cikan_idler)
+        print('*'*31)
+        print(PaketSorguListesi)
+        print('#'*44)
+
 
         vergiTutari = "Nasip"
         if len(cikan_idler) == 0:
+            print("CikanID == 000000")
+
             if '8703.00' in PaketSorguListesi:
                 print("En az 18TL lik vergi Borcu var.")
                 vergiTutari = "En az 18TL yüklemesi gerekiyor vergi borcu var."
@@ -812,7 +818,9 @@ def AlternatifKontrol(request):
             if '7355' in PaketSorguListesi:
                 print("En az 72TL lik vergi Borcu var.")
                 vergiTutari = "En az 72TL yüklemesi gerekiyor vergi borcu var-"
+
             if vergiTutari != "Nasip":
+                print("vergiTutari == İçine girdim.")
                 siparis.Durum = iptalEdildi
                 siparis.SonucTarihi = timezone.now()
                 siparis.BayiAciklama = vergiTutari + " Yükleme yaptıkran 5 DK sonra paketi gönderebilirsiniz."
@@ -835,7 +843,7 @@ def AlternatifKontrol(request):
                                             sonraki_Borc=sonraki_Borc,
                                             aciklama=f"{siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
                 hareket.save()
-                return "Oto İPTAL edildi"
+                return "Vergi Borcundan iptal edildi."
 
 
 
