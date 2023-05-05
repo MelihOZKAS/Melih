@@ -62,7 +62,7 @@ def paketlericekGenco(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
             'request[Password]': f'{sifre}'}
 
     response = requests.post(url, data=data)
-
+    print(response.text)
     response_dict = json.loads(response.text)
 
     # Paket bilgilerini yazdır
@@ -74,6 +74,13 @@ def paketlericekGenco(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
         Operator = package['Operator']
         Type = package['Type']
         Fiyati = Fiyati.strip().replace(",", ".")
+
+        print(PaketAdi)
+        print(paketID)
+        print(Fiyati)
+        print(Operator)
+        print(Type)
+        print(Fiyati)
 
         # if not ApidenCekilenPaketler.objects.filter(apiler=Api, kupur=paketKupur).exists():
         ApidenCekilenPaketler.objects.create(
