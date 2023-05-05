@@ -57,7 +57,7 @@ def paketlericekGenco(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
 
     url = f'http://{siteadi}/ClientWebService'
     data = {'Operation': 'TopUpPrices',
-            'request[DealerCode]': ''+{kullanicikodu}+'',
+            'request[DealerCode]': f'{kullanicikodu}',
             'request[Username]': f'{kullaniciadi}',
             'request[Password]': f'{sifre}'}
 
