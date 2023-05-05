@@ -10,7 +10,7 @@ from django.forms import Select, RadioSelect, PasswordInput
 from django import forms
 import inspect
 from django.contrib.auth.models import User
-from .urunleri_cek import paketlericek
+from .urunleri_cek import *
 
 
 # Register your models here.
@@ -284,7 +284,7 @@ class AdminKategoriListesi(admin.ModelAdmin):
 
 
 
-from django import forms
+
 
 #class VodafoneSesInlineForm(forms.ModelForm):
 #    class Meta:
@@ -455,8 +455,13 @@ add_Vodafone_kontors_to_api.short_description = "Seçilen API'ye Vodafone operat
 
 def PaketleriCek(modeladmin, request, queryset):
     for api in queryset:
-        paketler = paketlericek(api,api.SiteAdresi,api.Kullanicikodu,api.Kullaniciadi,api.Sifre)
-        print(paketler)
+
+        site = api.ApiTuru
+        if site=="grafi":
+            paketler = paketlericekgrafi(api,api.SiteAdresi,api.Kullanicikodu,api.Kullaniciadi,api.Sifre)
+        elif site == "Gencan":
+            paketler = paketlericekGenco(api, api.SiteAdresi, api.Kullanicikodu, api.Kullaniciadi, api.Sifre)
+
 
 
 
