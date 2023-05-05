@@ -455,11 +455,11 @@ add_Vodafone_kontors_to_api.short_description = "Seçilen API'ye Vodafone operat
 
 def PaketleriCek(modeladmin, request, queryset):
     for api in queryset:
-
-        site = api.ApiTuru
-        if site=="grafi":
+        apituru = api.ApiTuru
+        SecilenApi = apituru.ApiYazilimAdi
+        if SecilenApi=="grafi":
             paketler = paketlericekgrafi(api,api.SiteAdresi,api.Kullanicikodu,api.Kullaniciadi,api.Sifre)
-        elif site == "Gencan":
+        elif SecilenApi == "Gencan":
             paketler = paketlericekGenco(api, api.SiteAdresi, api.Kullanicikodu, api.Kullaniciadi, api.Sifre)
 
 
