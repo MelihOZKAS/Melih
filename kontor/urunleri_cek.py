@@ -99,8 +99,7 @@ def paketlericekGenco(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
 
 
 
-
-def AnaOperatorleriCek():
+def AltOperatorleriCek():
     response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
         'python': 'altop'
     })
@@ -128,7 +127,7 @@ def AnaOperatorleriCek():
 
 
 
-def AltOperatorleriCek():
+def AnaOperatorleriCek():
     response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
         'python': 'anaop'
     })
@@ -143,7 +142,7 @@ def AltOperatorleriCek():
             if GelenPaket.exists():
                 # güncelleme işlemi yapılır
                 anaOperatorleriGuncelle = GelenPaket.first()
-                anaOperatorleriGuncelle.AnaOperatorler = altOP
+                anaOperatorleriGuncelle.AnaOperatorler = anaOP
                 anaOperatorleriGuncelle.save()
 
             else:
