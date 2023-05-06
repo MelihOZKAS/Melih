@@ -326,12 +326,12 @@ class VodafoneSesInlineForm(forms.ModelForm):
         apiden_gelenler = self.fields['Apiden_gelenler']
         apiden_gelenler.empty_label = '-Paket Seçiniz.'
 
-        #if self.instance and self.instance.eslestirme_kupur:
-        #    apiden_gelenler.queryset = apiden_gelenler.queryset.filter(apiler=self.instance.apiler)
-        #    #apiden_gelenler.empty_label = None
-        #else:
-        #    apiden_gelenler.queryset = apiden_gelenler.queryset.none()
-#
+        if self.instance and self.instance.eslestirme_kupur:
+            apiden_gelenler.queryset = apiden_gelenler.queryset.filter(kupur=self.instance.eslestirme_kupur, apiler=self.instance.apiler)
+            #apiden_gelenler.empty_label = None
+        else:
+            apiden_gelenler.queryset = apiden_gelenler.queryset.none()
+
         apiden_gelenler.label_from_instance = lambda obj: f"{obj.urun_adi} ({obj.kupur})"
 
     def save(self, commit=True):
