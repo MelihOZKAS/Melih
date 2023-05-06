@@ -658,7 +658,7 @@ def AnaPaketSonucKontrol():
                 return Sonuc
             elif response[0] == "2" or response[0] == "99":
                 Sonuc = "Henüz işlemde"
-                return Sonuc
+                return url
             elif response[0] == "3" or response[0] == "98":
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                     api.ApiBakiye += Decimal(Siparis.SanalTutar)
