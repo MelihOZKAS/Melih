@@ -165,6 +165,7 @@ def OperatorleriCek():
         for operatorParcalari in operatorler:
             if not operatorParcalari.strip():
                 continue
+            print(operatorler)
             bilgiler = operatorParcalari.split('-')
            # GelenPaket = Kategori.objects.filter(KategoriAdi=bilgiler[0])
             GelenPaket = Kategori.objects.get(KategoriAdi=bilgiler[0])
