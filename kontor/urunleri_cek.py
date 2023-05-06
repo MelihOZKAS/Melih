@@ -94,3 +94,61 @@ def paketlericekGenco(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
             ApiGelen_operator_adi=Operator,
             ApiGelen_operator_tipi=Type
         )
+
+
+
+
+
+
+def AnaOperatorleriCek():
+    response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
+        'python': 'altop'
+    })
+
+    if response.status_code == 200:
+        data = response.content.decode('utf-8')
+        altopS = data.split('|')
+        for altOP in altopS:
+            if not altOP.strip():
+                continue
+            GelenPaket = AltOperator.objects.filter(AltOperatorler=altOP)
+            if GelenPaket.exists():
+                # güncelleme işlemi yapılır
+                altOperatorleriGuncelle = GelenPaket.first()
+                altOperatorleriGuncelle.AltOperatorler = altOP
+                altOperatorleriGuncelle.save()
+
+            else:
+                # yeni kayıt oluşturma işlemi yapılır
+                paketEkle = AltOperator(
+                    AltOperatorler=altOP
+                )
+                paketEkle.save()
+
+
+
+
+def AltOperatorleriCek():
+    response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
+        'python': 'anaop'
+    })
+
+    if response.status_code == 200:
+        data = response.content.decode('utf-8')
+        anaopS = data.split('|')
+        for anaOP in anaopS:
+            if not anaOP.strip():
+                continue
+            GelenPaket = AnaOperator.objects.filter(AnaOperatorler=anaOP)
+            if GelenPaket.exists():
+                # güncelleme işlemi yapılır
+                anaOperatorleriGuncelle = GelenPaket.first()
+                anaOperatorleriGuncelle.AnaOperatorler = altOP
+                anaOperatorleriGuncelle.save()
+
+            else:
+                # yeni kayıt oluşturma işlemi yapılır
+                paketEkle = AnaOperator(
+                    AnaOperatorler=anaOP
+                )
+                paketEkle.save()

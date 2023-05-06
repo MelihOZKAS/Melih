@@ -3,6 +3,7 @@ import decimal
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri
+from .urunleri_cek import *
 import requests
 from decimal import Decimal
 from django.contrib.auth.models import User
@@ -1239,7 +1240,7 @@ def TurkcellPaketleriCek(request):
             paketID = float(bilgiler[0])
             Paket = bilgiler[1]
             paketDK = float(bilgiler[2])
-            paketGB = float(bilgiler[3])*1000  #    str(int(bilgiler[3]) * 1000)
+            paketGB = float(bilgiler[3])*1000
             paketSMS = float(bilgiler[4])
             paketFiyat = Decimal(bilgiler[5])
             paketDay = float(bilgiler[6])
@@ -1324,3 +1325,9 @@ def TurkcellPaketleriCek(request):
             KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID).delete()
 
     return HttpResponse(f'İşlem tamamlandı. Eklenen paketler: {eklenen_paketler}, silinen paketler: {silinen_paketler}')
+
+
+def AnaOperatorleriEkleme(request):
+    AnaOperatorleriCek()
+def AltOperatorleriEkleme(request):
+    AltOperatorleriCek()

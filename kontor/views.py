@@ -91,6 +91,22 @@ def TurkcellSesEkle (request):
     Sonuc = TurkcellPaketleriCek(request)
     return HttpResponse(Sonuc)
 
+@csrf_exempt
+def AnaKatEkle (request):
+    Sonuc = AnaOperatorleriCek(request)
+    return HttpResponse(Sonuc)
+
+@csrf_exempt
+def AnaKatEkle (request):
+    Sonuc = AnaOperatorleriEkleme(request)
+    return HttpResponse(Sonuc)
+
+@csrf_exempt
+def AltKatEkle (request):
+    Sonuc = AltOperatorleriEkleme(request)
+    return HttpResponse(Sonuc)
+
+
 #def movies_details(request,slug):
 #    return render(request,'movie-details.html',{"slug":slug})
 from django.shortcuts import get_object_or_404
