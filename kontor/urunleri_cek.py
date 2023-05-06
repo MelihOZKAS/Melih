@@ -192,4 +192,4 @@ def OperatorleriCek():
                 )
                 paketEkle.save()
 
-        return response.text
+        return "Nasip" +response.text
