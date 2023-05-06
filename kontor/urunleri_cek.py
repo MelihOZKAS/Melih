@@ -10,6 +10,8 @@ def paketlericekgrafi(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
     url = f"https://{siteadi}/api/paket_listesi.asp?bayikodu={kullanicikodu}&kadi={kullaniciadi}&sifre={sifre}"
     response = requests.get(url).text
     print(response)
+    # Tüm ApidenCekilenPaketler kayıtlarını sil
+    ApidenCekilenPaketler.objects.filter(apiler=Api).delete()
 
     gelenUrunler = response.split(';')
 
@@ -38,9 +40,6 @@ def paketlericekgrafi(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
 
         if AradakiHesaplayici == 8:
             AradakiHesaplayici = 1
-
-            #print(str(Api)+paketAdi+paketKupur+grafiTutar+Tipi)
-            #if not ApidenCekilenPaketler.objects.filter(apiler=Api, kupur=paketKupur).exists():
             ApidenCekilenPaketler.objects.create(
                 apiler=Api,
                 urun_adi=paketAdi,
@@ -64,6 +63,10 @@ def paketlericekGenco(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
 
     response = requests.post(url, data=data)
     print(response.text)
+
+    # Tüm ApidenCekilenPaketler kayıtlarını sil
+    ApidenCekilenPaketler.objects.filter(apiler=Api).delete()
+
     response_dict = json.loads(response.text)
 
     # Paket bilgilerini yazdır
