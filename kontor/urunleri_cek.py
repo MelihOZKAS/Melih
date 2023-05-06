@@ -166,7 +166,8 @@ def OperatorleriCek():
             if not operatorParcalari.strip():
                 continue
             bilgiler = operatorParcalari.split('-')
-            GelenPaket = Kategori.objects.filter(KategoriAdi=bilgiler[0])
+           # GelenPaket = Kategori.objects.filter(KategoriAdi=bilgiler[0])
+            GelenPaket = Kategori.objects.get(KategoriAdi=bilgiler[0])
             if GelenPaket.exists():
                 # güncelleme işlemi yapılır
                 anaOperatorleriGuncelle = GelenPaket.first()
