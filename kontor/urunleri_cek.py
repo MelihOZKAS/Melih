@@ -153,10 +153,9 @@ def AnaOperatorleriCek():
                 paketEkle.save()
 
 
-def OperatorleriCek():
-    response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
-        'python': 'Operatorler'
-    })
+def OperatorleriCek(request):
+    response = requests.post('http://92.205.129.63:4244/Sorgu.php',
+                             data={'python': 'Operatorler'})
 
     print(response.text)
     if response.status_code == 200:

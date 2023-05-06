@@ -1332,4 +1332,4 @@ def AnaOperatorleriEkleme(request):
 def AltOperatorleriEkleme(request):
     AltOperatorleriCek()
 def OperatorEkleme(request):
-    OperatorleriCek()
+    OperatorleriCek(request)
