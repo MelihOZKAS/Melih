@@ -191,3 +191,5 @@ def OperatorleriCek():
                     Aktifmi = True
                 )
                 paketEkle.save()
+
+        return response.text
