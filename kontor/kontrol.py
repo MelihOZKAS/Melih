@@ -58,9 +58,7 @@ def AnaPaketGonder():
                 print(url)
             response = requests.get(url)
             print(response.text)
-            # TODO: işlem için Verilen Yeni Ref kayıt Yeri --- OK
-            # TODO: işlem için Çekilen Tutarı kaydet olumlu olursa zaten düşmüş oluyorsun olumsuz olursa eklemen lazım.
-            # TODO: işlem için Api ID si
+
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                 response = response.text.split("|")
                 GelenAciklama = Siparis.Aciklama
@@ -496,7 +494,7 @@ def AlternatifSonucKontrol():
                 print("Girdim3")
                 api = alternatifOrder.Yuklenecek_api3
 
-            linki = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullanicikodu}&sifre={api.Sifre}&tekilnumara={alternatifOrder.SanalRefIdesi}"
+            linki = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={alternatifOrder.SanalRefIdesi}"
             print(linki)
             url = linki
 
@@ -1060,7 +1058,7 @@ def AlternatifYuklemeGonder():
 #                eslestirme_kupur = eslestirme_kupur.replace('.00','')
 
 
-            linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullanicikodu}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={alternatifOrder.Yukelenecek_Numara.Numara}&tekilnumara={gidenRefNumarasi}"
+            linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={alternatifOrder.Yukelenecek_Numara.Numara}&tekilnumara={gidenRefNumarasi}"
 
             url = linki
             print(linki)

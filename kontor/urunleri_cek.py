@@ -68,7 +68,6 @@ def paketlericekGenco(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
 
     # Paket bilgilerini yazdır
     for package in response_dict['TopUpPricesResult']['Packages']:
-
         PaketAdi = package['PackageName']
         paketID = package['ProductId']
         Fiyati = package['Price']
