@@ -605,6 +605,7 @@ def AnaPaketSonucKontrol():
     aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
     AnaPaketSorgu = Durumlar.objects.get(durum_id=Durumlar.AnaPaketSonucBekler)
     Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
+    SonucList = []
 
     SiparisTum = Siparisler.objects.filter(Durum=AnaPaketSorgu)
     if SiparisTum:
@@ -655,9 +656,13 @@ def AnaPaketSonucKontrol():
                 Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ str(response[1]) + "\n"
                 Siparis.save()
                 Sonuc = "Basarili İslem"
-                return Sonuc
+                SonucList.append(Siparis.Numara + " Başarılı.")
+                #return Sonuc
+                continue
             elif response[0] == "2" or response[0] == "99":
                 Sonuc = "Henüz işlemde"
+                SonucList.append(Siparis.Numara+" Henüz işlemde.")
+
                 continue
                 #return url
             elif response[0] == "3" or response[0] == "98":
@@ -698,15 +703,22 @@ def AnaPaketSonucKontrol():
                                                 sonraki_Borc=sonraki_Borc,
                                                 aciklama=f"{Siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
                     hareket.save()
+                    SonucList.append(Siparis.Numara + " Komple iptal oldu. ")
                 else:
                     Siparis.Durum = AnaPaket
                     Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + response[1] +" iptal olanApiSirasi:"+str(Siparis.Gonderim_Sirasi)+ "\n"
                     Siparis.Gonderim_Sirasi = Sirasi
                     Siparis.save()
                     AnaPaketGonder()
+                    SonucList.append(Siparis.Numara + " AnaPaket Olarak işlemeAlındı.")
+                    continue
+
+
+
+                return SonucList
 
     else:
-        Sonuc = "Hiç Sipariş Yok"
+        Sonuc = "Hiç Sipariş Yok Malesef."
         return Sonuc
 
 
