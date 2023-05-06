@@ -417,39 +417,6 @@ def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
                 else:
                     print("Nasip Patladık.")
 
-        #for kontor in kontor_listesi:
-        #    if not VodafonePaketler.objects.filter(apiler=api, urun_adi=kontor.Urun_adi, kupur=kontor.Kupur, eslestirme_kupur=kontor.Kupur).exists():
-        #        if SecilenApi == "Znet":
-        #            VodafonePaketler.objects.create(
-        #                apiler=api,
-        #                urun_adi=kontor.Urun_adi,
-        #                kupur=kontor.Kupur,
-        #                eslestirme_operator_adi="vodafone",
-        #                eslestirme_operator_tipi="ses",
-        #                eslestirme_kupur=kontor.zNetKupur
-        #            )
-        #        elif SecilenApi == "Gencan":
-        #            GelenRef = str(api.ApiTanim).split(",")
-        #            print(GelenRef)
-        #            VodafonePaketler.objects.create(
-        #                apiler=api,
-        #                urun_adi=kontor.Urun_adi,
-        #                kupur=kontor.Kupur,
-        #                eslestirme_operator_adi=GelenRef[0],
-        #                eslestirme_operator_tipi=GelenRef[1],
-        #                eslestirme_kupur=kontor.Kupur
-        #            )
-        #        elif SecilenApi == "grafi":
-        #            VodafonePaketler.objects.create(
-        #                apiler=api,
-        #                urun_adi=kontor.Urun_adi,
-        #                kupur=kontor.Kupur,
-        #                #eslestirme_operator_adi="vodafone",
-        #                #eslestirme_operator_tipi="ses",
-        #                eslestirme_kupur=0
-        #            )
-        #        else:
-        #            print("Nasip Patladık.")
 
 add_Vodafone_kontors_to_api.short_description = "Seçilen API'ye Vodafone operatöründeki tüm kontörleri ekle"
 
