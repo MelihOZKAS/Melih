@@ -315,6 +315,40 @@ class AdminKategoriListesi(admin.ModelAdmin):
 #            vodafone_paketler.save()
 #        return vodafone_paketler
 
+
+
+#TODO çalışan bu
+#class VodafoneSesInlineForm(forms.ModelForm):
+#    class Meta:
+#        model = VodafonePaketler
+#        exclude = []
+#
+#    def __init__(self, *args, **kwargs):
+#        super().__init__(*args, **kwargs)
+#
+#        apiden_gelenler = self.fields['Apiden_gelenler']
+#        apiden_gelenler.empty_label = '-Paket Seçiniz.'
+#
+#        if self.instance and self.instance.eslestirme_kupur:
+#            apiden_gelenler.queryset = apiden_gelenler.queryset.filter(kupur=self.instance.eslestirme_kupur)
+#            #apiden_gelenler.queryset = apiden_gelenler.queryset.filter(kupur=self.instance.eslestirme_kupur, apiler=self.instance.apiler)
+#            #apiden_gelenler.empty_label = None
+#        else:
+#            apiden_gelenler.queryset = apiden_gelenler.queryset.none()
+#
+#        apiden_gelenler.label_from_instance = lambda obj: f"{obj.urun_adi} ({obj.kupur})"
+#
+#    def save(self, commit=True):
+#        vodafone_paketler = super().save(commit=False)
+#        if vodafone_paketler.Apiden_gelenler:
+#            apiden_gelenler = vodafone_paketler.Apiden_gelenler
+#            eslestirme_kupur = apiden_gelenler.kupur
+#            api_gelen_fiyat = apiden_gelenler.ApiGelen_fiyati
+#            vodafone_paketler.eslestirme_kupur = eslestirme_kupur
+#            vodafone_paketler.alis_fiyati = api_gelen_fiyat
+#        if commit:
+#            vodafone_paketler.save()
+#        return vodafone_paketler
 class VodafoneSesInlineForm(forms.ModelForm):
     class Meta:
         model = VodafonePaketler
@@ -328,10 +362,7 @@ class VodafoneSesInlineForm(forms.ModelForm):
 
         if self.instance and self.instance.eslestirme_kupur:
             apiden_gelenler.queryset = apiden_gelenler.queryset.filter(kupur=self.instance.eslestirme_kupur)
-            #apiden_gelenler.queryset = apiden_gelenler.queryset.filter(kupur=self.instance.eslestirme_kupur, apiler=self.instance.apiler)
-            #apiden_gelenler.empty_label = None
-        else:
-            apiden_gelenler.queryset = apiden_gelenler.queryset.none()
+            apiden_gelenler.empty_label = None
 
         apiden_gelenler.label_from_instance = lambda obj: f"{obj.urun_adi} ({obj.kupur})"
 
@@ -346,7 +377,6 @@ class VodafoneSesInlineForm(forms.ModelForm):
         if commit:
             vodafone_paketler.save()
         return vodafone_paketler
-
 
 class VodafoneSesInline(admin.TabularInline):
     model = VodafonePaketler
