@@ -658,67 +658,6 @@ def AnaPaketSonucKontrol():
                 return Sonuc
             elif response[0] == "2" or response[0] == "99":
                 Sonuc = "Henüz işlemde"
-                return url
-            elif response[0] == "3" or response[0] == "98":
-                if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
-                    api.ApiBakiye += Decimal(Siparis.SanalTutar)
-                Sirasi = Siparis.Gonderim_Sirasi +1
-                if Sirasi == 2:
-                    print("Girdim2")
-                    YeniApisi = Siparis.api2
-
-                if Sirasi == 3:SiparisTum = Siparisler.objects.filter(Durum=AnaPaketSorgu)
-    if SiparisTum:
-        for Siparis in SiparisTum:
-            if Siparis:
-                if Siparis.Gonderim_Sirasi == 1:
-                    print("Girdim1")
-                    api = Siparis.api1
-                if Siparis.Gonderim_Sirasi == 2:
-                    print("Girdim2")
-                    api = Siparis.api2
-                if Siparis.Gonderim_Sirasi == 3:
-                    print("Girdim3")
-                    api = Siparis.api3
-            ApiTuru = api.ApiTuru
-            ApiTuruadi = ApiTuru.ApiYazilimAdi
-            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
-                url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={Siparis.SanalRef}"
-            elif ApiTuruadi == "grafi":
-                url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={Siparis.SanalRef}"
-                print(url)
-            response = requests.get(url)
-            response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
-            print(response.text)
-            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
-                response = response.text.split(":")
-                responses = "responses"
-            elif ApiTuruadi == "grafi":
-                responses = response.text.split(" ")
-                response = response.text.split("|")
-                grafiTutar = float(str(response[1]).replace(" ","").replace(",","."))
-            GelenAciklama = Siparis.Aciklama
-
-            if response[0] == "1" or responses[0] == "OK":
-                Siparis.Durum = Basarili
-                Siparis.SonucTarihi = timezone.now()
-                if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
-                    if response[1] == "":
-                        print("NasipGrimesi lazım")
-                        Siparis.BayiAciklama = "Basarili"
-                    else:
-                        Siparis.BayiAciklama = response[1]
-                elif ApiTuruadi== "grafi":
-                    Siparis.BayiAciklama = "Basarili"
-                    api.ApiBakiye -= Decimal(grafiTutar)
-                    Siparis.SanalTutar = grafiTutar
-
-                Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ str(response[1]) + "\n"
-                Siparis.save()
-                Sonuc = "Basarili İslem"
-                return Sonuc
-            elif response[0] == "2" or response[0] == "99":
-                Sonuc = "Henüz işlemde"
                 continue
                 #return url
             elif response[0] == "3" or response[0] == "98":
@@ -730,46 +669,6 @@ def AnaPaketSonucKontrol():
                     YeniApisi = Siparis.api2
 
                 if Sirasi == 3:
-                    print("Girdim3")
-                    YeniApisi = Siparis.api3
-
-                if not YeniApisi:
-                    Siparis.Durum = iptal
-                    Siparis.SonucTarihi = timezone.now()
-                    Siparis.BayiAciklama = "iptal"
-                    Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + response[
-                        1] + "iptal olanApiSirasi:" + str(Siparis.Gonderim_Sirasi) + " Başka Api olmadığı için iptal edildi.\n"
-                    Siparis.save()
-
-                    paket_tutari = Decimal('95.5')
-                    user = User.objects.get(username=Siparis.user)
-                    Bayi = Bayi_Listesi.objects.get(user=user)
-                    Onceki_Bakiye = Bayi.Bayi_Bakiyesi
-                    onceki_Borc = Bayi.Borc
-                    Bayi.Bayi_Bakiyesi += paket_tutari
-                    Bayi.save()
-                    SonrakiBakiye = Bayi.Bayi_Bakiyesi
-                    sonraki_Borc = Bayi.Borc
-
-                    hareket = BakiyeHareketleri(user=user,
-                                                islem_tutari=paket_tutari,
-                                                onceki_bakiye=Onceki_Bakiye,
-                                                sonraki_bakiye=SonrakiBakiye,
-                                                onceki_Borc=onceki_Borc,
-                                                sonraki_Borc=sonraki_Borc,
-                                                aciklama=f"{Siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
-                    hareket.save()
-                else:
-                    Siparis.Durum = AnaPaket
-                    Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + response[1] +" iptal olanApiSirasi:"+str(Siparis.Gonderim_Sirasi)+ "\n"
-                    Siparis.Gonderim_Sirasi = Sirasi
-                    Siparis.save()
-                    AnaPaketGonder()
-
-    else:
-        Sonuc = "Hiç Sipariş Yok"
-        return Sonuc
-
                     print("Girdim3")
                     YeniApisi = Siparis.api3
 
