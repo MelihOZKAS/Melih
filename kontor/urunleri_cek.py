@@ -158,6 +158,7 @@ def OperatorleriCek():
         'python': 'Operatorler'
     })
 
+    print(response.text)
     if response.status_code == 200:
         data = response.content.decode('utf-8')
         operatorler = data.split('|')
