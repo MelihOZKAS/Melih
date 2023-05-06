@@ -1331,3 +1331,5 @@ def AnaOperatorleriEkleme(request):
     AnaOperatorleriCek()
 def AltOperatorleriEkleme(request):
     AltOperatorleriCek()
+def OperatorEkleme(request):
+    OperatorleriCek()

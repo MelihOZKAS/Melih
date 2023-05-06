@@ -108,7 +108,7 @@ def AltKatEkle (request):
 
 @csrf_exempt
 def OperatorEkle (request):
-    Sonuc = OperatorleriCek(request)
+    Sonuc = OperatorEkleme(request)
     return HttpResponse(Sonuc)
 
 
