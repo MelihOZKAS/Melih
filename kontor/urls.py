@@ -28,6 +28,7 @@ urlpatterns = [
     path("TurkcellPaketEkle", views.TurkcellSesEkle),
     path("anaKategoriEkle", views.AnaKatEkle),
     path("altKategoriEkle", views.AltKatEkle),
+    path("OperatorEkle", views.OperatorEkle),
 
     #path('', views.bayi_view, name='bayi'),
     #Nasip

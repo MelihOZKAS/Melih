@@ -151,3 +151,40 @@ def AnaOperatorleriCek():
                     AnaOperatorler=anaOP
                 )
                 paketEkle.save()
+
+
+def OperatorleriCek():
+    response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
+        'python': 'Operatorler'
+    })
+
+    if response.status_code == 200:
+        data = response.content.decode('utf-8')
+        operatorler = data.split('|')
+        for operatorParcalari in operatorler:
+            if not operatorParcalari.strip():
+                continue
+            bilgiler = operatorParcalari.split('-')
+            GelenPaket = Kategori.objects.filter(KategoriAdi=bilgiler[0])
+            if GelenPaket.exists():
+                # güncelleme işlemi yapılır
+                anaOperatorleriGuncelle = GelenPaket.first()
+
+                OperatorleriGuncelle.Operatoru = bilgiler[1]
+                OperatorleriGuncelle.KategoriAltOperatoru = bilgiler[2]
+                OperatorleriGuncelle.GorunecekName = bilgiler[3]
+                OperatorleriGuncelle.GorunecekSira = bilgiler[4]
+                OperatorleriGuncelle.Aktifmi = True
+                OperatorleriGuncelle.save()
+
+            else:
+                # yeni kayıt oluşturma işlemi yapılır
+                paketEkle = AnaOperator(
+                    KategoriAdi = bilgiler[0],
+                    Operatoru = bilgiler[1],
+                    KategoriAltOperatoru = bilgiler[2],
+                    GorunecekName = bilgiler[3],
+                    GorunecekSira = bilgiler[4],
+                    Aktifmi = True
+                )
+                paketEkle.save()

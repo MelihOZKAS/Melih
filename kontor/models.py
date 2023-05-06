@@ -11,7 +11,6 @@ from django.utils import timezone
 class AnaOperator(models.Model):
     AnaOperatorler = models.CharField(max_length=100,default="AnaOperator")
 
-
     class Meta:
         verbose_name = "AnaOperator"
         verbose_name_plural = "AnaOperator"

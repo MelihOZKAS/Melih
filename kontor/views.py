@@ -106,6 +106,14 @@ def AltKatEkle (request):
     Sonuc = AltOperatorleriEkleme(request)
     return HttpResponse(Sonuc)
 
+@csrf_exempt
+def OperatorEkle (request):
+    Sonuc = OperatorleriCek(request)
+    return HttpResponse(Sonuc)
+
+
+
+
 
 #def movies_details(request,slug):
 #    return render(request,'movie-details.html',{"slug":slug})
