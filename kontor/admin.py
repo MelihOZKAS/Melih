@@ -328,7 +328,7 @@ class VodafoneSesInlineForm(forms.ModelForm):
 
         if self.instance and self.instance.eslestirme_kupur:
             apiden_gelenler.queryset = apiden_gelenler.queryset.filter(kupur=self.instance.eslestirme_kupur, apiler=self.instance.apiler)
-            apiden_gelenler.empty_label = None
+            #apiden_gelenler.empty_label = None
         else:
             apiden_gelenler.queryset = apiden_gelenler.queryset.none()
 
