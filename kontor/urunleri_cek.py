@@ -166,29 +166,20 @@ def OperatorleriCek(request):
                 continue
             print(operatorler)
             bilgiler = operatorParcalari.split('-')
-           # GelenPaket = Kategori.objects.filter(KategoriAdi=bilgiler[0])
-            GelenPaket = Kategori.objects.get(KategoriAdi=bilgiler[0])
-            if GelenPaket.exists():
-                # güncelleme işlemi yapılır
-                anaOperatorleriGuncelle = GelenPaket.first()
+            try:
+                GelenPaket = Kategori.objects.get(KategoriAdi=bilgiler[0])
+            except Kategori.DoesNotExist:
+                continue
 
-                OperatorleriGuncelle.Operatoru = bilgiler[1]
-                OperatorleriGuncelle.KategoriAltOperatoru = bilgiler[2]
-                OperatorleriGuncelle.GorunecekName = bilgiler[3]
-                OperatorleriGuncelle.GorunecekSira = bilgiler[4]
-                OperatorleriGuncelle.Aktifmi = True
-                OperatorleriGuncelle.save()
+            # güncelleme işlemi yapılır
+            anaOperatorleriGuncelle, created = AnaOperator.objects.get_or_create(
+                KategoriAdi=GelenPaket,
+                Operatoru=bilgiler[1],
+                KategoriAltOperatoru=bilgiler[2],
+                GorunecekName=bilgiler[3],
+                GorunecekSira=bilgiler[4],
+            )
+            anaOperatorleriGuncelle.Aktifmi = True
+            anaOperatorleriGuncelle.save()
 
-            else:
-                # yeni kayıt oluşturma işlemi yapılır
-                paketEkle = AnaOperator(
-                    KategoriAdi = bilgiler[0],
-                    Operatoru = bilgiler[1],
-                    KategoriAltOperatoru = bilgiler[2],
-                    GorunecekName = bilgiler[3],
-                    GorunecekSira = bilgiler[4],
-                    Aktifmi = True
-                )
-                paketEkle.save()
-
-    return "Nasip" +response.text
+    return "Nasip" + response.text
