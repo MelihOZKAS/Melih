@@ -175,7 +175,6 @@ def OperatorleriCek(request):
             if GelenPaket.exists():
                 # güncelleme işlemi yapılır
                 OperatorleriGuncelle = GelenPaket.first()
-
                 OperatorleriGuncelle.Operatoru = bilgiler[1]
                 OperatorleriGuncelle.KategoriAltOperatoru = bilgiler[2]
                 OperatorleriGuncelle.GorunecekName = bilgiler[3]
