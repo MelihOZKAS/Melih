@@ -174,7 +174,7 @@ def OperatorleriCek(request):
             # güncelleme işlemi yapılır
             anaOperatorleriGuncelle, created = Kategori.objects.get_or_create(
                 KategoriAdi=GelenPaket,
-                AnaOperatorler=bilgiler[1],
+                Operatoru=bilgiler[1],
                 KategoriAltOperatoru=bilgiler[2],
                 GorunecekName=bilgiler[3],
                 GorunecekSira=bilgiler[4],
