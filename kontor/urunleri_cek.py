@@ -1,5 +1,5 @@
 import requests
-from .models import Apiler, ApidenCekilenPaketler,AnaOperator,AltOperator
+from .models import Apiler, ApidenCekilenPaketler,AnaOperator,AltOperator,Kategori
 from decimal import Decimal
 import json
 
