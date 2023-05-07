@@ -167,7 +167,11 @@ def OperatorleriCek(request):
             print(operatorler)
             bilgiler = operatorParcalari.split('-')
            # GelenPaket = Kategori.objects.filter(KategoriAdi=bilgiler[0])
-            GelenPaket = Kategori.objects.get(KategoriAdi=bilgiler[0])
+            #GelenPaket = Kategori.objects.get(KategoriAdi=bilgiler[0])
+            KategorisiGelen = Kategori.objects.get(pk=1)
+
+
+            GelenPaket = Kategori.objects.filter(KategoriAdi=bilgiler[0])
             if GelenPaket.exists():
                 # güncelleme işlemi yapılır
                 OperatorleriGuncelle = GelenPaket.first()
