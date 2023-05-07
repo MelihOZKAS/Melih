@@ -168,15 +168,16 @@ def OperatorleriCek(request):
             bilgiler = operatorParcalari.split('-')
            # GelenPaket = Kategori.objects.filter(KategoriAdi=bilgiler[0])
             #GelenPaket = Kategori.objects.get(KategoriAdi=bilgiler[0])
-            KategorisiGelen = Kategori.objects.get(pk=1)
+            gelenAnaOperator = AnaOperator.objects.get(pk=int(bilgiler[1]))
+            gelenAltOperator = AltOperator.objects.get(pk=int(bilgiler[2]))
 
 
             GelenPaket = Kategori.objects.filter(KategoriAdi=bilgiler[0])
             if GelenPaket.exists():
                 # güncelleme işlemi yapılır
                 OperatorleriGuncelle = GelenPaket.first()
-                OperatorleriGuncelle.Operatoru = bilgiler[1]
-                OperatorleriGuncelle.KategoriAltOperatoru = bilgiler[2]
+                OperatorleriGuncelle.Operatoru = gelenAnaOperator
+                OperatorleriGuncelle.KategoriAltOperatoru = gelenAltOperator
                 OperatorleriGuncelle.GorunecekName = bilgiler[3]
                 OperatorleriGuncelle.GorunecekSira = bilgiler[4]
                 OperatorleriGuncelle.Aktifmi = True
@@ -186,8 +187,8 @@ def OperatorleriCek(request):
                 # yeni kayıt oluşturma işlemi yapılır
                 paketEkle = Kategori(
                     KategoriAdi = bilgiler[0],
-                    Operatoru = bilgiler[1],
-                    KategoriAltOperatoru = bilgiler[2],
+                    Operatoru = gelenAnaOperator,
+                    KategoriAltOperatoru = gelenAltOperator,
                     GorunecekName = bilgiler[3],
                     GorunecekSira = bilgiler[4],
                     Aktifmi = True
