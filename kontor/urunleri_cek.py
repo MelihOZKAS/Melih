@@ -185,7 +185,7 @@ def OperatorleriCek(request):
 
             else:
                 # yeni kayıt oluşturma işlemi yapılır
-                paketEkle = AnaOperator(
+                paketEkle = Kategori(
                     KategoriAdi = bilgiler[0],
                     Operatoru = bilgiler[1],
                     KategoriAltOperatoru = bilgiler[2],
