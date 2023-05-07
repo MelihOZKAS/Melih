@@ -167,14 +167,14 @@ def OperatorleriCek(request):
             print(operatorler)
             bilgiler = operatorParcalari.split('-')
             try:
-                GelenPaket = Kategori.objects.get(KategoriAdi=bilgiler[0])
+                GelenPaket = Kategori.objects.get(KategoriAdi=bilgiler[0]).id
             except Kategori.DoesNotExist:
                 continue
 
             # güncelleme işlemi yapılır
             anaOperatorleriGuncelle, created = Kategori.objects.get_or_create(
                 KategoriAdi=GelenPaket,
-                Operatoru=bilgiler[1],
+                AnaOperatorler=bilgiler[1],
                 KategoriAltOperatoru=bilgiler[2],
                 GorunecekName=bilgiler[3],
                 GorunecekSira=bilgiler[4],
