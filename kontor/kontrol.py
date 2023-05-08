@@ -39,7 +39,7 @@ def AnaPaketGonder():
 
             if opAdi == "vodafone":
                 paketler = VodafonePaketler.objects.filter(apiler=api)
-            elif opAdi == "vodafone":
+            elif opAdi == "turkcell":
                 paketler = Turkcell.objects.filter(apiler=api)
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
@@ -515,6 +515,7 @@ def AlternatifSonucKontrol():
                 responses = response.text.split(" ")
                 response = response.text.split("|")
                 grafiTutar = float(str(response[1]).replace(" ", "").replace(",", "."))
+
             GelenAciklama = ANA_Siparis.Aciklama
 
 
