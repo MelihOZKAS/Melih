@@ -29,6 +29,7 @@ urlpatterns = [
     path("anaKategoriEkle", views.AnaKatEkle),
     path("altKategoriEkle", views.AltKatEkle),
     path("OperatorEkle", views.OperatorEkle),
+    path("AnaPaketGonder", views.ANaPaketGonder),
 
     #path('', views.bayi_view, name='bayi'),
     #Nasip
