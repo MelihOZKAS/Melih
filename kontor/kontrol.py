@@ -2,7 +2,7 @@ import decimal
 
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri
+from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,Turkcell
 from .urunleri_cek import *
 import requests
 from decimal import Decimal
@@ -40,7 +40,7 @@ def AnaPaketGonder():
             if opAdi == "vodafone" or opAdi == "Vodafone":
                 paketler = VodafonePaketler.objects.filter(apiler=api)
             elif opAdi == "turkcell" or opAdi == "Turkcell":
-                paketler = TurkcellSes.objects.filter(apiler=api)
+                paketler = Turkcell.objects.filter(apiler=api)
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                 #paketler = VodafonePaketler.objects.filter(apiler=api)
