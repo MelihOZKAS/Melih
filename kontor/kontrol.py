@@ -335,7 +335,7 @@ def SorguyaGonder():
             if order.Operator.AnaOperatorler == "vodafone":
                 linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
             elif order.Operator.AnaOperatorler == "turkcell":
-                linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgu&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
+                linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgudj&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
             # Belirtilen URL'ye GET isteği gönderin
 
             url = linki
@@ -396,7 +396,7 @@ def SorguSonucKontrol():
             elif order.Operator.AnaOperatorler == "turkcell":
                 api = Apiler.objects.get(id=9)
                 #linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgu&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
-                linki = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=TurkcellSorgu&sifre=TurkcellSorgu&tekilnumara={order.SanalRef}"
+                linki = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=TurkcellSorgudj&sifre=TurkcellSorgu&tekilnumara={order.SanalRef}"
 
 
 
