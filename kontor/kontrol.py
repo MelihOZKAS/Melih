@@ -334,7 +334,7 @@ def SorguyaGonder():
             # Apiler sınıfından şifre bilgilerini alın
             if order.Operator.AnaOperatorler == "vodafone":
                 linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
-            elif order.Operator == "turkcell":
+            elif order.Operator.AnaOperatorler == "turkcell":
                 linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgu&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
             # Belirtilen URL'ye GET isteği gönderin
 
