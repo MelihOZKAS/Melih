@@ -40,7 +40,7 @@ def AnaPaketGonder():
             if opAdi == "vodafone" or opAdi == "Vodafone":
                 paketler = VodafonePaketler.objects.filter(apiler=api)
             elif opAdi == "turkcell" or opAdi == "Turkcell":
-                paketler = Turkcell.objects.filter(apiler=api)
+                paketler = TurkcellSes.objects.filter(apiler=api)
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                 #paketler = VodafonePaketler.objects.filter(apiler=api)
