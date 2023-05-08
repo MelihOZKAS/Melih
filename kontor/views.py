@@ -92,10 +92,17 @@ def TurkcellSesEkle (request):
     return HttpResponse(Sonuc)
 
 @csrf_exempt
+def TTSesEkle (request):
+    Sonuc = TTsesPaketleriCek(request)
+    return HttpResponse(Sonuc)
+
+
+@csrf_exempt
 def AnaKatEkle (request):
     Sonuc = AnaOperatorleriCek(request)
     return HttpResponse(Sonuc)
 
+#todo burada bi pok var.
 @csrf_exempt
 def AnaKatEkle (request):
     Sonuc = AnaOperatorleriEkleme(request)
