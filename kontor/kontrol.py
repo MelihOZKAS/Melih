@@ -457,28 +457,13 @@ def SorguSonucKontrol():
 
 
 
-
-
-
-
-
-
-
-
 def AlternatifSonucKontrol():
-    AlternatifVarmiBaska = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderim_Bekliyor)
     AlternatifVarmiBaska = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
     AnaPaketGoner = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
-
-    #Alternatif_islemde = Durumlar.objects.get(durum_id=Durumlar.Alternatif_islemde)
-    #askida = Durumlar.objects.get(durum_id=Durumlar.askida)
-    #Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
-    #sorgusutamam = Durumlar.objects.get(durum_id=Durumlar.SorguTamam)
-    #sorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
-    #aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
     Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
     Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
     iptal = Durumlar.objects.get(durum_id=Durumlar.IPTAL_EDILDI)
+    SonucList = []
 
     orders = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=Alternatif_Cevap_Bekliyor)
     if orders:
@@ -495,36 +480,62 @@ def AlternatifSonucKontrol():
                 print("Girdim3")
                 api = alternatifOrder.Yuklenecek_api3
 
-            linki = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={alternatifOrder.SanalRefIdesi}"
-            print(linki)
-            url = linki
+
+
+            #DirekKapadim---linki = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={alternatifOrder.SanalRefIdesi}"
+            #DirekKapadim---print(linki)
+            #DirekKapadim---url = linki
 
             #   1: olumlu_islem:5.50
             #   2: islemde:5.50
             #   3: iptal_nedeni
 
+            ApiTuru = api.ApiTuru
+            ApiTuruadi = ApiTuru.ApiYazilimAdi
+
+            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={Siparis.SanalRef}"
+            elif ApiTuruadi == "grafi":
+                url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={Siparis.SanalRef}"
             response = requests.get(url)
             print(response.text)
-            response = response.text.split(":")
-            if response[0] == "1":
 
+            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                response = response.text.split(":")
+                responses = "responses"
+            elif ApiTuruadi == "grafi":
+                responses = response.text.split(" ")
+                response = response.text.split("|")
+                grafiTutar = float(str(response[1]).replace(" ", "").replace(",", "."))
+            GelenAciklama = Siparis.Aciklama
+
+
+            if response[0] == "1" or responses[0] == "OK":
                 # Cevabı işleyin ve veritabanına kaydedin
-                # ...
-                # order.Durum = sorguCevap # Sorgu CEvap olarak güncellenecek
-                # alternatifOrder.Aciklama = response[2]     #TODO buraya bayi aciklaması vs girilmesi lazım.
-                # alternatifOrder.YuklenecekPaketFiyat = response[3]    #TODO Maliyete işlenmesi ve api fiyatında güncellenmesi lazım.
                 alternatifOrder.YuklenecekPaketDurumu = Basarili
-                print(response[1])
-                if response[1] == "":
-                    ANA_Siparis.BayiAciklama = "Basarili"
-                else:
-                    if response[1] =="Y%C3%BCklendi+-ONAYLANDI":
-                        SonucCevabi = "Basarili"
+                Siparis.SonucTarihi = timezone.now()
+                if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                    if response[1] == "":
+                        ANA_Siparis.BayiAciklama = "Basarili"
+                        alternatifOrder.Yukelenecek_Numara.SanalTutar = response[2]
                     else:
-                        SonucCevabi = response[1]
-                    ANA_Siparis.BayiAciklama = SonucCevabi
-                    #alternatifOrder.Yukelenecek_Numara.BayiAciklama = response[1]
-                alternatifOrder.Yukelenecek_Numara.SanalTutar = response[2]
+                        if response[1] =="Y%C3%BCklendi+-ONAYLANDI":
+                            SonucCevabi = "Basarili"
+                        else:
+                            SonucCevabi = response[1]
+                            print("GrafitutariBu = "+str(grafiTutar))
+                            api.ApiBakiye -= Decimal(grafiTutar)
+                            alternatifOrder.Yukelenecek_Numara.SanalTutar = Decimal(grafiTutar)
+
+
+                        #alternatifOrder.Yukelenecek_Numara.BayiAciklama = response[1]
+                elif ApiTuruadi == "grafi":
+                    SonucCevabi = "Basarili"
+
+
+
+                ANA_Siparis.BayiAciklama = SonucCevabi
+
                 alternatifOrder.Yukelenecek_Numara.Durum = Basarili
                 ANA_Siparis.SanalTutar = alternatifOrder.YuklenecekPaketFiyat
                 ANA_Siparis.Durum = Basarili
@@ -533,18 +544,21 @@ def AlternatifSonucKontrol():
                 ANA_Siparis.save()
                 # api.ApiBakiye -= Decimal(response[3])
                 # api.save()
-                Sonuc = response[2]
+                #Sonuc = response[2]
                 print("Durum güncellendi.")
-                return Sonuc
-            elif response[0] == "2":
+                SonucList.append(str(Siparis.Numara) + " Başarılı.")
+                # return Sonuc
+                continue
+            elif response[0] == "2" or response[0] == "99":
                 # Cevabı işleyin ve veritabanına kaydedin
                 # ...
                 Sonuc = "Henüz işlemde"
-                return Sonuc
-            elif response[0] == "3":
-                api.ApiBakiye += Decimal(alternatifOrder.YuklenecekPaketFiyat)
+                SonucList.append(str(Siparis.Numara) + " Henüz işlemde.")
+                continue
+            elif response[0] == "3" or response[0] == "98":
+                if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                    api.ApiBakiye += Decimal(alternatifOrder.YuklenecekPaketFiyat)
                 Sirasi = alternatifOrder.Gonderim_Sirasi + 1
-
                 if Sirasi == 2:
                     print("Girdim2")
                     YeniApisi = alternatifOrder.Yuklenecek_api2
@@ -577,9 +591,18 @@ def AlternatifSonucKontrol():
                         else:
                             ANA_Siparis.Durum = iptal
                             ANA_Siparis.SonucTarihi = timezone.now()
-                            ANA_Siparis.Aciklama = GelenAciklama + " Alternatif hiç bulunamadı AnaPaketde olmadığı için iptal edildi. \n  Abone Bu Paketi Alamıyor Sanırım Yani Galiba. " + response[1]
+                            ANA_Siparis.Aciklama = GelenAciklama + " Alternatif hiç bulunamadı AnaPaket de olmadığı için iptal edildi. \n  Abone Bu Paketi Alamıyor Sanırım Yani Galiba. " + response[1]
                             ANA_Siparis.BayiAciklama = "Abone Bu Paketi Alamıyor Sanırım Yani Galiba. " + response[1]
                             ANA_Siparis.save()
+                    else:
+                        print("Tam tahhmin ettiğim yer burası sanırım burada tekrar var olanı işleme almam lazım....")
+                        #todo başka gönderim varsa alternatif ona geçecek burada şunu atlama muhakkak...
+                        GelenAciklama = ANA_Siparis.Aciklama
+                        baskaAlternatifVarmi.YuklenecekPaketDurumu = AlternatifVarmiBaska
+                        ANA_Siparis.Aciklama = GelenAciklama + " Bir sonraki alternatife geçildi işlem Sırası 1 e alındı Nasipse." + "\n"
+                        baskaAlternatifVarmi.save()
+                        ANA_Siparis.save()
+
 
                 else:
                     print("Nasip")
@@ -602,8 +625,6 @@ def AlternatifSonucKontrol():
 def AnaPaketSonucKontrol():
     iptal = Durumlar.objects.get(durum_id=Durumlar.IPTAL_EDILDI)
     AnaPaket = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
-    sorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
-    aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
     AnaPaketSorgu = Durumlar.objects.get(durum_id=Durumlar.AnaPaketSonucBekler)
     Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
     SonucList = []
@@ -663,7 +684,6 @@ def AnaPaketSonucKontrol():
             elif response[0] == "2" or response[0] == "99":
                 Sonuc = "Henüz işlemde"
                 SonucList.append(str(Siparis.Numara)+" Henüz işlemde.")
-
                 continue
                 #return url
             elif response[0] == "3" or response[0] == "98":
@@ -856,9 +876,6 @@ def AlternatifKontrol(request):
                                             aciklama=f"{siparis.Numara} Nolu Hatta {paket_tutari} TL'lik bir paket yüklenemedi Bakiyesi iade edildii.")
                 hareket.save()
                 return "Vergi Borcundan iptal edildi."
-
-
-
 
 
 
