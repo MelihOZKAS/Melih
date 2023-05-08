@@ -1376,8 +1376,8 @@ def TTsesPaketleriCek(request):
             paketDK = float(bilgiler[2])
             paketGB = float(bilgiler[3])*1000
             paketSMS = float(bilgiler[4])
-            #paketFiyat = Decimal(bilgiler[5].strip().replace(",","."))
-            paketFiyat = Decimal(bilgiler[5].strip().replace(",", "."))
+            paketFiyat = str(bilgiler[5]).strip().replace(",", ".")
+            paketFiyat = Decimal(paketFiyat)
 
             paketDay = float(bilgiler[6])
             #znetFix = Decimal(bilgiler[7]) if bilgiler[7].strip() and bilgiler[7] != 'Bulamadım.' else Decimal('0.00')
