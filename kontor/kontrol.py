@@ -1376,7 +1376,7 @@ def TTsesPaketleriCek(request):
             paketDK = float(bilgiler[2])
             paketGB = float(bilgiler[3])*1000
             paketSMS = float(bilgiler[4])
-            paketFiyat = float(str(bilgiler[5])).strip().replace(",", ".")
+            paketFiyat = float(str(bilgiler[5])).replace(" ", "").replace(",", ".")
             paketFiyat = Decimal(paketFiyat)
 
             paketDay = float(bilgiler[6])
