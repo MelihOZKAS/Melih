@@ -34,8 +34,13 @@ def AnaPaketGonder():
             api.RefNumarasi += 1
             api.save
 
-            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+            if Siparis.Operator.AnaOperatorler == "vodafone":
                 paketler = VodafonePaketler.objects.filter(apiler=api)
+            elif Siparis.Operator.AnaOperatorler == "vodafone":
+                paketler = Turkcell.objects.filter(apiler=api)
+
+            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                #paketler = VodafonePaketler.objects.filter(apiler=api)
                 # Filtrelenmiş paketler listesinden, belirli bir kupür için ilgili bilgileri alın
                 paket = paketler.filter(kupur=Siparis.PaketKupur).values('eslestirme_operator_adi',
                                                                                         'eslestirme_operator_tipi',
@@ -49,7 +54,7 @@ def AnaPaketGonder():
 
                 url = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={Siparis.Numara}&tekilnumara={gidenRefNumarasi}"
             elif ApiTuruadi == "grafi":
-                paketler = VodafonePaketler.objects.filter(apiler=api)
+                #paketler = VodafonePaketler.objects.filter(apiler=api)
                 # Filtrelenmiş paketler listesinden, belirli bir kupür için ilgili bilgileri alın
                 paket = paketler.filter(kupur=Siparis.PaketKupur).values('eslestirme_kupur').first()
                 # İstenen bilgileri değişkenlere atayın
