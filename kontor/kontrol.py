@@ -493,9 +493,9 @@ def AlternatifSonucKontrol():
             ApiTuruadi = ApiTuru.ApiYazilimAdi
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
-                url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={alternatifOrder.SanalRef}"
+                url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={alternatifOrder.SanalRefIdesi}"
             elif ApiTuruadi == "grafi":
-                url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={alternatifOrder.SanalRef}"
+                url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={alternatifOrder.SanalRefIdesi}"
             response = requests.get(url)
             print(response.text)
 
