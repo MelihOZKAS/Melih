@@ -1192,6 +1192,8 @@ def VodafonePaketleriCek(request):
                 PaketiGuncelle.Sebekeici = Decimal('0.00')
                 PaketiGuncelle.internet = paketGB
                 PaketiGuncelle.SMS = paketSMS
+                PaketiGuncelle.api3 = api1
+                PaketiGuncelle.api3 = api2
                 PaketiGuncelle.api3 = api3
                 PaketiGuncelle.AlternatifYapilmasin = alternatifyapilmasin
 
@@ -1295,6 +1297,8 @@ def TurkcellPaketleriCek(request):
                 PaketiGuncelle.Sebekeici = Decimal('0.00')
                 PaketiGuncelle.internet = paketGB
                 PaketiGuncelle.SMS = paketSMS
+                PaketiGuncelle.api3 = api1
+                PaketiGuncelle.api3 = api2
                 PaketiGuncelle.api3 = api3
                 PaketiGuncelle.AlternatifYapilmasin = alternatifyapilmasin
 
@@ -1319,6 +1323,7 @@ def TurkcellPaketleriCek(request):
                     Kategorisi=KategorisiGelen,
                     api1=api1,
                     api2=api2,
+                    api3=api3,
                     zNetKupur=znetFix,
                     AlternatifYapilmasin = alternatifyapilmasin
                 )
