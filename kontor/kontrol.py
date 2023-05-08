@@ -668,7 +668,8 @@ def AnaPaketSonucKontrol():
             elif ApiTuruadi == "grafi":
                 responses = response.text.split(" ")
                 response = response.text.split("|")
-                grafiTutar = float(str(response[1]).replace(" ","").replace(",","."))
+                print(response)
+                grafiTutar = Decimal(str(response[1]).replace(" ","").replace(",","."))
             GelenAciklama = Siparis.Aciklama
 
             if response[0] == "1" or responses[0] == "OK":
