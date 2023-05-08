@@ -515,8 +515,9 @@ def AlternatifSonucKontrol():
                 ANA_Siparis.SonucTarihi = timezone.now()
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                     if response[1] == "":
-                        ANA_Siparis.BayiAciklama = "Basarili"
+                       # ANA_Siparis.BayiAciklama = "Basarili"
                         alternatifOrder.Yukelenecek_Numara.SanalTutar = response[2]
+                        SonucCevabi = "Basarili"
                     else:
                         if response[1] =="Y%C3%BCklendi+-ONAYLANDI":
                             SonucCevabi = "Basarili"
