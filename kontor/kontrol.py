@@ -518,7 +518,6 @@ def AlternatifSonucKontrol():
 
             GelenAciklama = ANA_Siparis.Aciklama
 
-
             if response[0] == "1" or responses[0] == "OK":
                 # Cevabı işleyin ve veritabanına kaydedin
                 alternatifOrder.YuklenecekPaketDurumu = Basarili
