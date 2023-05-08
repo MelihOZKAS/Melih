@@ -37,9 +37,9 @@ def AnaPaketGonder():
             siparisturu = Siparis.Operator
             opAdi = siparisturu.AnaOperatorler
 
-            if opAdi == "vodafone":
+            if opAdi == "vodafone" or opAdi == "Vodafone":
                 paketler = VodafonePaketler.objects.filter(apiler=api)
-            elif opAdi == "turkcell":
+            elif opAdi == "turkcell" or opAdi == "Turkcell":
                 paketler = Turkcell.objects.filter(apiler=api)
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
