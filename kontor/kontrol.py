@@ -395,7 +395,8 @@ def SorguSonucKontrol():
                 #linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
             elif order.Operator.AnaOperatorler == "turkcell":
                 api = Apiler.objects.get(id=9)
-                linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgu&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
+                #linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgu&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
+                linki = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=TurkcellSorgu&sifre=TurkcellSorgu&tekilnumara={order.SanalRef}"
 
 
 
