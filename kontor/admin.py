@@ -391,16 +391,58 @@ class TurkcellInline(admin.TabularInline):
 
 
 def add_all_kontors_to_api(modeladmin, request, queryset):
+    #eski ---   for api in queryset:
+    #eski ---       kontor_listesi = KontorList.objects.filter(Kategorisi__in=[1, 2])
+    #eski ---       for kontor in kontor_listesi:
+    #eski ---           if not Turkcell.objects.filter(apiler=api, urun_adi=kontor.Urun_adi, kupur=kontor.Kupur, eslestirme_kupur=kontor.Kupur).exists():
+    #eski ---               Turkcell.objects.create(
+    #eski ---                   apiler=api,
+    #eski ---                   urun_adi=kontor.Urun_adi,
+    #eski ---                   kupur=kontor.Kupur,
+    #eski ---                   eslestirme_kupur=kontor.Kupur
+    #eski ---               )
+
     for api in queryset:
+        apituru = api.ApiTuru
+        SecilenApi = apituru.ApiYazilimAdi
+
+        print(api.ApiTuru)
+        print(type(api.ApiTuru))
         kontor_listesi = KontorList.objects.filter(Kategorisi__in=[1, 2])
         for kontor in kontor_listesi:
-            if not Turkcell.objects.filter(apiler=api, urun_adi=kontor.Urun_adi, kupur=kontor.Kupur, eslestirme_kupur=kontor.Kupur).exists():
-                Turkcell.objects.create(
-                    apiler=api,
-                    urun_adi=kontor.Urun_adi,
-                    kupur=kontor.Kupur,
-                    eslestirme_kupur=kontor.Kupur
-                )
+            if not Turkcell.objects.filter(apiler=api, kupur=kontor.Kupur).exists():
+                if SecilenApi == "Znet":
+                    Turkcell.objects.create(
+                        apiler=api,
+                        urun_adi=kontor.Urun_adi,
+                        kupur=kontor.Kupur,
+                        eslestirme_operator_adi="turkcell",
+                        eslestirme_operator_tipi="ses",
+                        eslestirme_kupur=kontor.zNetKupur
+                    )
+                elif SecilenApi == "Gencan":
+                    GelenRef = str(api.ApiTanim).split(",")
+                    print(GelenRef)
+                    Turkcell.objects.create(
+                        apiler=api,
+                        urun_adi=kontor.Urun_adi,
+                        kupur=kontor.Kupur,
+                        eslestirme_operator_adi=GelenRef[0],
+                        eslestirme_operator_tipi=GelenRef[1],
+                        eslestirme_kupur=kontor.Kupur
+                    )
+                elif SecilenApi == "grafi":
+                    Turkcell.objects.create(
+                        apiler=api,
+                        urun_adi=kontor.Urun_adi,
+                        kupur=kontor.Kupur,
+                        #eslestirme_operator_adi="vodafone",
+                        #eslestirme_operator_tipi="ses",
+                        eslestirme_kupur=0
+                    )
+                else:
+                    print("Nasip Patladık.")
+
 
 add_all_kontors_to_api.short_description = "Seçilen API'ye turkcell operatöründeki tüm kontörleri ekle"
 
