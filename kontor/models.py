@@ -221,7 +221,7 @@ class Turkcell(models.Model):
     Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        verbose_name_plural = 'TurkcellTam'
+        verbose_name_plural = 'TurkcellSes'
 
     def __str__(self):
         return self.urun_adi

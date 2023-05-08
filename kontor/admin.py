@@ -418,7 +418,7 @@ def add_all_kontors_to_api(modeladmin, request, queryset):
                         kupur=kontor.Kupur,
                         eslestirme_operator_adi="turkcell",
                         eslestirme_operator_tipi="ses",
-                        eslestirme_kupur=kontor.zNetKupur
+                        eslestirme_kupur=kontor.Kupur
                     )
                 elif SecilenApi == "Gencan":
                     GelenRef = str(api.ApiTanim).split(",")
