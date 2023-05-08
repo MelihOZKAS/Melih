@@ -408,7 +408,7 @@ def add_all_kontors_to_api(modeladmin, request, queryset):
 
         print(api.ApiTuru)
         print(type(api.ApiTuru))
-        kontor_listesi = KontorList.objects.filter(Kategorisi__in=[1, 2])
+        kontor_listesi = KontorList.objects.filter(Kategorisi__in=[1])
         for kontor in kontor_listesi:
             if not Turkcell.objects.filter(apiler=api, kupur=kontor.Kupur).exists():
                 if SecilenApi == "Znet":
