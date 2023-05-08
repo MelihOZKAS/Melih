@@ -512,7 +512,7 @@ def AlternatifSonucKontrol():
             if response[0] == "1" or responses[0] == "OK":
                 # Cevabı işleyin ve veritabanına kaydedin
                 alternatifOrder.YuklenecekPaketDurumu = Basarili
-                Siparis.SonucTarihi = timezone.now()
+                ANA_Siparis.SonucTarihi = timezone.now()
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                     if response[1] == "":
                         ANA_Siparis.BayiAciklama = "Basarili"
