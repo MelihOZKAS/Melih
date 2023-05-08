@@ -533,7 +533,7 @@ def AlternatifSonucKontrol():
                             SonucCevabi = "Basarili"
                         else:
                             SonucCevabi = response[1]
-                            print("GrafitutariBu = "+str(grafiTutar))
+                            #print("GrafitutariBu = "+str(grafiTutar))
 
 
 
