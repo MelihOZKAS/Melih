@@ -556,14 +556,14 @@ def AlternatifSonucKontrol():
                 # api.save()
                 #Sonuc = response[2]
                 print("Durum güncellendi.")
-                SonucList.append(str(Siparis.Numara) + " Başarılı.")
+                SonucList.append(str(ANA_Siparis.Numara) + " Başarılı.")
                 # return Sonuc
                 continue
             elif response[0] == "2" or response[0] == "99":
                 # Cevabı işleyin ve veritabanına kaydedin
                 # ...
                 Sonuc = "Henüz işlemde"
-                SonucList.append(str(Siparis.Numara) + " Henüz işlemde.")
+                SonucList.append(str(ANA_Siparis.Numara) + " Henüz işlemde.")
                 continue
             elif response[0] == "3" or response[0] == "98":
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
