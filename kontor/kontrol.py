@@ -399,24 +399,18 @@ def SorguSonucKontrol():
         for order in orders:
             # Apiler sınıfından şifre bilgilerini alın
             if order.Operator.AnaOperatorler == "vodafone":
-                linki = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=VodafoneSorgudj&sifre=VodafoneSorgudj&tekilnumara={order.SanalRef}"
+                url = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=VodafoneSorgudj&sifre=VodafoneSorgudj&tekilnumara={order.SanalRef}"
                 #linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
             elif order.Operator.AnaOperatorler == "turkcell":
                 api = Apiler.objects.get(id=9)
                 #linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgu&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
-                linki = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=TurkcellSorgudj&sifre=TurkcellSorgu&tekilnumara={order.SanalRef}"
+                url = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=TurkcellSorgudj&sifre=TurkcellSorgu&tekilnumara={order.SanalRef}"
 
-
-
-
-
-            url = linki
             #url = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullanicikodu}&sifre={api.Sifre}&operator={order.Operator}&tip={order.operatorTip}&kontor={order.PaketKupur}&gsmno={order.numara}&tekilnumara={order.GelenReferans}"
 
          #   1: olumlu_islem:5.50
          #   2: islemde:5.50
          #   3: iptal_nedeni
-
 
             response = requests.get(url)
             print(response.text)
@@ -1178,8 +1172,8 @@ def VodafonePaketleriCek(request):
             alternatifyapilmasin = alternatif_bilgisi
             PaketNames = bilgiler[9]
             KategorisiGelen = Kategori.objects.get(pk=3)
-            api1 = Apiler.objects.get(pk=3)
-            api2 = Apiler.objects.get(pk=2)
+            api1 = Apiler.objects.get(pk=6)
+            api2 = Apiler.objects.get(pk=3)
             api3 = Apiler.objects.get(pk=1)
             SatisFiyat = paketFiyat + Decimal('5.00')
             GelenPaket = KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID)
@@ -1281,9 +1275,9 @@ def TurkcellPaketleriCek(request):
             PaketNames = bilgiler[9]
 
             KategorisiGelen = Kategori.objects.get(pk=1)
-            api1 = Apiler.objects.get(pk=3)
-            api2 = Apiler.objects.get(pk=2)
-            api3 = Apiler.objects.get(pk=1)
+            api1 = Apiler.objects.get(pk=8)
+            api2 = Apiler.objects.get(pk=11)
+            api3 = Apiler.objects.get(pk=2)
             SatisFiyat = paketFiyat + Decimal('5.00')
             GelenPaket = KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID)
             if GelenPaket.exists():
