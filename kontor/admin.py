@@ -12,7 +12,6 @@ import inspect
 from django.contrib.auth.models import User
 from .urunleri_cek import *
 
-
 # Register your models here.
 class DurumlarAdmin(admin.ModelAdmin):
     list_display = ['durum_id', 'get_durum_id_display']
