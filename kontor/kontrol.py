@@ -493,9 +493,9 @@ def AlternatifSonucKontrol():
             ApiTuruadi = ApiTuru.ApiYazilimAdi
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
-                url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={Siparis.SanalRef}"
+                url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={alternatifOrder.SanalRef}"
             elif ApiTuruadi == "grafi":
-                url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={Siparis.SanalRef}"
+                url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={alternatifOrder.SanalRef}"
             response = requests.get(url)
             print(response.text)
 
@@ -506,7 +506,7 @@ def AlternatifSonucKontrol():
                 responses = response.text.split(" ")
                 response = response.text.split("|")
                 grafiTutar = float(str(response[1]).replace(" ", "").replace(",", "."))
-            GelenAciklama = Siparis.Aciklama
+            GelenAciklama = ANA_Siparis.Aciklama
 
 
             if response[0] == "1" or responses[0] == "OK":
