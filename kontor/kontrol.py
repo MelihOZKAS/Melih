@@ -41,6 +41,10 @@ def AnaPaketGonder():
                 paketler = VodafonePaketler.objects.filter(apiler=api)
             elif opAdi == "turkcell" or opAdi == "Turkcell":
                 paketler = Turkcell.objects.filter(apiler=api)
+            elif opAdi == "avea" or opAdi == "Avea":
+                paketler = TTses.objects.filter(apiler=api)
+
+
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                 #paketler = VodafonePaketler.objects.filter(apiler=api)
@@ -955,7 +959,7 @@ def YuklenecekPaketler(request):
     Alternatif_Gonder = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
     Alternatif_Gonderim_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderim_Bekliyor)
     siparisler = Siparisler.objects.filter(Durum=altkontrol31)
-    print("Nasip0001")
+    #print("Nasip0001")
     for siparis in siparisler:
         # Siparişin sanal kategorisini alıyoruz
         kategori = siparis.SanalKategori
@@ -1171,7 +1175,7 @@ def VodafonePaketleriCek(request):
                 alternatif_bilgisi = False
             alternatifyapilmasin = alternatif_bilgisi
             PaketNames = bilgiler[9]
-            KategorisiGelen = Kategori.objects.get(pk=3)
+            KategorisiGelen = Kategori.objects.get(pk=3) #TODO 3 yaptım bu Vodafone çünkü
             api1 = Apiler.objects.get(pk=6)
             api2 = Apiler.objects.get(pk=3)
             api3 = Apiler.objects.get(pk=1)
@@ -1276,7 +1280,7 @@ def TurkcellPaketleriCek(request):
             alternatifyapilmasin = alternatif_bilgisi
             PaketNames = bilgiler[9]
 
-            KategorisiGelen = Kategori.objects.get(pk=1)
+            KategorisiGelen = Kategori.objects.get(pk=1)       #TODO 1 yaptım bu Turkcell çünkü
             api1 = Apiler.objects.get(pk=8)
             api2 = Apiler.objects.get(pk=11)
             api3 = Apiler.objects.get(pk=2)
@@ -1331,6 +1335,112 @@ def TurkcellPaketleriCek(request):
 
     # Vodafoneye ait Mevcut paketleri veritabanından getir
     KategorisiGelen = Kategori.objects.get(pk=1)
+    mevcut_paketler = KontorList.objects.filter(Kategorisi=KategorisiGelen)
+
+    # Olmayah Paketleri Siler
+    # Gelen listedeki her bir paketi döngü ile kontrol et
+    kontrol = []
+
+    for paketi in paketler:
+        if not paketi.strip():
+            continue
+        bilgiler = paketi.split('/')
+        paketID = float(bilgiler[0])
+        kontrol.append(paketID)
+
+    mevcut_paketler = KontorList.objects.filter(Kategorisi=KategorisiGelen)
+    for paket in mevcut_paketler:
+        paketID = paket.Kupur
+        if paketID not in kontrol:
+            silinen_paketler.append(str(paketID))
+            KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID).delete()
+
+    return HttpResponse(f'İşlem tamamlandı. Eklenen paketler: {eklenen_paketler}, silinen paketler: {silinen_paketler}')
+
+
+def TTsesPaketleriCek(request):
+    eklenen_paketler=[]
+    silinen_paketler=[]
+    response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
+        'python': 'PaketCekTTsesAll'
+    })
+    if response.status_code == 200:
+        data = response.content.decode('utf-8')
+        paketler = data.split('|')
+        for paket in paketler:
+            if not paket.strip():
+                continue
+            bilgiler = paket.split('/')
+            paketID = float(bilgiler[0])
+            Paket = bilgiler[1]
+            paketDK = float(bilgiler[2])
+            paketGB = float(bilgiler[3])*1000
+            paketSMS = float(bilgiler[4])
+            paketFiyat = Decimal(bilgiler[5].strip().replace(",","."))
+            paketDay = float(bilgiler[6])
+            #znetFix = Decimal(bilgiler[7]) if bilgiler[7].strip() and bilgiler[7] != 'Bulamadım.' else Decimal('0.00')
+            if bilgiler[7] == "evet":
+                alternatif_bilgisi = True
+            else:
+                alternatif_bilgisi = False
+            alternatifyapilmasin = alternatif_bilgisi
+            PaketNames = bilgiler[8]
+
+            KategorisiGelen = Kategori.objects.get(pk=4)   #TODO 4 yaptım bu TT çünkü
+            api1 = Apiler.objects.get(pk=2)
+            api2 = Apiler.objects.get(pk=11)
+            api3 = Apiler.objects.get(pk=2)
+            SatisFiyat = paketFiyat + Decimal('5.00')
+            GelenPaket = KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID)
+            if GelenPaket.exists():
+                #print("Paket ---Update girdim")
+                # güncelleme işlemi yapılır
+                PaketiGuncelle = GelenPaket.first()
+                PaketiGuncelle.Urun_adi = PaketNames
+                PaketiGuncelle.Urun_Detay = Paket
+                PaketiGuncelle.Kupur = paketID
+                #PaketiGuncelle.zNetKupur = znetFix
+                PaketiGuncelle.GunSayisi = paketDay
+                PaketiGuncelle.MaliyetFiyat = paketFiyat
+                PaketiGuncelle.SatisFiyat = SatisFiyat
+                PaketiGuncelle.HeryoneDK = paketDK
+                PaketiGuncelle.Sebekeici = Decimal('0.00')
+                PaketiGuncelle.internet = paketGB
+                PaketiGuncelle.SMS = paketSMS
+                PaketiGuncelle.api1 = api1
+                #PaketiGuncelle.api2 = api2
+                #PaketiGuncelle.api3 = api3
+                PaketiGuncelle.AlternatifYapilmasin = alternatifyapilmasin
+
+                PaketiGuncelle.save()
+
+            else:
+                eklenen_paketler.append(str(paketID))
+                # yeni kayıt oluşturma işlemi yapılır
+                paketEkle = KontorList(
+                    Kupur=paketID,
+                    Urun_adi=PaketNames,
+                    Urun_Detay=Paket,
+                    GunSayisi=paketDay,
+                    MaliyetFiyat=paketFiyat,
+                    SatisFiyat=Decimal(int(paketFiyat) + 5),
+                    HeryoneDK=paketDK,
+                    Sebekeici=Decimal('0.00'),
+                    internet=Decimal(paketGB),
+                    SMS=paketSMS,
+                    YurtDisiDk=Decimal('0.00'),
+                    Aktifmi=True,
+                    Kategorisi=KategorisiGelen,
+                    api1=api1,
+                 #   api2=api2,
+                 #   api3=api3,
+                 #   zNetKupur=znetFix,
+                    AlternatifYapilmasin = alternatifyapilmasin
+                )
+                paketEkle.save()
+
+    # Vodafoneye ait Mevcut paketleri veritabanından getir
+    KategorisiGelen = Kategori.objects.get(pk=4)
     mevcut_paketler = KontorList.objects.filter(Kategorisi=KategorisiGelen)
 
     # Olmayah Paketleri Siler

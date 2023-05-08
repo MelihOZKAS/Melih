@@ -210,6 +210,36 @@ class ApidenCekilenPaketler(models.Model):
 
 
 
+
+
+
+
+class TTtam(models.Model):
+    apiler = models.ForeignKey(Apiler, on_delete=models.CASCADE)
+    urun_adi = models.CharField(max_length=100,null=True, blank=True)
+    kupur = models.DecimalField(max_digits=100, decimal_places=2,null=True, blank=True)
+    alis_fiyati = models.DecimalField(max_digits=100, decimal_places=2, default=0,blank=True)
+    eslestirme_operator_adi = models.CharField(max_length=100, null=True, blank=True)
+    eslestirme_operator_tipi = models.CharField(max_length=100, null=True, blank=True)
+    eslestirme_kupur = models.DecimalField(max_digits=100, decimal_places=2,null=True, blank=True)
+    Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Turk Telekom Tam'
+
+class TTses(models.Model):
+    apiler = models.ForeignKey(Apiler, on_delete=models.CASCADE)
+    urun_adi = models.CharField(max_length=100,null=True, blank=True)
+    kupur = models.DecimalField(max_digits=100, decimal_places=2,null=True, blank=True)
+    alis_fiyati = models.DecimalField(max_digits=100, decimal_places=2, default=0,blank=True)
+    eslestirme_operator_adi = models.CharField(max_length=100, null=True, blank=True)
+    eslestirme_operator_tipi = models.CharField(max_length=100, null=True, blank=True)
+    eslestirme_kupur = models.DecimalField(max_digits=100, decimal_places=2,null=True, blank=True)
+    Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Turk Telekom Ses'
+
 class Turkcell(models.Model):
     apiler = models.ForeignKey(Apiler, on_delete=models.CASCADE)
     urun_adi = models.CharField(max_length=100,null=True, blank=True)
@@ -221,7 +251,7 @@ class Turkcell(models.Model):
     Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        verbose_name_plural = 'TurkcellSes'
+        verbose_name_plural = 'Turkcell Ses'
 
     def __str__(self):
         return self.urun_adi
@@ -236,7 +266,7 @@ class VodafonePaketler(models.Model):
     Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        verbose_name_plural = 'VodafonePaketler'
+        verbose_name_plural = 'Vodafone Paketler'
     def __str__(self):
         return self.urun_adi
 

@@ -384,24 +384,61 @@ class VodafoneSesInline(admin.TabularInline):
     form = VodafoneSesInlineForm
 
 
+
 class TurkcellInline(admin.TabularInline):
     model = Turkcell
+    extra = 1
+class TTsesInline(admin.TabularInline):
+    model = TTses
+    extra = 1
+class TTtamInline(admin.TabularInline):
+    model = TTtam
     extra = 1
 
 
 
-def add_all_kontors_to_api(modeladmin, request, queryset):
-    #eski ---   for api in queryset:
-    #eski ---       kontor_listesi = KontorList.objects.filter(Kategorisi__in=[1, 2])
-    #eski ---       for kontor in kontor_listesi:
-    #eski ---           if not Turkcell.objects.filter(apiler=api, urun_adi=kontor.Urun_adi, kupur=kontor.Kupur, eslestirme_kupur=kontor.Kupur).exists():
-    #eski ---               Turkcell.objects.create(
-    #eski ---                   apiler=api,
-    #eski ---                   urun_adi=kontor.Urun_adi,
-    #eski ---                   kupur=kontor.Kupur,
-    #eski ---                   eslestirme_kupur=kontor.Kupur
-    #eski ---               )
 
+
+def add_AveaSes_kontors_to_api(modeladmin, request, queryset):
+    for api in queryset:
+        apituru = api.ApiTuru
+        SecilenApi = apituru.ApiYazilimAdi
+        kontor_listesi = KontorList.objects.filter(Kategorisi__in=[4])
+        for kontor in kontor_listesi:
+            if not TTses.objects.filter(apiler=api, kupur=kontor.Kupur).exists():
+                if SecilenApi == "Znet":
+                    TTses.objects.create(
+                        apiler=api,
+                        urun_adi=kontor.Urun_adi,
+                        kupur=kontor.Kupur,
+                        eslestirme_operator_adi="avea",
+                        eslestirme_operator_tipi="ses",
+                        eslestirme_kupur=kontor.Kupur
+                    )
+                elif SecilenApi == "Gencan":
+                    GelenRef = str(api.ApiTanim).split(",")
+                    print(GelenRef)
+                    TTses.objects.create(
+                        apiler=api,
+                        urun_adi=kontor.Urun_adi,
+                        kupur=kontor.Kupur,
+                        eslestirme_operator_adi=GelenRef[0],
+                        eslestirme_operator_tipi=GelenRef[1],
+                        eslestirme_kupur=kontor.Kupur
+                    )
+                elif SecilenApi == "grafi":
+                    TTses.objects.create(
+                        apiler=api,
+                        urun_adi=kontor.Urun_adi,
+                        kupur=kontor.Kupur,
+                        eslestirme_kupur=0
+                    )
+                else:
+                    print("Nasip Patladık.")
+
+add_AveaSes_kontors_to_api.short_description = "Seçilen API'ye TTSes operatöründeki tüm kontörleri ekle"
+
+def add_all_kontors_to_api(modeladmin, request, queryset):
     for api in queryset:
         apituru = api.ApiTuru
         SecilenApi = apituru.ApiYazilimAdi
@@ -442,7 +479,6 @@ def add_all_kontors_to_api(modeladmin, request, queryset):
                     )
                 else:
                     print("Nasip Patladık.")
-
 
 add_all_kontors_to_api.short_description = "Seçilen API'ye turkcell operatöründeki tüm kontörleri ekle"
 
@@ -502,21 +538,25 @@ def PaketleriCek(modeladmin, request, queryset):
         elif SecilenApi == "Gencan":
             paketler = paketlericekGenco(api, api.SiteAdresi, api.Kullanicikodu, api.Kullaniciadi, api.Sifre)
 
-
-
-
-    #modeladmin.message_user(request, "Seçilen apilere ait tüm Turkcell kayıtları silindi.")
-
-
 PaketleriCek.short_description = "Seçilen API'lerin PaketleriniCek"
 
 def delete_turkcell(modeladmin, request, queryset):
     for api in queryset:
         api.turkcell_set.all().delete()
     modeladmin.message_user(request, "Seçilen apilere ait tüm Turkcell kayıtları silindi.")
-
-
 delete_turkcell.short_description = "Seçilen API'lerin Turkcell kayıtlarını sil"
+
+def delete_ttses(modeladmin, request, queryset):
+    for api in queryset:
+        api.TTses_set.all().delete()
+    modeladmin.message_user(request, "Seçilen apilere ait tüm TTSes kayıtları silindi.")
+delete_ttses.short_description = "Seçilen API'lerin TTSes kayıtlarını sil"
+
+def delete_TTtam(modeladmin, request, queryset):
+    for api in queryset:
+        api.TTtam_set.all().delete()
+    modeladmin.message_user(request, "Seçilen apilere ait tüm TTtam kayıtları silindi.")
+delete_TTtam.short_description = "Seçilen API'lerin TTtam kayıtlarını sil"
 
 def delete_vodafone(modeladmin, request, queryset):
     for api in queryset:
@@ -533,6 +573,8 @@ class ApilerAdminForm(forms.ModelForm):
         widgets = {
             'Sifre': PasswordInput(render_value=True),
         }
+
+
 class AdminApiListesi(admin.ModelAdmin):
     form = ApilerAdminForm
     list_display = ("id","Apiadi","ApiBakiye","ApiTanim","ApiAktifmi","HataManuel",)
@@ -544,8 +586,8 @@ class AdminApiListesi(admin.ModelAdmin):
 
     toplam_kontor.short_description = 'Toplam Kontor'
 
-    inlines = [TurkcellInline,VodafoneSesInline]
-    actions = [PaketleriCek,add_all_kontors_to_api,delete_turkcell,add_Vodafone_kontors_to_api,delete_vodafone]
+    inlines = [TurkcellInline,VodafoneSesInline,TTsesInline,TTtamInline]
+    actions = [PaketleriCek,add_all_kontors_to_api,add_AveaSes_kontors_to_api,delete_turkcell,delete_ttses,delete_TTtam,add_Vodafone_kontors_to_api,delete_vodafone]
 
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
