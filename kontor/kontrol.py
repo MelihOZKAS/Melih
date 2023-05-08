@@ -523,13 +523,14 @@ def AlternatifSonucKontrol():
                         else:
                             SonucCevabi = response[1]
                             print("GrafitutariBu = "+str(grafiTutar))
-                            api.ApiBakiye -= Decimal(grafiTutar)
-                            alternatifOrder.Yukelenecek_Numara.SanalTutar = Decimal(grafiTutar)
+
 
 
                         #alternatifOrder.Yukelenecek_Numara.BayiAciklama = response[1]
                 elif ApiTuruadi == "grafi":
                     SonucCevabi = "Basarili"
+                    api.ApiBakiye -= Decimal(grafiTutar)
+                    alternatifOrder.Yukelenecek_Numara.SanalTutar = Decimal(grafiTutar)
 
 
 
