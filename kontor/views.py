@@ -113,7 +113,7 @@ def OperatorEkle (request):
 
 @csrf_exempt
 def ANaPaketGonder (request):
-    Sonuc = AnaPaketGonder(request)
+    Sonuc = AnaPaketGonder()
     return HttpResponse(Sonuc)
 
 
