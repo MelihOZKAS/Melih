@@ -535,17 +535,13 @@ def AlternatifSonucKontrol():
                             #print("GrafitutariBu = "+str(grafiTutar))
 
 
-
                         #alternatifOrder.Yukelenecek_Numara.BayiAciklama = response[1]
                 elif ApiTuruadi == "grafi":
                     paketFiyat = str(response[1]).replace(" ", "").replace(",", ".")
-                    paketFiyat = float(paketFiyat)
                     grafiTutar = Decimal(paketFiyat)
                     SonucCevabi = "Basarili"
                     api.ApiBakiye -= grafiTutar
                     alternatifOrder.Yukelenecek_Numara.SanalTutar = grafiTutar
-
-
 
                 ANA_Siparis.BayiAciklama = SonucCevabi
 
