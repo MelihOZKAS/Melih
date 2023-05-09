@@ -1090,10 +1090,17 @@ def AlternatifYuklemeGonder():
             gidenRefNumarasi = api.RefNumarasi
             api.RefNumarasi += 1
             api.save
-            print(ApiTuru)
-            print(ApiTuruadi)
-            print(ApiBakiye)
-            print(gidenRefNumarasi)
+
+            siparisturu = Siparis.Operator
+            opAdi = siparisturu.AnaOperatorler
+
+            if opAdi == "vodafone" or opAdi == "Vodafone":
+                paketler = VodafonePaketler.objects.filter(apiler=api)
+            elif opAdi == "turkcell" or opAdi == "Turkcell":
+                paketler = Turkcell.objects.filter(apiler=api)
+            elif opAdi == "avea" or opAdi == "Avea":
+                paketler = TTses.objects.filter(apiler=api)
+
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == 'Gencan':
                 paketler = VodafonePaketler.objects.filter(apiler=api)
@@ -1108,52 +1115,72 @@ def AlternatifYuklemeGonder():
                 eslestirme_kupur = paket['eslestirme_kupur']
                 print(str(eslestirme_operator_adi)+" "+str(eslestirme_operator_tipi)+" "+str(eslestirme_kupur))
 #                eslestirme_kupur = eslestirme_kupur.replace('.00','')
+                url = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={alternatifOrder.Yukelenecek_Numara.Numara}&tekilnumara={gidenRefNumarasi}"
+            elif ApiTuruadi == "grafi":
+                paket = paketler.filter(kupur=alternatifOrder.YuklenecekPaketID).values('eslestirme_kupur').first()
+                # İstenen bilgileri değişkenlere atayın
+                eslestirme_kupur = paket['eslestirme_kupur']
+                eslestirme_kupur = str(eslestirme_kupur).replace(".00","")
+                url = f"https://{api.SiteAdresi}/api/islemal.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&ope={eslestirme_kupur}&turu=5&miktar=0&telno={alternatifOrder.Yukelenecek_Numara.Numara}&ref={gidenRefNumarasi}"
+                print(url)
 
-
-            linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={alternatifOrder.Yukelenecek_Numara.Numara}&tekilnumara={gidenRefNumarasi}"
-
-            url = linki
-            print(linki)
             response = requests.get(url)
             print(response.text)
             # TODO: işlem için Verilen Yeni Ref kayıt Yeri --- OK
             # TODO: işlem için Çekilen Tutarı kaydet olumlu olursa zaten düşmüş oluyorsun olumsuz olursa eklemen lazım.
             # TODO: işlem için Api ID si
-            response = response.text.split("|")
-            if response[0] == "OK":
-                if response[1] == "1":
-                    alternatifOrder.YuklenecekPaketDurumu = Alternatif_islemde #Devamı Lazım.
-                    #alternatifOrder.Aciklama = response[2]
-                    alternatifOrder.YuklenecekPaketFiyat = response[3]
-                    alternatifOrder.SanalRefIdesi = gidenRefNumarasi
+            if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                response = response.text.split("|")
+                if response[0] == "OK":
+                    if response[1] == "1":
+                        alternatifOrder.YuklenecekPaketDurumu = Alternatif_islemde #Devamı Lazım.
+                        #alternatifOrder.Aciklama = response[2]
+                        alternatifOrder.YuklenecekPaketFiyat = response[3]
+                        alternatifOrder.SanalRefIdesi = gidenRefNumarasi
+                        alternatifOrder.YuklenecekPaketDurumu = Alternatif_Cevap_Bekliyor
+                        alternatifOrder.save()
+                        api.ApiBakiye -= Decimal(response[3])
+                        api.save()
+                        Sonuc = response[2]
+                        return Sonuc
+                    elif response[1] == "8":
+                        # Cevabı işleyin ve veritabanına kaydedin
+                        # ...
+                        alternatifOrder.YuklenecekPaketDurumu = askida
+                       # alternatifOrder.Aciklama = response[2]
+                        alternatifOrder.save()
+                        Sonuc = response[2]
+                        return Sonuc
+                    elif response[1] == "3":
+                        # Cevabı işleyin ve veritabanına kaydedin
+                        # ...
+                        alternatifOrder.YuklenecekPaketDurumu = askida
+                       # alternatifOrder.Aciklama = response[2]
+                        alternatifOrder.save()
+                        Sonuc = response[2]
+                        return Sonuc
+                    else:
+                        alternatifOrder.YuklenecekPaketDurumu = 97
+                       # alternatifOrder.Aciklama = response[2]
+                        alternatifOrder.save()
+                        Sonuc = response[2]
+                        return Sonuc
+            elif ApiTuruadi == "grafi":
+                response = response.text.split(" ")
+                GelenAciklama = Siparis.Aciklama
+                if response[0] == "OK":
+                    alternatifOrder.SanalRefIdesi =  response[1]
                     alternatifOrder.YuklenecekPaketDurumu = Alternatif_Cevap_Bekliyor
                     alternatifOrder.save()
-                    api.ApiBakiye -= Decimal(response[3])
                     api.save()
-                    Sonuc = response[2]
-                    return Sonuc
-                elif response[1] == "8":
-                    # Cevabı işleyin ve veritabanına kaydedin
-                    # ...
-                    alternatifOrder.YuklenecekPaketDurumu = askida
-                   # alternatifOrder.Aciklama = response[2]
-                    alternatifOrder.save()
-                    Sonuc = response[2]
-                    return Sonuc
-                elif response[1] == "3":
-                    # Cevabı işleyin ve veritabanına kaydedin
-                    # ...
-                    alternatifOrder.YuklenecekPaketDurumu = askida
-                   # alternatifOrder.Aciklama = response[2]
-                    alternatifOrder.save()
-                    Sonuc = response[2]
-                    return Sonuc
+                    Sonuc = response
                 else:
-                    alternatifOrder.YuklenecekPaketDurumu = 97
-                   # alternatifOrder.Aciklama = response[2]
+                    alternatifOrder.YuklenecekPaketDurumu = askida
+                    #todo her iki sinede acıklama ekle.
+                    #Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + str(response) + " \n"
                     alternatifOrder.save()
-                    Sonuc = response[2]
-                    return Sonuc
+                    Sonuc = response
+                return Sonuc
     else:
         Sonuc = "Hiç Sipariş Yok"
         return Sonuc
