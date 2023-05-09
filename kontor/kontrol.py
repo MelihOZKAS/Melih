@@ -668,7 +668,10 @@ def AnaPaketSonucKontrol():
                 responses = response.text.split(" ")
                 response = response.text.split("|")
                 print(response)
-                grafiTutar = Decimal(str(response[1]).replace(" ","").replace(",","."))
+
+
+
+               # grafiTutar = Decimal(str(response[1]).replace(" ","").replace(",","."))
             GelenAciklama = Siparis.Aciklama
 
             if response[0] == "1" or responses[0] == "OK":
@@ -681,6 +684,9 @@ def AnaPaketSonucKontrol():
                     else:
                         Siparis.BayiAciklama = response[1]
                 elif ApiTuruadi== "grafi":
+                    paketFiyat = str(response[1]).replace(" ", "").replace(",", ".")
+                    paketFiyat = float(paketFiyat)
+                    grafiTutar = Decimal(paketFiyat)
                     Siparis.BayiAciklama = "Basarili"
                     api.ApiBakiye -= Decimal(grafiTutar)
                     Siparis.SanalTutar = grafiTutar
