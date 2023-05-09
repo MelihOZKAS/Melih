@@ -513,7 +513,7 @@ def AlternatifSonucKontrol():
             elif ApiTuruadi == "grafi":
                 responses = response.text.split(" ")
                 response = response.text.split("|")
-                grafiTutar = float(str(response[1]).replace(" ", "").replace(",", "."))
+#                grafiTutar = float(str(response[1]).replace(" ", "").replace(",", "."))
 
             GelenAciklama = ANA_Siparis.Aciklama
 
@@ -537,6 +537,9 @@ def AlternatifSonucKontrol():
 
                         #alternatifOrder.Yukelenecek_Numara.BayiAciklama = response[1]
                 elif ApiTuruadi == "grafi":
+                    paketFiyat = str(response[1]).replace(" ", "").replace(",", ".")
+                    paketFiyat = float(paketFiyat)
+                    grafiTutar = Decimal(paketFiyat)
                     SonucCevabi = "Basarili"
                     api.ApiBakiye -= Decimal(grafiTutar)
                     alternatifOrder.Yukelenecek_Numara.SanalTutar = Decimal(grafiTutar)
@@ -668,8 +671,6 @@ def AnaPaketSonucKontrol():
                 responses = response.text.split(" ")
                 response = response.text.split("|")
                 print(response)
-
-
 
                # grafiTutar = Decimal(str(response[1]).replace(" ","").replace(",","."))
             GelenAciklama = Siparis.Aciklama
