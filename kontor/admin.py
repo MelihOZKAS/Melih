@@ -398,13 +398,38 @@ class TTtamInline(admin.TabularInline):
 
 
 
-def add_AveaSes_kontors_to_api(modeladmin, request, queryset):
+def TTSES_Paketleri_Ekle(modeladmin, request, queryset):
     for api in queryset:
         apituru = api.ApiTuru
         SecilenApi = apituru.ApiYazilimAdi
         kontor_listesi = KontorList.objects.filter(Kategorisi__in=[4])
         for kontor in kontor_listesi:
-            if not TTses.objects.filter(apiler=api, kupur=kontor.Kupur).exists():
+            #if not TTses.objects.filter(apiler=api, kupur=kontor.Kupur).exists():
+            GelenPaketler = TTses.objects.filter(apiler=api, kupur=kontor.Kupur)
+            if GelenPaketler.exists():
+                PaketiGuncelle = GelenPaketler.first()
+                if SecilenApi == "Znet":
+                    PaketiGuncelle.apiler = api
+                    PaketiGuncelle.urun_adi = kontor.Urun_adi
+                    PaketiGuncelle.kupur = kontor.Kupur
+                    PaketiGuncelle.eslestirme_operator_adi = "avea"
+                    PaketiGuncelle.eslestirme_operator_tipi = "ses"
+                    PaketiGuncelle.eslestirme_kupur = kontor.Kupur
+                elif SecilenApi == "Gencan":
+                    GelenRef = str(api.ApiTanim).split(",")
+                    print(GelenRef)
+                    PaketiGuncelle.apiler = api
+                    PaketiGuncelle.urun_adi = kontor.Urun_adi
+                    PaketiGuncelle.kupur = kontor.Kupur
+                    PaketiGuncelle.eslestirme_operator_adi = GelenRef[0]
+                    PaketiGuncelle.eslestirme_operator_tipi = GelenRef[1]
+                    PaketiGuncelle.eslestirme_kupur = kontor.zNetKupur
+                elif SecilenApi == "grafi":
+                    PaketiGuncelle.apiler = api
+                    PaketiGuncelle.urun_adi = kontor.Urun_adi
+                    PaketiGuncelle.kupur = kontor.Kupur
+                PaketiGuncelle.save()
+            else:
                 if SecilenApi == "Znet":
                     TTses.objects.create(
                         apiler=api,
@@ -435,18 +460,42 @@ def add_AveaSes_kontors_to_api(modeladmin, request, queryset):
                 else:
                     print("Nasip Patladık.")
 
-add_AveaSes_kontors_to_api.short_description = "Seçilen API'ye TTSes operatöründeki tüm kontörleri ekle"
+TTSES_Paketleri_Ekle.short_description = "Seçilen API'ye TTSes operatöründeki tüm kontörleri ekle"
 
-def add_all_kontors_to_api(modeladmin, request, queryset):
+def Turkcell_Paketleri_Ekle(modeladmin, request, queryset):
     for api in queryset:
         apituru = api.ApiTuru
         SecilenApi = apituru.ApiYazilimAdi
-
         print(api.ApiTuru)
         print(type(api.ApiTuru))
         kontor_listesi = KontorList.objects.filter(Kategorisi__in=[1])
         for kontor in kontor_listesi:
-            if not Turkcell.objects.filter(apiler=api, kupur=kontor.Kupur).exists():
+            #if not Turkcell.objects.filter(apiler=api, kupur=kontor.Kupur).exists():
+            GelenPaketler = Turkcell.objects.filter(apiler=api, kupur=kontor.Kupur)
+            if GelenPaketler.exists():
+                PaketiGuncelle = GelenPaketler.first()
+                if SecilenApi == "Znet":
+                    PaketiGuncelle.apiler = api
+                    PaketiGuncelle.urun_adi = kontor.Urun_adi
+                    PaketiGuncelle.kupur = kontor.Kupur
+                    PaketiGuncelle.eslestirme_operator_adi = "turkcell"
+                    PaketiGuncelle.eslestirme_operator_tipi = "ses"
+                    PaketiGuncelle.eslestirme_kupur = kontor.zNetKupur
+                elif SecilenApi == "Gencan":
+                    GelenRef = str(api.ApiTanim).split(",")
+                    print(GelenRef)
+                    PaketiGuncelle.apiler = api
+                    PaketiGuncelle.urun_adi = kontor.Urun_adi
+                    PaketiGuncelle.kupur = kontor.Kupur
+                    PaketiGuncelle.eslestirme_operator_adi = GelenRef[0]
+                    PaketiGuncelle.eslestirme_operator_tipi = GelenRef[1]
+                    PaketiGuncelle.eslestirme_kupur = kontor.zNetKupur
+                elif SecilenApi == "grafi":
+                    PaketiGuncelle.apiler = api
+                    PaketiGuncelle.urun_adi = kontor.Urun_adi
+                    PaketiGuncelle.kupur = kontor.Kupur
+                PaketiGuncelle.save()
+            else:
                 if SecilenApi == "Znet":
                     Turkcell.objects.create(
                         apiler=api,
@@ -467,22 +516,20 @@ def add_all_kontors_to_api(modeladmin, request, queryset):
                         eslestirme_operator_tipi=GelenRef[1],
                         eslestirme_kupur=kontor.Kupur
                     )
-                elif SecilenApi == "grafi":
                     Turkcell.objects.create(
                         apiler=api,
                         urun_adi=kontor.Urun_adi,
                         kupur=kontor.Kupur,
-                        #eslestirme_operator_adi="vodafone",
-                        #eslestirme_operator_tipi="ses",
-                        eslestirme_kupur=0
                     )
+                elif SecilenApi == "grafi":
+                    pass
                 else:
                     print("Nasip Patladık.")
 
-add_all_kontors_to_api.short_description = "Seçilen API'ye turkcell operatöründeki tüm kontörleri ekle"
+Turkcell_Paketleri_Ekle.short_description = "Seçilen API'ye turkcell operatöründeki tüm kontörleri ekle"
 
 
-def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
+def Vodafonel_Paketleri_Ekle(modeladmin, request, queryset):
    # eslestirme_operator_adi = input("Eşleştirme operator adı: ")
     for api in queryset:
         apituru = api.ApiTuru
@@ -492,7 +539,33 @@ def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
         print(type(api.ApiTuru))
         kontor_listesi = KontorList.objects.filter(Kategorisi__in=[3])
         for kontor in kontor_listesi:
-            if not VodafonePaketler.objects.filter(apiler=api, kupur=kontor.Kupur).exists():
+            #if not VodafonePaketler.objects.filter(apiler=api, kupur=kontor.Kupur).exists():
+            GelenPaketler = VodafonePaketler.objects.filter(apiler=api, kupur=kontor.Kupur)
+            if GelenPaketler.exists():
+                PaketiGuncelle = GelenPaketler.first()
+                if SecilenApi == "Znet":
+                    PaketiGuncelle.apiler = api
+                    PaketiGuncelle.urun_adi = kontor.Urun_adi
+                    PaketiGuncelle.kupur = kontor.Kupur
+                    PaketiGuncelle.eslestirme_operator_adi = "vodafone"
+                    PaketiGuncelle.eslestirme_operator_tipi = "ses"
+                    PaketiGuncelle.eslestirme_kupur = kontor.zNetKupur
+                elif SecilenApi == "Gencan":
+                    GelenRef = str(api.ApiTanim).split(",")
+                    print(GelenRef)
+                    PaketiGuncelle.apiler = api
+                    PaketiGuncelle.urun_adi = kontor.Urun_adi
+                    PaketiGuncelle.kupur = kontor.Kupur
+                    PaketiGuncelle.eslestirme_operator_adi = GelenRef[0]
+                    PaketiGuncelle.eslestirme_operator_tipi = GelenRef[1]
+                    PaketiGuncelle.eslestirme_kupur = kontor.zNetKupur
+                elif SecilenApi == "grafi":
+                    PaketiGuncelle.apiler = api
+                    PaketiGuncelle.urun_adi = kontor.Urun_adi
+                    PaketiGuncelle.kupur = kontor.Kupur
+                    PaketiGuncelle.eslestirme_kupur = kontor.zNetKupur
+                PaketiGuncelle.save()
+            else:
                 if SecilenApi == "Znet":
                     VodafonePaketler.objects.create(
                         apiler=api,
@@ -525,8 +598,7 @@ def add_Vodafone_kontors_to_api(modeladmin, request, queryset):
                 else:
                     print("Nasip Patladık.")
 
-
-add_Vodafone_kontors_to_api.short_description = "Seçilen API'ye Vodafone operatöründeki tüm kontörleri ekle"
+Vodafonel_Paketleri_Ekle.short_description = "Seçilen API'ye Vodafone operatöründeki tüm kontörleri ekle"
 
 def PaketleriCek(modeladmin, request, queryset):
     for api in queryset:
@@ -586,7 +658,7 @@ class AdminApiListesi(admin.ModelAdmin):
     toplam_kontor.short_description = 'Toplam Kontor'
 
     inlines = [TurkcellInline,VodafoneSesInline,TTsesInline,TTtamInline]
-    actions = [PaketleriCek,add_all_kontors_to_api,add_AveaSes_kontors_to_api,delete_turkcell,delete_ttses,delete_TTtam,add_Vodafone_kontors_to_api,delete_vodafone]
+    actions = [PaketleriCek,Vodafonel_Paketleri_Ekle,Turkcell_Paketleri_Ekle,TTSES_Paketleri_Ekle,delete_turkcell,delete_ttses,delete_TTtam,delete_vodafone]
 
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
