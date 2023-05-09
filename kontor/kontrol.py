@@ -542,8 +542,8 @@ def AlternatifSonucKontrol():
                     paketFiyat = float(paketFiyat)
                     grafiTutar = Decimal(paketFiyat)
                     SonucCevabi = "Basarili"
-                    api.ApiBakiye -= Decimal(grafiTutar)
-                    alternatifOrder.Yukelenecek_Numara.SanalTutar = Decimal(grafiTutar)
+                    api.ApiBakiye -= grafiTutar
+                    alternatifOrder.Yukelenecek_Numara.SanalTutar = grafiTutar
 
 
 
