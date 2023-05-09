@@ -515,6 +515,7 @@ def AlternatifSonucKontrol():
                 response = response.text.split("|")
 #                grafiTutar = float(str(response[1]).replace(" ", "").replace(",", "."))
 
+
             GelenAciklama = ANA_Siparis.Aciklama
 
             if response[0] == "1" or responses[0] == "OK":
