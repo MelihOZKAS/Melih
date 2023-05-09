@@ -1172,7 +1172,7 @@ def AlternatifYuklemeGonder():
                         return Sonuc
             elif ApiTuruadi == "grafi":
                 response = response.text.split(" ")
-                GelenAciklama = Siparis.Aciklama
+                #GelenAciklama = Siparis.Aciklama
                 if response[0] == "OK":
                     alternatifOrder.SanalRefIdesi =  response[1]
                     alternatifOrder.YuklenecekPaketDurumu = Alternatif_Cevap_Bekliyor
