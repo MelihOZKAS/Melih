@@ -1084,6 +1084,9 @@ def AlternatifYuklemeGonder():
                 print("Girdim3")
                 api = alternatifOrder.Yuklenecek_api3
 
+
+
+
             ApiTuru = api.ApiTuru
             ApiTuruadi = ApiTuru.ApiYazilimAdi
             ApiBakiye = api.ApiBakiye
@@ -1091,7 +1094,9 @@ def AlternatifYuklemeGonder():
             api.RefNumarasi += 1
             api.save
 
-            siparisturu = Siparis.Operator
+            #todo buradan aciklamalari yapabilirsin.
+            ANA_Siparis = Siparisler.objects.get(id=alternatifOrder.ANAURUNID)
+            siparisturu = ANA_Siparis.Operator
             opAdi = siparisturu.AnaOperatorler
 
             if opAdi == "vodafone" or opAdi == "Vodafone":
