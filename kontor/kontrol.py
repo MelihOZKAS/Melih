@@ -1106,8 +1106,6 @@ def AlternatifYuklemeGonder():
 
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == 'Gencan':
-              #  paketler = VodafonePaketler.objects.filter(apiler=api)
-
                 # Filtrelenmiş paketler listesinden, belirli bir kupür için ilgili bilgileri alın
                 paket = paketler.filter(kupur=alternatifOrder.YuklenecekPaketID).values('eslestirme_operator_adi', 'eslestirme_operator_tipi',
                                                             'eslestirme_kupur').first()
@@ -1170,12 +1168,14 @@ def AlternatifYuklemeGonder():
                         return Sonuc
             elif ApiTuruadi == "grafi":
                 response = response.text.split(" ")
-                #GelenAciklama = Siparis.Aciklama
+                GelenAciklama = ANA_Siparis.Aciklama
                 if response[0] == "OK":
+                    ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
                     alternatifOrder.SanalRefIdesi =  response[1]
                     alternatifOrder.YuklenecekPaketDurumu = Alternatif_Cevap_Bekliyor
                     alternatifOrder.save()
                     api.save()
+                    ANA_Siparis.save()
                     Sonuc = response
                 else:
                     alternatifOrder.YuklenecekPaketDurumu = askida
