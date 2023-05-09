@@ -743,7 +743,10 @@ def AnaPaketSonucKontrol():
                     SonucList.append(str(Siparis.Numara) + " Komple iptal oldu. ")
                 else:
                     Siparis.Durum = AnaPaket
-                    Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + response[1] +" iptal olanApiSirasi:"+str(Siparis.Gonderim_Sirasi)+ "\n"
+                    if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                        Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + response[1] +" iptal olanApiSirasi:"+str(Siparis.Gonderim_Sirasi)+ "\n"
+                    elif ApiTuruadi == "grafi":
+                        Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + str(responses) +" iptal olanApiSirasi:"+str(Siparis.Gonderim_Sirasi)+ "\n"
                     Siparis.Gonderim_Sirasi = Sirasi
                     Siparis.save()
                     AnaPaketGonder()
