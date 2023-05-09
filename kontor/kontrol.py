@@ -543,6 +543,8 @@ def AlternatifSonucKontrol():
                     api.ApiBakiye -= grafiTutar
                     alternatifOrder.Yukelenecek_Numara.SanalTutar = grafiTutar
 
+
+                ANA_Siparis.Aciklama = GelenAciklama+" \n" +str(response) +" Apiden Gelen Cevap \n"
                 ANA_Siparis.BayiAciklama = SonucCevabi
 
                 alternatifOrder.Yukelenecek_Numara.Durum = Basarili
