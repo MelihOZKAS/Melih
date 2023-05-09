@@ -1104,11 +1104,11 @@ def AlternatifYuklemeGonder():
 
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == 'Gencan':
-                paketler = VodafonePaketler.objects.filter(apiler=api)
+              #  paketler = VodafonePaketler.objects.filter(apiler=api)
 
                 # Filtrelenmiş paketler listesinden, belirli bir kupür için ilgili bilgileri alın
-                #paket = paketler.filter(kupur=alternatifOrder.YuklenecekPaketID).values('eslestirme_operator_adi', 'eslestirme_operator_tipi',
-                #                                            'eslestirme_kupur').first()
+                paket = paketler.filter(kupur=alternatifOrder.YuklenecekPaketID).values('eslestirme_operator_adi', 'eslestirme_operator_tipi',
+                                                            'eslestirme_kupur').first()
                 #TODO buraya Paket eşleştirmesi yok hatası ver 930' da patlıyor.
                 # İstenen bilgileri değişkenlere atayın
                 eslestirme_operator_adi = paket['eslestirme_operator_adi']
