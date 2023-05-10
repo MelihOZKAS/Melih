@@ -599,7 +599,7 @@ def AlternatifSonucKontrol():
                             ANA_Siparis.Durum = AnaPaketGoner
                             ANA_Siparis.Aciklama = GelenAciklama + " Alternatif hiç bulunamadı AnaPaketAktifOlduğu için Gönderime alındı. \n"
                             ANA_Siparis.save()
-                            AnaPaketGonder()
+                            #AnaPaketGonder()
                         else:
                             ANA_Siparis.Durum = iptal
                             ANA_Siparis.SonucTarihi = timezone.now()
@@ -750,7 +750,7 @@ def AnaPaketSonucKontrol():
                         Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + str(responses) +" iptal olanApiSirasi:"+str(Siparis.Gonderim_Sirasi)+ "\n"
                     Siparis.Gonderim_Sirasi = Sirasi
                     Siparis.save()
-                    AnaPaketGonder()
+                    #AnaPaketGonder()
                     SonucList.append(str(Siparis.Numara) + " AnaPaket Olarak işlemeAlındı.")
                     continue
 
@@ -931,7 +931,7 @@ def AlternatifKontrol(request):
                 GelenAciklama = GelenAciklama + "Hiç Eşleşen Alternatif Bulunamadi. Orjinal Paket Yüklemeye Gönderiliyor.\n"
                 siparis.Aciklama = GelenAciklama
                 siparis.save()
-                AnaPaketGonder()
+                #AnaPaketGonder()
             else:
                 siparis.Durum = iptalEdildi
                 siparis.SonucTarihi = timezone.now()
