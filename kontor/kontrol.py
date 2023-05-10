@@ -584,7 +584,7 @@ def AlternatifSonucKontrol():
 
                     GelenAciklama = ANA_Siparis.Aciklama
                     ANA_Siparis.SonucTarihi = timezone.now()
-                    ANA_Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + \
+                    ANA_Siparis.Aciklama = GelenAciklama + " Altennatifişem - SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + \
                                            response[
                                                1] + "iptal olanApiSirasi:" + str(
                         alternatifOrder.Gonderim_Sirasi) + "\n"
@@ -696,7 +696,9 @@ def AnaPaketSonucKontrol():
                     api.ApiBakiye -= Decimal(grafiTutar)
                     Siparis.SanalTutar = grafiTutar
 
-                Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ str(response[1]) + "\n"
+                #todo altakini sil daha alttakini ise aktif et kontrol ettikten sonra.
+                Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ str(response) + "\n"
+                #Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ str(response[1]) + "\n"
                 Siparis.save()
                 api.save()
                 Sonuc = "Basarili İslem"
