@@ -698,6 +698,7 @@ def AnaPaketSonucKontrol():
 
                 Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ str(response[1]) + "\n"
                 Siparis.save()
+                api.save()
                 Sonuc = "Basarili İslem"
                 SonucList.append(str(Siparis.Numara) + " Başarılı.")
                 #return Sonuc
