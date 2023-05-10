@@ -810,7 +810,6 @@ def AlternatifKontrol(request):
                 if alternative.product_id in PaketSorguListesi:
                     cikan_idler.append(alternative.product_id)
         except:
-
             if siparis.SorguPaketID == "VodafoneDegilKi,GNC001" or siparis.SorguPaketID == "VodafoneDegilKi" or siparis.SorguPaketID == "TurkcellDegil" or siparis.SorguPaketID == "AveaDegil!" or siparis.SorguPaketID == "NumaraEksik!":
                 siparis.Durum = iptalEdildi
                 siparis.SonucTarihi = timezone.now()
@@ -1101,6 +1100,7 @@ def AlternatifYuklemeGonder():
 
             #todo buradan aciklamalari yapabilirsin.
             ANA_Siparis = Siparisler.objects.get(id=alternatifOrder.ANAURUNID)
+            GelenAciklama = ANA_Siparis.Aciklama
             siparisturu = ANA_Siparis.Operator
             opAdi = siparisturu.AnaOperatorler
 
@@ -1142,6 +1142,7 @@ def AlternatifYuklemeGonder():
                 if response[0] == "OK":
                     if response[1] == "1":
                         alternatifOrder.YuklenecekPaketDurumu = Alternatif_islemde #Devamı Lazım.
+                        ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
                         #alternatifOrder.Aciklama = response[2]
                         alternatifOrder.YuklenecekPaketFiyat = response[3]
                         alternatifOrder.SanalRefIdesi = gidenRefNumarasi
@@ -1155,7 +1156,7 @@ def AlternatifYuklemeGonder():
                         # Cevabı işleyin ve veritabanına kaydedin
                         # ...
                         alternatifOrder.YuklenecekPaketDurumu = askida
-                       # alternatifOrder.Aciklama = response[2]
+                        ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
                         alternatifOrder.save()
                         Sonuc = response[2]
                         return Sonuc
@@ -1163,19 +1164,15 @@ def AlternatifYuklemeGonder():
                         # Cevabı işleyin ve veritabanına kaydedin
                         # ...
                         alternatifOrder.YuklenecekPaketDurumu = askida
-                       # alternatifOrder.Aciklama = response[2]
+                        ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
                         alternatifOrder.save()
                         Sonuc = response[2]
                         return Sonuc
-                    else:
-                        alternatifOrder.YuklenecekPaketDurumu = 97
-                       # alternatifOrder.Aciklama = response[2]
-                        alternatifOrder.save()
-                        Sonuc = response[2]
-                        return Sonuc
+
+
             elif ApiTuruadi == "grafi":
                 response = response.text.split(" ")
-                GelenAciklama = ANA_Siparis.Aciklama
+               # GelenAciklama = ANA_Siparis.Aciklama
                 if response[0] == "OK":
                     ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
                     alternatifOrder.SanalRefIdesi =  response[1]
