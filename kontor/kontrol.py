@@ -907,6 +907,7 @@ def AlternatifKontrol(request):
         if siparis_kupur in PaketSorguListesi:
             print("Aranan değer listede var.")
             siparis.AnaPaketVar = True
+            siparis.save()
         else:
             print("Aranan değer listede yok.")
             siparis.AnaPaketVar = False
