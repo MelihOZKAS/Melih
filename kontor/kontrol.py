@@ -541,7 +541,7 @@ def AlternatifSonucKontrol():
                     grafiTutar = Decimal(paketFiyat)
                     SonucCevabi = "Basarili"
                     api.ApiBakiye -= grafiTutar
-                    alternatifOrder.Yukelenecek_Numara.SanalTutar = grafiTutar
+                    alternatifOrder.YuklenecekPaketFiyat = grafiTutar
 
 
                 ANA_Siparis.Aciklama = GelenAciklama+" \n" +str(response) +" Apiden Gelen Cevap \n"
@@ -553,6 +553,7 @@ def AlternatifSonucKontrol():
                 ANA_Siparis.SonucTarihi = timezone.now()
                 alternatifOrder.save()
                 ANA_Siparis.save()
+                api.save()
                 # api.ApiBakiye -= Decimal(response[3])
                 # api.save()
                 #Sonuc = response[2]
