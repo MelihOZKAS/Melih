@@ -512,7 +512,7 @@ def AlternatifSonucKontrol():
                 responses = "responses"
             elif ApiTuruadi == "grafi":
                 responses = response.text.split(" ")
-                response = response.text.split("|")
+                response = response.text.replace(" ", "").replace(",", ".").split("|")
 #                grafiTutar = float(str(response[1]).replace(" ", "").replace(",", "."))
 
 
@@ -537,8 +537,8 @@ def AlternatifSonucKontrol():
 
                         #alternatifOrder.Yukelenecek_Numara.BayiAciklama = response[1]
                 elif ApiTuruadi == "grafi":
-                    paketFiyat = str(response[1]).replace(" ", "").replace(",", ".")
-                    grafiTutar = Decimal(paketFiyat)
+                    #paketFiyat = str(response[1]).replace(" ", "").replace(",", ".")
+                    grafiTutar = Decimal(response[1])
                     SonucCevabi = "Basarili"
                     api.ApiBakiye -= grafiTutar
                     alternatifOrder.YuklenecekPaketFiyat = grafiTutar
