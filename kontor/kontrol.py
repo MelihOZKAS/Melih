@@ -521,6 +521,7 @@ def AlternatifSonucKontrol():
             if response[0] == "1" or responses[0] == "OK":
                 # Cevabı işleyin ve veritabanına kaydedin
                 alternatifOrder.YuklenecekPaketDurumu = Basarili
+                ANA_Siparis.SanalTutar = response[2]
                 ANA_Siparis.SonucTarihi = timezone.now()
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                     if response[1] == "":
@@ -681,6 +682,7 @@ def AnaPaketSonucKontrol():
 
             if response[0] == "1" or responses[0] == "OK":
                 Siparis.Durum = Basarili
+                Siparis.SanalTutar = response[2]
                 Siparis.SonucTarihi = timezone.now()
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                     if response[1] == "":
