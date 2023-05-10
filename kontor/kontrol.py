@@ -32,7 +32,7 @@ def AnaPaketGonder():
             ApiBakiye = api.ApiBakiye
             gidenRefNumarasi = api.RefNumarasi
             api.RefNumarasi += 1
-            api.save
+            api.save()
 
             siparisturu = Siparis.Operator
             opAdi = siparisturu.AnaOperatorler
