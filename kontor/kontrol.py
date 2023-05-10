@@ -1150,6 +1150,7 @@ def AlternatifYuklemeGonder():
                         alternatifOrder.save()
                         api.ApiBakiye -= Decimal(response[3])
                         api.save()
+                        ANA_Siparis.save()
                         Sonuc = response[2]
                         return Sonuc
                     elif response[1] == "8":
@@ -1157,7 +1158,9 @@ def AlternatifYuklemeGonder():
                         # ...
                         alternatifOrder.YuklenecekPaketDurumu = askida
                         ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
+                        ANA_Siparis.save()
                         alternatifOrder.save()
+
                         Sonuc = response[2]
                         return Sonuc
                     elif response[1] == "3":
@@ -1165,6 +1168,7 @@ def AlternatifYuklemeGonder():
                         # ...
                         alternatifOrder.YuklenecekPaketDurumu = askida
                         ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
+                        ANA_Siparis.save()
                         alternatifOrder.save()
                         Sonuc = response[2]
                         return Sonuc
