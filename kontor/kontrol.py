@@ -1,5 +1,5 @@
 import decimal
-
+from urllib.parse import unquote
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,Turkcell,TTses,TTtam
@@ -662,14 +662,18 @@ def AnaPaketSonucKontrol():
                 url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={Siparis.SanalRef}"
                 print(url)
             response = requests.get(url)
-            response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
+           # response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
             print(response.text)
+            response = unquote(response.text)
+
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
-                response = response.text.split(":")
+
+                response = response.split(":")
                 responses = "responses"
+
             elif ApiTuruadi == "grafi":
-                responses = response.text.split(" ")
-                response = response.text.split("|")
+                responses = response.split(" ")
+                response = response.split("|")
                 print(response)
 
                # grafiTutar = Decimal(str(response[1]).replace(" ","").replace(",","."))
