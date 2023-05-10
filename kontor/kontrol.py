@@ -811,7 +811,7 @@ def AlternatifKontrol(request):
                     cikan_idler.append(alternative.product_id)
         except:
 
-            if siparis.SorguPaketID == "VodafoneDegilKi,GNC001" or siparis.SorguPaketID == "VodafoneDegilKi" or siparis.SorguPaketID == "TurkcellDegilKi,GNC001":
+            if siparis.SorguPaketID == "VodafoneDegilKi,GNC001" or siparis.SorguPaketID == "VodafoneDegilKi" or siparis.SorguPaketID == "TurkcellDegilKi,GNC001" or siparis.SorguPaketID == "AveaDegil!":
                 siparis.Durum = iptalEdildi
                 siparis.SonucTarihi = timezone.now()
                 siparis.BayiAciklama = siparis.SorguPaketID
