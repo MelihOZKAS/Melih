@@ -1165,7 +1165,6 @@ def AlternatifYuklemeGonder():
                         return Sonuc
                     elif response[1] == "3":
                         # Cevabı işleyin ve veritabanına kaydedin
-                        # ...
                         alternatifOrder.YuklenecekPaketDurumu = askida
                         ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
                         ANA_Siparis.save()
