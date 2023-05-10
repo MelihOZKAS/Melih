@@ -646,6 +646,7 @@ class ApilerAdminForm(forms.ModelForm):
         }
 
 
+
 class AdminApiListesi(admin.ModelAdmin):
     form = ApilerAdminForm
     list_display = ("id","Apiadi","ApiBakiye","ApiTanim","ApiAktifmi","RefNumarasi","HataManuel",)
