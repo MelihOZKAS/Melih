@@ -1352,83 +1352,83 @@ def TurkcellPaketleriCek(request):
                 # güncelleme işlemi yapılır
                 PaketiGuncelle = GelenPaket.first()
 
-                if PaketiGuncelle.Kupur == 4124:
+                if PaketiGuncelle.Kupur == "4124":
                     PaketNames = "Tüm Dünya 1 Saat"
-                if PaketiGuncelle.Kupur == 4401:
+                if PaketiGuncelle.Kupur == "4401":
                     PaketNames = "Kolay Paket 9"
-                if PaketiGuncelle.Kupur == 4402:
+                if PaketiGuncelle.Kupur == "4402":
                     PaketNames = "Kolay Paket 14"
-                if PaketiGuncelle.Kupur == 4405:
+                if PaketiGuncelle.Kupur == "4405":
                     PaketNames = "Kolay Paket 7"
-                if PaketiGuncelle.Kupur == 4406:
+                if PaketiGuncelle.Kupur == "4406":
                     PaketNames = "Kolay Paket 6"
-                if PaketiGuncelle.Kupur == 4407:
+                if PaketiGuncelle.Kupur == "4407":
                     PaketNames = "Kolay Paket 12"
-                if PaketiGuncelle.Kupur == 4780:
+                if PaketiGuncelle.Kupur == "4780":
                     PaketNames = "Haftalık 500 DK"
-                if PaketiGuncelle.Kupur == 12039:
+                if PaketiGuncelle.Kupur == "12039":
                     PaketNames = "Kolay Paket 3 Ay 30 GB"
-                if PaketiGuncelle.Kupur == 13189:
+                if PaketiGuncelle.Kupur == "13189":
                     PaketNames = "Kolay Paket 6 Ay 60 GB"
-                if PaketiGuncelle.Kupur == 13315:
+                if PaketiGuncelle.Kupur == "13315":
                     PaketNames = "Kolay Paket 16"
-                if PaketiGuncelle.Kupur == 13318:
+                if PaketiGuncelle.Kupur == "13318":
                     PaketNames = "Kolay Paket 5"
-                if PaketiGuncelle.Kupur == 13319:
+                if PaketiGuncelle.Kupur == "13319":
                     PaketNames = "Kolay Gani 1500 DK"
-                if PaketiGuncelle.Kupur == 13323:
+                if PaketiGuncelle.Kupur == "13323":
                     PaketNames = "Kolay Paket 25"
-                if PaketiGuncelle.Kupur == 13402:
+                if PaketiGuncelle.Kupur == "13402":
                     PaketNames = "Kolay Paket 3 Ay 45 GB"
-                if PaketiGuncelle.Kupur == 4294:
+                if PaketiGuncelle.Kupur == "4294":
                     PaketNames = "Haftalık 3 GB"
-                if PaketiGuncelle.Kupur == 6912:
+                if PaketiGuncelle.Kupur == "6912":
                     PaketNames = "Haftalık 5 GB"
-                if PaketiGuncelle.Kupur == 6911:
+                if PaketiGuncelle.Kupur == "6911":
                     PaketNames = "Haftalık 10 GB"
-                if PaketiGuncelle.Kupur == 4123:
+                if PaketiGuncelle.Kupur == "4123":
                     PaketNames = "Haftalık 1 GB"
-                if PaketiGuncelle.Kupur == 4116:
+                if PaketiGuncelle.Kupur == "4116":
                     PaketNames = "Haftalik Sinrisiz Iletisim Paketi"
-                if PaketiGuncelle.Kupur == 4117:
+                if PaketiGuncelle.Kupur == "4117":
                     PaketNames = "Haftalik Sinrisiz Sosyal Medya Paketi"
-                if PaketiGuncelle.Kupur == 4118:
+                if PaketiGuncelle.Kupur == "4118":
                     PaketNames = "Haftalik Sinrisiz Video Paketi"
-                if PaketiGuncelle.Kupur == 5151:
+                if PaketiGuncelle.Kupur == "5151":
                     PaketNames = "Haftalik Sinrisiz TikTok Paketi"
-                if PaketiGuncelle.Kupur == 5150:
+                if PaketiGuncelle.Kupur == "5150":
                     PaketNames = "Haftalik Sinrisiz Eglence Paketi"
-                if PaketiGuncelle.Kupur == 4280:
+                if PaketiGuncelle.Kupur == "4280":
                     PaketNames = "Gunluk Sinrisiz Iletisim Paketi"
-                if PaketiGuncelle.Kupur == 4279:
+                if PaketiGuncelle.Kupur == "4279":
                     PaketNames = "Gunluk Sinrisiz Video Paketi"
-                if PaketiGuncelle.Kupur == 5152:
+                if PaketiGuncelle.Kupur == "5152":
                     PaketNames = "15 Gunluk Sinirsiz TikTok"
-                if PaketiGuncelle.Kupur == 11716:
+                if PaketiGuncelle.Kupur == "11716":
                     PaketNames = "Süper Kolay Paket 6"
-                if PaketiGuncelle.Kupur == 10394:
+                if PaketiGuncelle.Kupur == "10394":
                     PaketNames = "3 Aylik Kolay Paket 50"
-                if PaketiGuncelle.Kupur == 10392:
+                if PaketiGuncelle.Kupur == "10392":
                     PaketNames = "Kolay Yeni Paket 25"
-                if PaketiGuncelle.Kupur == 13366:
+                if PaketiGuncelle.Kupur == "13366":
                     PaketNames = "Super Kolay Paket 10"
-                if PaketiGuncelle.Kupur == 13278:
+                if PaketiGuncelle.Kupur == "13278":
                     PaketNames = "Super Kolay Paket 5"
-                if PaketiGuncelle.Kupur == 7021:
+                if PaketiGuncelle.Kupur == "7021":
                     PaketNames = "Süper Kolay Paket 15"
-                if PaketiGuncelle.Kupur == 6658:
+                if PaketiGuncelle.Kupur == "6658":
                     PaketNames = "Süper Kolay Paket 15*"
-                if PaketiGuncelle.Kupur == 6972:
+                if PaketiGuncelle.Kupur == "6972":
                     PaketNames = "Süper Kolay Paket 1500 DK"
-                if PaketiGuncelle.Kupur == 11716:
+                if PaketiGuncelle.Kupur == "11716":
                     PaketNames = "Süper Kolay Paket 6"
-                if PaketiGuncelle.Kupur == 7354:
+                if PaketiGuncelle.Kupur == "7354":
                     PaketNames = "54 TL Telsiz Kullanım Ücreti"
-                if PaketiGuncelle.Kupur == 8703:
+                if PaketiGuncelle.Kupur == "8703":
                     PaketNames = "18 TL Telsiz Kullanım Ücreti"
-                if PaketiGuncelle.Kupur == 7353:
+                if PaketiGuncelle.Kupur == "7353":
                     PaketNames = "36 TL Telsiz Kullanım Ücreti"
-                if PaketiGuncelle.Kupur == 7355:
+                if PaketiGuncelle.Kupur == "7355":
                     PaketNames = "72 TL Telsiz Kullanım Ücreti"
 
 
