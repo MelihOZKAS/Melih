@@ -1244,6 +1244,88 @@ def VodafonePaketleriCek(request):
                 #print("Paket ---Update girdim")
                 # güncelleme işlemi yapılır
                 PaketiGuncelle = GelenPaket.first()
+                if PaketiGuncelle.Kupur == Decimal("4124"):
+                    PaketNames = "Tüm Dünya 1 Saat"
+                if PaketiGuncelle.Kupur == Decimal("4401"):
+                    PaketNames = "Kolay Paket 9"
+                if PaketiGuncelle.Kupur == Decimal("4402"):
+                    PaketNames = "Kolay Paket 14"
+                if PaketiGuncelle.Kupur == Decimal("4405"):
+                    PaketNames = "Kolay Paket 7"
+                if PaketiGuncelle.Kupur == Decimal("4406"):
+                    PaketNames = "Kolay Paket 6"
+                if PaketiGuncelle.Kupur == Decimal("4407"):
+                    PaketNames = "Kolay Paket 12"
+                if PaketiGuncelle.Kupur == Decimal("4780"):
+                    PaketNames = "Haftalık 500 DK"
+                if PaketiGuncelle.Kupur == Decimal("12039"):
+                    PaketNames = "Kolay Paket 3 Ay 30 GB"
+                if PaketiGuncelle.Kupur == Decimal("13189"):
+                    PaketNames = "Kolay Paket 6 Ay 60 GB"
+                if PaketiGuncelle.Kupur == Decimal("13315"):
+                    PaketNames = "Kolay Paket 16"
+                if PaketiGuncelle.Kupur == Decimal("13318"):
+                    PaketNames = "Kolay Paket 5"
+                if PaketiGuncelle.Kupur == Decimal("13319"):
+                    PaketNames = "Kolay Gani 1500 DK"
+                if PaketiGuncelle.Kupur == Decimal("13323"):
+                    PaketNames = "Kolay Paket 25"
+                if PaketiGuncelle.Kupur == Decimal("13402"):
+                    PaketNames = "Kolay Paket 3 Ay 45 GB"
+                if PaketiGuncelle.Kupur == Decimal("4294"):
+                    PaketNames = "Haftalık 3 GB"
+                if PaketiGuncelle.Kupur == Decimal("6912"):
+                    PaketNames = "Haftalık 5 GB"
+                if PaketiGuncelle.Kupur == Decimal("6911"):
+                    PaketNames = "Haftalık 10 GB"
+                if PaketiGuncelle.Kupur == Decimal("4123"):
+                    PaketNames = "Haftalık 1 GB"
+                if PaketiGuncelle.Kupur == Decimal("4116"):
+                    PaketNames = "Haftalik Sinrisiz Iletisim Paketi"
+                if PaketiGuncelle.Kupur == Decimal("4117"):
+                    PaketNames = "Haftalik Sinrisiz Sosyal Medya Paketi"
+                if PaketiGuncelle.Kupur == Decimal("4118"):
+                    PaketNames = "Haftalik Sinrisiz Video Paketi"
+                if PaketiGuncelle.Kupur == Decimal("5151"):
+                    PaketNames = "Haftalik Sinrisiz TikTok Paketi"
+                if PaketiGuncelle.Kupur == Decimal("5150"):
+                    PaketNames = "Haftalik Sinrisiz Eglence Paketi"
+                if PaketiGuncelle.Kupur == Decimal("4280"):
+                    PaketNames = "Gunluk Sinrisiz Iletisim Paketi"
+                if PaketiGuncelle.Kupur == Decimal("4279"):
+                    PaketNames = "Gunluk Sinrisiz Video Paketi"
+                if PaketiGuncelle.Kupur == Decimal("5152"):
+                    PaketNames = "15 Gunluk Sinirsiz TikTok"
+                if PaketiGuncelle.Kupur == Decimal("11716"):
+                    PaketNames = "Süper Kolay Paket 6"
+                if PaketiGuncelle.Kupur == Decimal("10394"):
+                    PaketNames = "3 Aylik Kolay Paket 50"
+                if PaketiGuncelle.Kupur == Decimal("10392"):
+                    PaketNames = "Kolay Yeni Paket 25"
+                if PaketiGuncelle.Kupur == Decimal("13366"):
+                    PaketNames = "Super Kolay Paket 10"
+                if PaketiGuncelle.Kupur == Decimal("13278"):
+                    PaketNames = "Super Kolay Paket 5"
+                if PaketiGuncelle.Kupur == Decimal("7021"):
+                    PaketNames = "Süper Kolay Paket 15"
+                if PaketiGuncelle.Kupur == Decimal("6658"):
+                    PaketNames = "Süper Kolay Paket 15*"
+                if PaketiGuncelle.Kupur == Decimal("6972"):
+                    PaketNames = "Süper Kolay Paket 1500 DK"
+                if PaketiGuncelle.Kupur == Decimal("11716"):
+                    PaketNames = "Süper Kolay Paket 6"
+                if PaketiGuncelle.Kupur == Decimal("7354"):
+                    PaketNames = "54 TL Telsiz Kullanım Ücreti"
+                if PaketiGuncelle.Kupur == Decimal("8703"):
+                    PaketNames = "18 TL Telsiz Kullanım Ücreti"
+                if PaketiGuncelle.Kupur == Decimal("7353"):
+                    PaketNames = "36 TL Telsiz Kullanım Ücreti"
+                if PaketiGuncelle.Kupur == Decimal("7355"):
+                    PaketNames = "72 TL Telsiz Kullanım Ücreti"
+
+
+
+
                 PaketiGuncelle.Urun_adi = PaketNames
                 PaketiGuncelle.Urun_Detay = Paket
                 PaketiGuncelle.Kupur = paketID
@@ -1351,87 +1433,6 @@ def TurkcellPaketleriCek(request):
                 #print("Paket ---Update girdim")
                 # güncelleme işlemi yapılır
                 PaketiGuncelle = GelenPaket.first()
-
-                if PaketiGuncelle.Kupur == Decimal("4124"):
-                    PaketNames = "Tüm Dünya 1 Saat"
-                if PaketiGuncelle.Kupur == Decimal("4401"):
-                    PaketNames = "Kolay Paket 9"
-                if PaketiGuncelle.Kupur == Decimal("4402"):
-                    PaketNames = "Kolay Paket 14"
-                if PaketiGuncelle.Kupur == Decimal("4405"):
-                    PaketNames = "Kolay Paket 7"
-                if PaketiGuncelle.Kupur == Decimal("4406"):
-                    PaketNames = "Kolay Paket 6"
-                if PaketiGuncelle.Kupur == Decimal("4407"):
-                    PaketNames = "Kolay Paket 12"
-                if PaketiGuncelle.Kupur == Decimal("4780"):
-                    PaketNames = "Haftalık 500 DK"
-                if PaketiGuncelle.Kupur == Decimal("12039"):
-                    PaketNames = "Kolay Paket 3 Ay 30 GB"
-                if PaketiGuncelle.Kupur == Decimal("13189"):
-                    PaketNames = "Kolay Paket 6 Ay 60 GB"
-                if PaketiGuncelle.Kupur == Decimal("13315"):
-                    PaketNames = "Kolay Paket 16"
-                if PaketiGuncelle.Kupur == Decimal("13318"):
-                    PaketNames = "Kolay Paket 5"
-                if PaketiGuncelle.Kupur == Decimal("13319"):
-                    PaketNames = "Kolay Gani 1500 DK"
-                if PaketiGuncelle.Kupur == Decimal("13323"):
-                    PaketNames = "Kolay Paket 25"
-                if PaketiGuncelle.Kupur == Decimal("13402"):
-                    PaketNames = "Kolay Paket 3 Ay 45 GB"
-                if PaketiGuncelle.Kupur == Decimal("4294"):
-                    PaketNames = "Haftalık 3 GB"
-                if PaketiGuncelle.Kupur == Decimal("6912"):
-                    PaketNames = "Haftalık 5 GB"
-                if PaketiGuncelle.Kupur == Decimal("6911"):
-                    PaketNames = "Haftalık 10 GB"
-                if PaketiGuncelle.Kupur == Decimal("4123"):
-                    PaketNames = "Haftalık 1 GB"
-                if PaketiGuncelle.Kupur == Decimal("4116"):
-                    PaketNames = "Haftalik Sinrisiz Iletisim Paketi"
-                if PaketiGuncelle.Kupur == Decimal("4117"):
-                    PaketNames = "Haftalik Sinrisiz Sosyal Medya Paketi"
-                if PaketiGuncelle.Kupur == Decimal("4118"):
-                    PaketNames = "Haftalik Sinrisiz Video Paketi"
-                if PaketiGuncelle.Kupur == Decimal("5151"):
-                    PaketNames = "Haftalik Sinrisiz TikTok Paketi"
-                if PaketiGuncelle.Kupur == Decimal("5150"):
-                    PaketNames = "Haftalik Sinrisiz Eglence Paketi"
-                if PaketiGuncelle.Kupur == Decimal("4280"):
-                    PaketNames = "Gunluk Sinrisiz Iletisim Paketi"
-                if PaketiGuncelle.Kupur == Decimal("4279"):
-                    PaketNames = "Gunluk Sinrisiz Video Paketi"
-                if PaketiGuncelle.Kupur == Decimal("5152"):
-                    PaketNames = "15 Gunluk Sinirsiz TikTok"
-                if PaketiGuncelle.Kupur == Decimal("11716"):
-                    PaketNames = "Süper Kolay Paket 6"
-                if PaketiGuncelle.Kupur == Decimal("10394"):
-                    PaketNames = "3 Aylik Kolay Paket 50"
-                if PaketiGuncelle.Kupur == Decimal("10392"):
-                    PaketNames = "Kolay Yeni Paket 25"
-                if PaketiGuncelle.Kupur == Decimal("13366"):
-                    PaketNames = "Super Kolay Paket 10"
-                if PaketiGuncelle.Kupur == Decimal("13278"):
-                    PaketNames = "Super Kolay Paket 5"
-                if PaketiGuncelle.Kupur == Decimal("7021"):
-                    PaketNames = "Süper Kolay Paket 15"
-                if PaketiGuncelle.Kupur == Decimal("6658"):
-                    PaketNames = "Süper Kolay Paket 15*"
-                if PaketiGuncelle.Kupur == Decimal("6972"):
-                    PaketNames = "Süper Kolay Paket 1500 DK"
-                if PaketiGuncelle.Kupur == Decimal("11716"):
-                    PaketNames = "Süper Kolay Paket 6"
-                if PaketiGuncelle.Kupur == Decimal("7354"):
-                    PaketNames = "54 TL Telsiz Kullanım Ücreti"
-                if PaketiGuncelle.Kupur == Decimal("8703"):
-                    PaketNames = "18 TL Telsiz Kullanım Ücreti"
-                if PaketiGuncelle.Kupur == Decimal("7353"):
-                    PaketNames = "36 TL Telsiz Kullanım Ücreti"
-                if PaketiGuncelle.Kupur == Decimal("7355"):
-                    PaketNames = "72 TL Telsiz Kullanım Ücreti"
-
-
                 PaketiGuncelle.Urun_adi = PaketNames
                 PaketiGuncelle.Urun_Detay = Paket
                 PaketiGuncelle.Kupur = paketID
