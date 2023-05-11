@@ -198,7 +198,7 @@ def OperatorleriCek(request):
 
     return "Nasip" +response.text
 
-def TurkcellPaketleriSunucudanCek(requests):
+def TurkcellPaketleriSunucudanCek(request):
     eklenen_paketler = []
     silinen_paketler = []
     response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
