@@ -484,7 +484,7 @@ def GecikmeBildir():
     AlternatiFCevapBekliyorToplu = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=Alternatif_Cevap_Bekliyor)
     if AlternatiFCevapBekliyorToplu:
         for AlternatifBekleyenSiparis in AlternatiFCevapBekliyorToplu:
-            ANA_Siparis = Siparisler.objects.get(id=AlternatifBekleyenSiparis.ANAURUNID)
+            ANA_Siparis = AlternatifBekleyenSiparis.objects.get(id=AlternatifBekleyenSiparis.ANAURUNID)
             gelisTarihi = ANA_Siparis.OlusturmaTarihi
             simdikiZaman = datetime.now()
             zamanFarki = simdikiZaman - gelisTarihi
