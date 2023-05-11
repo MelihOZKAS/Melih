@@ -429,8 +429,8 @@ def SorguSonucKontrol():
                     order.SanalTutar = response[3]
 
                     order.save()
-                    api.ApiBakiye -= Decimal(response[3])
-                    api.save()
+                    #api.ApiBakiye -= Decimal(response[3])
+                    #api.save()
                     Sonuc = response[2]
                     return Sonuc
                 elif response[1] == "2":
@@ -814,7 +814,7 @@ def AlternatifKontrol(request):
                 if alternative.product_id in PaketSorguListesi:
                     cikan_idler.append(alternative.product_id)
         except:
-            if siparis.SorguPaketID == "VodafoneDegilKi,GNC001" or siparis.SorguPaketID == "VodafoneDegilKi" or siparis.SorguPaketID == "TurkcellDegil" or siparis.SorguPaketID == "AveaDegil!" or siparis.SorguPaketID == "NumaraEksik!":
+            if siparis.SorguPaketID == "VodafoneDegilKi,GNC001" or siparis.SorguPaketID == "VodafoneDegilKi" or siparis.SorguPaketID == "TurkcellDegil" or siparis.SorguPaketID == "TurkcellDegil,GNC001" or siparis.SorguPaketID == "AveaDegil!" or siparis.SorguPaketID == "NumaraEksik!":
                 siparis.Durum = iptalEdildi
                 siparis.SonucTarihi = timezone.now()
                 siparis.BayiAciklama = siparis.SorguPaketID
@@ -844,6 +844,7 @@ def AlternatifKontrol(request):
         # AnaPaketVar mi Kontrollü
 
         #vergiList=['8703','7353','7354','7355']
+        print("Onemli")
         print(cikan_idler)
         print('*'*31)
         print(PaketSorguListesi)
@@ -853,29 +854,28 @@ def AlternatifKontrol(request):
         vergiTutari = "Nasip"
         if len(cikan_idler) == 0:
             print("CikanID == 000000")
-
-            if '8703.00' in PaketSorguListesi:
+            if 8703.00 in PaketSorguListesi:
                 print("En az 18TL lik vergi Borcu var.")
                 vergiTutari = "En az 18TL yüklemesi gerekiyor vergi borcu var."
-            if '8703' in PaketSorguListesi:
+            if 8703 in PaketSorguListesi:
                 print("En az 18TL lik vergi Borcu var.")
                 vergiTutari = "En az 18TL yüklemesi gerekiyor vergi borcu var-"
-            if '7353.00' in PaketSorguListesi:
+            if 7353.00 in PaketSorguListesi:
                 print("En az 36TL lik vergi Borcu var.")
                 vergiTutari = "En az 36TL yüklemesi gerekiyor vergi borcu var."
-            if '7353' in PaketSorguListesi:
+            if 7353 in PaketSorguListesi:
                 print("En az 36TL lik vergi Borcu var.")
                 vergiTutari = "En az 36TL yüklemesi gerekiyor vergi borcu var-"
-            if '7354.00' in PaketSorguListesi:
+            if 7354.00 in PaketSorguListesi:
                 print("En az 54TL lik vergi Borcu var.")
                 vergiTutari = "En az 54TL yüklemesi gerekiyor vergi borcu var."
-            if '7354' in PaketSorguListesi:
+            if 7354 in PaketSorguListesi:
                 print("En az 54TL lik vergi Borcu var.")
                 vergiTutari = "En az 54TL yüklemesi gerekiyor vergi borcu var-"
-            if '7355.00' in PaketSorguListesi:
+            if 7355.00 in PaketSorguListesi:
                 print("En az 72TL lik vergi Borcu var.")
                 vergiTutari = "En az 72TL yüklemesi gerekiyor vergi borcu var."
-            if '7355' in PaketSorguListesi:
+            if 7355 in PaketSorguListesi:
                 print("En az 72TL lik vergi Borcu var.")
                 vergiTutari = "En az 72TL yüklemesi gerekiyor vergi borcu var-"
 
@@ -905,19 +905,25 @@ def AlternatifKontrol(request):
                 hareket.save()
                 return "Vergi Borcundan iptal edildi."
 
+        GelenAciklama = siparis.Aciklama
 
-
-        if siparis_kupur in PaketSorguListesi:
+        if int(siparis_kupur) in PaketSorguListesi:
             print("Aranan değer listede var.")
             siparis.AnaPaketVar = True
             siparis.save()
         else:
             print("Aranan değer listede yok.")
             siparis.AnaPaketVar = False
+            GelenAciklama = GelenAciklama + "\n ANA ID YOK= " + str(PaketSorguListesi) + "\n"
+
+
+
+
+
 
         # 5- en son o listeyi print ile yazdırıyoruz.
         if len(cikan_idler) > 0:
-            GelenAciklama = siparis.Aciklama
+
             siparis.Durum = AltPaketID
 
             GelenAciklama = GelenAciklama + "\n PaketSorgudan Gelen ID = " + siparis.SorguPaketID + "\n"
