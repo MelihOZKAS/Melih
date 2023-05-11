@@ -1208,7 +1208,7 @@ def AlternatifYuklemeGonder():
 
 
 def VodafonePaketleriCek(request):
-    VodafonePaketleriSunucudanCek
+    VodafonePaketleriSunucudanCek()
 
 
 
