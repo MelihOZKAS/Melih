@@ -1208,7 +1208,8 @@ def AlternatifYuklemeGonder():
 
 
 def VodafonePaketleriCek(request):
-    VodafonePaketleriSunucudanCek()
+    response = VodafonePaketleriSunucudanCek(request)
+    return HttpResponse(response)
 
 
 

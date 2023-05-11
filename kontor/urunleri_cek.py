@@ -199,7 +199,7 @@ def OperatorleriCek(request):
     return "Nasip" +response.text
 
 
-def VodafonePaketleriSunucudanCek():
+def VodafonePaketleriSunucudanCek(request):
     eklenen_paketler = []
     silinen_paketler = []
     response = requests.post('http://92.205.129.63:4244/Sorgu.php', data={
@@ -379,4 +379,6 @@ def VodafonePaketleriSunucudanCek():
             silinen_paketler.append(str(paketID))
             KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID).delete()
 
-    return HttpResponse(f'İşlem tamamlandı. Eklenen paketler: {eklenen_paketler}, silinen paketler: {silinen_paketler}')
+
+    sonuc = f'İşlem tamamlandı. Eklenen paketler: {eklenen_paketler}, silinen paketler: {silinen_paketler}'
+    return sonuc
