@@ -477,6 +477,7 @@ def SorguSonucKontrol():
 def GecikmeBildir():
     Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
     chat_id = "@mustafadurtucu"
+    print(chat_id)
 
 
 
