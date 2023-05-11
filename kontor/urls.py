@@ -31,6 +31,7 @@ urlpatterns = [
     path("altKategoriEkle", views.AltKatEkle),
     path("OperatorEkle", views.OperatorEkle),
     path("AnaPaketGonder", views.ANaPaketGonder),
+    path("TelegramSend", views.TelegramSend),
 
     #path('', views.bayi_view, name='bayi'),
     #Nasip

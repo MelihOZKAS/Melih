@@ -1,5 +1,6 @@
 import decimal
 from urllib.parse import unquote
+from datetime import datetime, timedelta
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,Turkcell,TTses,TTtam
@@ -8,6 +9,13 @@ import requests
 from decimal import Decimal
 from django.contrib.auth.models import User
 from django.utils import timezone
+import environ
+
+# SECURITY WARNING: don't run with debug turned on in production!
+#DEBUG = True
+env = environ.Env(DEBUG=(bool,False))
+
+environ.Env.read_env()
 
 def AnaPaketGonder():
     AnaPaket = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
@@ -461,6 +469,54 @@ def SorguSonucKontrol():
     else:
         Sonuc = "Hiç Sipariş Yok"
         return Sonuc
+
+
+
+
+
+def GecikmeBildir():
+    Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
+    chat_id = "@mustafadurtucu"
+
+
+
+
+    AlternatiFCevapBekliyorToplu = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=Alternatif_Cevap_Bekliyor)
+    if AlternatiFCevapBekliyorToplu:
+        for AlternatifBekleyenSiparis in AlternatiFCevapBekliyorToplu:
+            ANA_Siparis = Siparisler.objects.get(id=AlternatifBekleyenSiparis.ANAURUNID)
+            gelisTarihi = ANA_Siparis.OlusturmaTarihi
+            simdikiZaman = datetime.now()
+            zamanFarki = simdikiZaman - gelisTarihi
+
+            if zamanFarki.total_seconds() > 240:
+                apiSirasi = AlternatifBekleyenSiparis.Gonderim_Sirasi
+
+                if apiSirasi == 1:
+                    MesajApisi = AlternatifBekleyenSiparis.Yuklenecek_api1
+                elif apiSirasi == 2:
+                    MesajApisi = AlternatifBekleyenSiparis.Yuklenecek_api2
+                elif apiSirasi == 3:
+                    MesajApisi = AlternatifBekleyenSiparis.Yuklenecek_api3
+
+                numarasi = ANA_Siparis.Numara
+                bekledigi_Saniye = str(zamanFarki.total_seconds())
+                text = f"Bekleyen sipariş var. ! ortalama {bekledigi_Saniye} Saniye olmuş. Numarası= {numarasi} Apisi= {MesajApisi}"
+
+                url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={text}"
+                r=requests.get(url)
+                return r.text
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1085,9 +1141,6 @@ def AlternatifYuklemeGonder():
     alternatifOrders = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=Alternatif_Gonderimbekler)
     if alternatifOrders:
         for alternatifOrder in alternatifOrders:
-            #api = order.Yuklenecek_api1
-            #print(api)
-
             if alternatifOrder.Gonderim_Sirasi == 1:
                 print("Girdim1")
                 api = alternatifOrder.Yuklenecek_api1
@@ -1221,8 +1274,6 @@ def VodafonePaketleriCek(request):
 def TTsesPaketleriCek(request):
     response = TTPaketleriSunucudanCek(request)
     return HttpResponse(response)
-
-
 
 def AnaOperatorleriEkleme(request):
     AnaOperatorleriCek()

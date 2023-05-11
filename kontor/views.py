@@ -68,6 +68,10 @@ def alternatfgonder(request):
     Sonuc = AlternatifYuklemeGonder()
     return HttpResponse(Sonuc)
 
+def TelegramSend(request):
+    Sonuc = GecikmeBildir()
+    return HttpResponse(Sonuc)
+
 def alternatfsonucKontrol(request):
     Sonuc = AlternatifSonucKontrol()
     return HttpResponse(Sonuc)
