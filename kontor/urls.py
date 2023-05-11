@@ -34,6 +34,4 @@ urlpatterns = [
 
     #path('', views.bayi_view, name='bayi'),
     #Nasip
-
-
 ]
