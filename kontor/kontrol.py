@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 import environ
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 env = environ.Env(DEBUG=(bool,False))
@@ -487,8 +488,8 @@ def GecikmeBildir():
         for AlternatifBekleyenSiparis in AlternatiFCevapBekliyorToplu:
             print("Buraya Geldim...")
             ANA_Siparis = Siparisler.objects.get(id=AlternatifBekleyenSiparis.ANAURUNID)
-            gelisTarihi = ANA_Siparis.OlusturmaTarihi.replace(tzinfo=timezone('Europe/Istanbul'))
-            simdikiZaman = datetime.now(timezone.utc)  # Zaman dilimine sahip tarih nesnesi kullanın
+            gelisTarihi = timezone.make_aware(ANA_Siparis.OlusturmaTarihi)
+            simdikiZaman = timezone.now()
             zamanFarki = simdikiZaman - gelisTarihi
 
             if zamanFarki.total_seconds() > 240:
