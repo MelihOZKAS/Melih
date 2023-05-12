@@ -487,8 +487,8 @@ def GecikmeBildir():
         for AlternatifBekleyenSiparis in AlternatiFCevapBekliyorToplu:
             print("Buraya Geldim...")
             ANA_Siparis = Siparisler.objects.get(id=AlternatifBekleyenSiparis.ANAURUNID)
-            gelisTarihi = ANA_Siparis.OlusturmaTarihi
-            simdikiZaman = datetime.now()
+            gelisTarihi = ANA_Siparis.OlusturmaTarihi.replace(tzinfo=timezone('Europe/Istanbul'))
+            simdikiZaman = datetime.now(timezone.utc)  # Zaman dilimine sahip tarih nesnesi kullanın
             zamanFarki = simdikiZaman - gelisTarihi
 
             if zamanFarki.total_seconds() > 240:
