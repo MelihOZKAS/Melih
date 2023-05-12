@@ -12,6 +12,7 @@ from django.utils import timezone
 import environ
 
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 env = environ.Env(DEBUG=(bool,False))
@@ -488,7 +489,7 @@ def GecikmeBildir():
         for AlternatifBekleyenSiparis in AlternatiFCevapBekliyorToplu:
             print("Buraya Geldim...")
             ANA_Siparis = Siparisler.objects.get(id=AlternatifBekleyenSiparis.ANAURUNID)
-            gelisTarihi = timezone.make_aware(ANA_Siparis.OlusturmaTarihi)
+            gelisTarihi = ANA_Siparis.OlusturmaTarihi
             simdikiZaman = timezone.now()
             zamanFarki = simdikiZaman - gelisTarihi
 
