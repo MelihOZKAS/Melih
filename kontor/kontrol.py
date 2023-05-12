@@ -682,7 +682,7 @@ def AlternatifSonucKontrol():
                     GelenAciklama = ANA_Siparis.Aciklama
                     alternatifOrder.YuklenecekPaketDurumu = AlternatifVarmiBaska
                     ANA_Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + \
-                                       response[1] + " iptal olanApiSirasi:" + str(alternatifOrder.Gonderim_Sirasi) + "\n"
+                                       str(response) + " iptal olanApiSirasi:" + str(alternatifOrder.Gonderim_Sirasi) + "\n"
                     alternatifOrder.Gonderim_Sirasi = Sirasi
                     alternatifOrder.save()
                     ANA_Siparis.save()
