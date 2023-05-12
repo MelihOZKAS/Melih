@@ -491,7 +491,7 @@ def GecikmeBildir():
             ANA_Siparis = Siparisler.objects.get(id=AlternatifBekleyenSiparis.ANAURUNID)
             gelisTarihi = ANA_Siparis.OlusturmaTarihi
             simdikiZaman = timezone.now()
-            zamanFarki = (simdikiZaman - gelisTarihi).total_seconds()
+            zamanFarki = int((simdikiZaman - gelisTarihi).total_seconds())
 
             if zamanFarki > 240:
                 apiSirasi = AlternatifBekleyenSiparis.Gonderim_Sirasi
