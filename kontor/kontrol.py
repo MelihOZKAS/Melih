@@ -505,7 +505,7 @@ def GecikmeBildir():
 
                 numarasi = ANA_Siparis.Numara
                 bekledigi_Saniye = str(zamanFarki)
-                text = f"Bekleyen sipariş var. ! ortalama {bekledigi_Saniye} Saniye olmuş. Numarası= {numarasi} Apisi= {MesajApisi}"
+                text = f"Bekleyen sipariş var.! Ortalama {bekledigi_Saniye} Saniye olmuş. Numarası: {numarasi} Apisi: {MesajApisi}"
 
                 url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={text}"
                 r=requests.get(url)
@@ -628,7 +628,7 @@ def AlternatifSonucKontrol():
                 Sonuc = "Henüz işlemde"
                 SonucList.append(str(ANA_Siparis.Numara) + " Henüz işlemde.")
                 continue
-            elif response[0] == "3" or response[0] == "98":
+            elif response[0] == "3" or responses[0] == "98":
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                     api.ApiBakiye += Decimal(alternatifOrder.YuklenecekPaketFiyat)
                 Sirasi = alternatifOrder.Gonderim_Sirasi + 1
