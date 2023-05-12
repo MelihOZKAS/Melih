@@ -491,9 +491,9 @@ def GecikmeBildir():
             ANA_Siparis = Siparisler.objects.get(id=AlternatifBekleyenSiparis.ANAURUNID)
             gelisTarihi = ANA_Siparis.OlusturmaTarihi
             simdikiZaman = timezone.now()
-            zamanFarki = simdikiZaman - gelisTarihi
+            zamanFarki = (simdikiZaman - gelisTarihi).total_seconds()
 
-            if zamanFarki.total_seconds() > 240:
+            if zamanFarki > 240:
                 apiSirasi = AlternatifBekleyenSiparis.Gonderim_Sirasi
 
                 if apiSirasi == 1:
@@ -504,7 +504,7 @@ def GecikmeBildir():
                     MesajApisi = AlternatifBekleyenSiparis.Yuklenecek_api3
 
                 numarasi = ANA_Siparis.Numara
-                bekledigi_Saniye = str(zamanFarki.total_seconds())
+                bekledigi_Saniye = str(zamanFarki)
                 text = f"Bekleyen sipariş var. ! ortalama {bekledigi_Saniye} Saniye olmuş. Numarası= {numarasi} Apisi= {MesajApisi}"
 
                 url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={text}"
