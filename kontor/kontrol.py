@@ -584,6 +584,8 @@ def AlternatifSonucKontrol():
                 ANA_Siparis.SanalTutar = response[2]
                 ANA_Siparis.SonucTarihi = timezone.now()
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                    tutari = response[2].replace("\n","")
+                    alternatifOrder.YuklenecekPaketFiyat = tutari
                     if response[1] == "":
                        # ANA_Siparis.BayiAciklama = "Basarili"
                         alternatifOrder.Yukelenecek_Numara.SanalTutar = response[2]
