@@ -453,6 +453,7 @@ def SorguSonucKontrol():
 
                     if response[1] == "TurkcellDegil":
                         order.Aciklama = response[1]
+                        order.SorguPaketID = response[1]
                         #TODO iptal protokolü burada başlayacak Direk İptal edilecek!
                         order.Durum = sorgusutamam
                     else:
