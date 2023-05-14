@@ -452,6 +452,7 @@ def SorguSonucKontrol():
                     print("Burada Olmam Lazım")
 
                     if response[1] == "TurkcellDegil":
+                        order.Aciklama = response[1]
                         #TODO iptal protokolü burada başlayacak Direk İptal edilecek!
                         order.Durum = sorgusutamam
                     else:
@@ -477,11 +478,12 @@ def SorguSonucKontrol():
 
 
 def GecikmeBildir():
+
+    kimin = []
+    mesaj = []
+
     Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
     chat_id = "@mustafadurtucu"
-    print(chat_id)
-
-
 
 
     AlternatiFCevapBekliyorToplu = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=Alternatif_Cevap_Bekliyor)
@@ -495,7 +497,6 @@ def GecikmeBildir():
 
             if zamanFarki > 240:
                 apiSirasi = AlternatifBekleyenSiparis.Gonderim_Sirasi
-
                 if apiSirasi == 1:
                     MesajApisi = AlternatifBekleyenSiparis.Yuklenecek_api1
                 elif apiSirasi == 2:
@@ -503,19 +504,21 @@ def GecikmeBildir():
                 elif apiSirasi == 3:
                     MesajApisi = AlternatifBekleyenSiparis.Yuklenecek_api3
 
+                MesajApisi = MesajApisi.split("-")
+                MesajApisi = MesajApisi[0]
+
                 numarasi = ANA_Siparis.Numara
                 bekledigi_Saniye = str(zamanFarki)
-                text = f"Bekleyen sipariş var.! Ortalama {bekledigi_Saniye} Saniye olmuş. Numarası: {numarasi} Apisi: {MesajApisi}"
-
-                url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={text}"
-                r=requests.get(url)
-                return r.text
+                text = f"{bekledigi_Saniye} Saniye! Numarası: {numarasi} Apisi: {MesajApisi}"
+                mesaj.append(text)
+                kimin.append(MesajApisi)
 
 
+                #text = f"Bekleyen sipariş var.! Ortalama {bekledigi_Saniye} Saniye olmuş. Numarası: {numarasi} Apisi: {MesajApisi}"
 
-
-
-
+                #url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={text}"
+                #r=requests.get(url)
+                #return r.text
 
 
 
