@@ -5,10 +5,12 @@
     <title>Nasip</title>
 </head>
 <body>
-  <form method="post" action="">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">API1'i Güncelle</button>
-  </form>
+<form method="post" action="">
+  {% csrf_token %}
+  <label for="{{ form.selected_api.id_for_label }}">{{ form.selected_api.label }}</label>
+  {{ form.selected_api }}
+  <button type="submit">API1'i Güncelle</button>
+</form>
+
 </body>
 </html>
