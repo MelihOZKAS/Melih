@@ -56,16 +56,14 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
-
-
     def update_api1_with_selected_api(modeladmin, request, queryset):
         if request.method == 'POST':
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
-                queryset.update(api1_id=selected_api.id)
+                queryset.update(api1_id=selected_api)
                 messages.success(request, "API güncelleme başarılı!")
-                return redirect("admin:index")  # Ya da uygun bir yönlendirme yapabilirsiniz.
+                return redirect("admin:index")
             else:
                 for field, errors in form.errors.items():
                     for error in errors:
