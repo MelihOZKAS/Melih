@@ -56,36 +56,18 @@ class AdminKontorListesi(admin.ModelAdmin):
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
     def update_api1_with_selected_api(modeladmin, request, queryset):
-        directory = '/home/Melih'
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-
-        girdim_ki_file = os.path.join(directory, 'GirdimKi.txt')
-        basarili_file = os.path.join(directory, 'Basarili.txt')
-
-        with open(girdim_ki_file, 'w') as file:
-            file.write('GirdimKi!\n')
-
         if request.POST.get('post'):
-            with open(os.path.join(directory, 'GeldimKi.txt'), 'w') as file:
-                file.write('GeldimKi!\n')
-
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
-                with open(os.path.join(directory, 'selected_api.txt'), 'w') as file:
-                    file.write(f'{selected_api}!\n')
                 queryset.update(api1_id=selected_api.id)
-                with open(basarili_file, 'w') as file:
-                    file.write('API güncelleme başarılı!\n')
+                print("API güncelleme başarılı!")
                 return None
             else:
-                with open(os.path.join(directory, 'GecersizForm.txt'), 'w') as file:
-                    file.write('GecersizForm GecersizForm GecersizForm!\n')
+                print("Form geçersiz!")
         else:
             form = SelectAPIForm()
-            with open(os.path.join(directory, 'NoPost.txt'), 'w') as file:
-                file.write('NoPost NoPost NoPost!\n')
+            print("Post isteği alınmadı!")
 
         return render(request, "select_api_form.html", {"form": form})
 
