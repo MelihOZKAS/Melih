@@ -59,17 +59,16 @@ class AdminKontorListesi(admin.ModelAdmin):
     def update_api1_with_selected_api(modeladmin, request, queryset):
         if request.method == 'POST':
             form = SelectAPIForm(request.POST)
+            messages.info(request, f"selected_api değeri: {request.POST.get('selected_api')}")  # Bu satırı ekleyin
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
                 queryset.update(api1_id=selected_api)
                 messages.success(request, "API güncelleme başarılı!")
                 return redirect("admin:index")
             else:
-
                 for field, errors in form.errors.items():
                     for error in errors:
-                        selected_api = form.cleaned_data['selected_api']
-                        messages.error(request, f"{field}: {error}   ___{selected_api}")
+                        messages.error(request, f"{field}: {error}")
         else:
             form = SelectAPIForm()
             messages.info(request, "Post isteği alınmadı!")
