@@ -2,7 +2,8 @@ from django import forms
 from .models import Apiler
 
 class SelectAPIForm(forms.Form):
-    apiler = [(api.id, str(api)) for api in Apiler.objects.all()]
-    selected_api = forms.ChoiceField(label="Selected API", choices=apiler, required=True)
+    selected_api = forms.ChoiceField(label="Selected API", required=True)
 
-
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['selected_api'].choices = [(api.id, str(api)) for api in Apiler.objects.all()]
