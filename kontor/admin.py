@@ -11,6 +11,9 @@ from django import forms
 import inspect
 from django.contrib.auth.models import User
 from .urunleri_cek import *
+from .forms import *
+
+from django.shortcuts import render
 
 # Register your models here.
 class DurumlarAdmin(admin.ModelAdmin):
@@ -31,6 +34,23 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
     list_display = ('apiler', 'urun_adi', 'kupur','ApiGelen_fiyati','ApiGelen_operator_adi','ApiGelen_operator_tipi')
 
 
+
+
+from django.shortcuts import render
+
+def update_api1_with_selected_api(modeladmin, request, queryset):
+    form = SelectAPIForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        selected_api = form.cleaned_data['api_choice']
+        updated_count = queryset.update(api1=selected_api)
+        modeladmin.message_user(request, f"{updated_count} ürünün api1 değeri seçilen API ile güncellendi.")
+        return
+
+    return render(request, 'select_api_form.html', {'form': form})
+
+
+
 class AdminKontorListesi(admin.ModelAdmin):
     list_display = ("id","Kupur","Urun_adi","MaliyetFiyat","SatisFiyat","Aktifmi","api1","api2","api3", "alternatif_urunler_count",)#"alternatif_urunler",
     list_editable = ("Urun_adi","Aktifmi","MaliyetFiyat","SatisFiyat","api1","api2","api3",)
@@ -38,7 +58,7 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action','TumAlternetifiSil_action']
+    actions = ['otoyap_action','TumAlternetifiSil_action',update_api1_with_selected_api]
 
 
 
