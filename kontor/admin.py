@@ -40,28 +40,7 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 logger = logging.getLogger(__name__)
 
-def update_api1_with_selected_api(modeladmin, request, queryset):
-    print("girdm...")
-    if request.POST.get('post'):
-        print("131231")
-        form = SelectAPIForm(request.POST)
-        if form.is_valid():
-            selected_api = form.cleaned_data['selected_api']
-            queryset.update(api1_id=selected_api.id)
-            logger.info("API güncelleme başarılı!")
-            return None
-        else:
-            logger.error("Form geçersiz!")
-    else:
-        form = SelectAPIForm()
-        logger.debug("Post isteği alınmadı!")
-        print("3333")
 
-    return render(request, "select_api_form.html", {"form": form})
-
-
-
-update_api1_with_selected_api.short_description = "API1'i Seçilen API ile Güncelle"
 
 
 class AdminKontorListesi(admin.ModelAdmin):
@@ -71,9 +50,28 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action','TumAlternetifiSil_action',update_api1_with_selected_api]
+    actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
+    def update_api1_with_selected_api(modeladmin, request, queryset):
+        print("girdm...")
+        if request.POST.get('post'):
+            print("131231")
+            form = SelectAPIForm(request.POST)
+            if form.is_valid():
+                selected_api = form.cleaned_data['selected_api']
+                queryset.update(api1_id=selected_api.id)
+                logger.info("API güncelleme başarılı!")
+                return None
+            else:
+                logger.error("Form geçersiz!")
+        else:
+            form = SelectAPIForm()
+            logger.debug("Post isteği alınmadı!")
+            print("3333")
 
+        return render(request, "select_api_form.html", {"form": form})
+
+    update_api1_with_selected_api.short_description = "API1'i Seçilen API ile Güncelle"
 
     def otoyap_action(self, request, queryset):
 
