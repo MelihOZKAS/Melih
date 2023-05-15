@@ -42,27 +42,32 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 from django.shortcuts import render
 
 def update_api1_with_selected_api(modeladmin, request, queryset):
-    form = SelectAPIForm(request.POST or None)
-    if form.is_valid():
-        selected_api = form.cleaned_data['selected_api']
-        updated_count = queryset.update(api1=selected_api)
-        if updated_count > 0:
-            print("oldu")
-        else:
-            print("olmadı")
-        return redirect('select_api_form.html')
+    if request.method == 'POST':
+        form = SelectAPIForm(request.POST)
+        if form.is_valid():
+            selected_api = form.cleaned_data['selected_api']
+            updated_count = 0
 
-    return admin.ModelAdmin.change_view( request, queryset=queryset)
+            for obj in queryset:
+                obj.api1 = selected_api
+                obj.save()
+                updated_count += 1
 
+            if updated_count > 0:
+                messages.success(request, f"Seçilen {updated_count} ürünün API1 alanı başarıyla güncellendi.")
+            else:
+                messages.info(request, "Güncellenecek ürün bulunamadı.")
 
-update_api1_with_selected_api.short_description = "API Değiştir"
+            return redirect('admin:kontorlistesi_changelist')
 
+    else:
+        form = SelectAPIForm()
 
+    context = {
+        'form': form,
+    }
 
-
-
-
-
+    return render(request, 'select_api_form.html', context)
 
 
 
