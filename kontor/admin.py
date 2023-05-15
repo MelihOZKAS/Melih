@@ -61,44 +61,39 @@ class AdminKontorListesi(admin.ModelAdmin):
             os.makedirs(directory)
 
         girdim_ki_file = os.path.join(directory, 'GirdimKi.txt')
-        geldim_ki_file = os.path.join(directory, 'GeldimKi.txt')
-        selected_api_file = os.path.join(directory, 'selected_api.txt')
         basarili_file = os.path.join(directory, 'Basarili.txt')
-        gecersiz_form_file = os.path.join(directory, 'GecersizForm.txt')
-        no_post_file = os.path.join(directory, 'NoPost.txt')
 
         with open(girdim_ki_file, 'w') as file:
             file.write('GirdimKi!\n')
 
         if request.POST.get('post'):
-            with open(geldim_ki_file, 'w') as file:
+            with open(os.path.join(directory, 'GeldimKi.txt'), 'w') as file:
                 file.write('GeldimKi!\n')
 
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
-                with open(selected_api_file, 'w') as file:
+                with open(os.path.join(directory, 'selected_api.txt'), 'w') as file:
                     file.write(f'{selected_api}!\n')
-
                 queryset.update(api1_id=selected_api.id)
-
                 with open(basarili_file, 'w') as file:
                     file.write('API güncelleme başarılı!\n')
-
                 return None
             else:
-                with open(gecersiz_form_file, 'w') as file:
+                with open(os.path.join(directory, 'GecersizForm.txt'), 'w') as file:
                     file.write('GecersizForm GecersizForm GecersizForm!\n')
         else:
             form = SelectAPIForm()
-            with open(no_post_file, 'w') as file:
+            with open(os.path.join(directory, 'NoPost.txt'), 'w') as file:
                 file.write('NoPost NoPost NoPost!\n')
 
         return render(request, "select_api_form.html", {"form": form})
 
+
     update_api1_with_selected_api.short_description = "API1'i Seçilen API ile Güncelle"
 
-    def otoyap_action(self, request, queryset):
+
+def otoyap_action(self, request, queryset):
 
         selected = queryset
         for obj in selected:
