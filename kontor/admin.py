@@ -13,8 +13,10 @@ from django.contrib.auth.models import User
 from .urunleri_cek import *
 from .forms import *
 
+from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.forms import modelformset_factory
+from django.http import HttpResponseRedirect
 
 from django.shortcuts import render
 
@@ -42,38 +44,23 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 from django.shortcuts import render
 
 def update_api1_with_selected_api(modeladmin, request, queryset):
-    print(queryset)
+
+    SelectAPIFormSet = modelformset_factory(KontorList, form=SelectAPIForm, extra=0)
     if request.method == 'POST':
-        form = SelectAPIForm(request.POST)
-        if form.is_valid():
-            selected_api = form.cleaned_data['selected_api']
-            print(selected_api)
-            print("selected_api")
-            updated_count = 0
-            gelenApi = Apiler.objects.get(pk=int(selected_api))
-
-
-            for obj in queryset:
-                Paket= KontorList.objects.filter(id=obj.id)
-                Paket.api1 = gelenApi
-                Paket.save()
-                updated_count += 1
-
-            if updated_count > 0:
-                messages.success(request, f"Seçilen {updated_count} ürünün API1 alanı başarıyla güncellendi.")
-            else:
-                messages.info(request, "Güncellenecek ürün bulunamadı.")
-
-            return redirect('admin:kontorlistesi_changelist')
-
+        formset = SelectAPIFormSet(request.POST)
+        if formset.is_valid():
+            selected_api = formset.cleaned_data[0]['api']
+            queryset.update(api1=selected_api)
+            messages.success(request, "API successfully updated.")
+            return redirect(reverse('admin:myapp_kontorlist_changelist'))
     else:
-        form = SelectAPIForm()
-
+        formset = SelectAPIFormSet(queryset=queryset)
     context = {
-        'form': form,
+        'formset': formset,
     }
+    return render(request, 'admin/select_api_form.html', context)
 
-    return render(request, 'select_api_form.html', context)
+update_api1_with_selected_api.short_description = "değiştir apiyi API"
 
 
 
