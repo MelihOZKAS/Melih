@@ -46,6 +46,10 @@ from django import forms
 class SelectAPIForm(forms.Form):
     selected_api = forms.ChoiceField(label="Selected API", required=True)
 
+    def __init__(self, *args, **kwargs):
+        super(SelectAPIForm, self).__init__(*args, **kwargs)
+        self.fields['selected_api'].choices = [(str(api.id), str(api)) for api in Apiler.objects.all()]
+
 class AdminKontorListesi(admin.ModelAdmin):
     list_display = ("id","Kupur","Urun_adi","MaliyetFiyat","SatisFiyat","Aktifmi","api1","api2","api3", "alternatif_urunler_count",)#"alternatif_urunler",
     list_editable = ("Urun_adi","Aktifmi","MaliyetFiyat","SatisFiyat","api1","api2","api3",)
@@ -53,14 +57,26 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action','TumAlternetifiSil_action',"change_api1_selected"]
+    actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
-    def change_api1_selected(self, request, queryset):
-        selected_api = Apiler.objects.get(pk=request.POST['selected_api'])
-        queryset.update(api1=selected_api)
-        self.message_user(request, f"Seçilen {queryset.count()} ürünün api1 değeri başarıyla güncellendi.")
+    def update_api1_with_selected_api(self, request, queryset):
+        form = SelectAPIForm(request.POST)
+        if form.is_valid():
+            selected_api = form.cleaned_data['selected_api']
+            queryset.update(api1_id=selected_api)
+            self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
+        else:
+            self.message_user(request, "Form geçerli değil!", messages.ERROR)
 
-    change_api1_selected.short_description = "Seçilen Ürünlerin api1 Değerini Değiştir"
+        # Formu görüntülemek için render yöntemini kullan
+        return render(request, "select_api_form.html", {"form": form})
+
+
+
+
+
+
+
 
     def otoyap_action(self, request, queryset):
 
