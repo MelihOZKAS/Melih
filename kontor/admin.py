@@ -52,7 +52,7 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
+    actions = ['otoyap_action','TumAlternetifiSil_action',"change_api1_selected"]
 
     def change_api1_selected(self, request, queryset):
         selected_api = Apiler.objects.get(pk=request.POST['selected_api'])
