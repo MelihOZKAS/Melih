@@ -59,7 +59,7 @@ class AdminKontorListesi(admin.ModelAdmin):
 
 
     def update_api1_with_selected_api(modeladmin, request, queryset):
-        if request.POST.get('post'):
+        if request.method == 'POST':
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
