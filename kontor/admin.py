@@ -43,8 +43,8 @@ def update_api1_with_selected_api(modeladmin, request, queryset):
 
     if request.method == 'POST' and form.is_valid():
         selected_api = form.cleaned_data['api_choice']
-        api1 = Apiler.objects.get(pk=selected_api)
-        updated_count = queryset.update(api1=api1)
+        gelenApi = Apiler.objects.get(pk=selected_api)
+        updated_count = queryset.update(api1=gelenApi)
         modeladmin.message_user(request, f"{updated_count} ürünün api1 değeri seçilen API ile güncellendi.")
         return
 
