@@ -43,7 +43,7 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 from django.shortcuts import render
 
-def update_api1_with_selected_api(request, queryset):
+def update_api1_with_selected_api(request):
     if request.method == "POST":
         selected_api = request.POST.get('selected_api')
         selected_ids = request.POST.getlist('selected_ids')
