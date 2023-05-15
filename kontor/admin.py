@@ -14,7 +14,9 @@ from django.contrib.auth.models import User
 from .urunleri_cek import *
 from .forms import *
 
-import logging
+
+
+
 # Register your models here.
 class DurumlarAdmin(admin.ModelAdmin):
     list_display = ['durum_id', 'get_durum_id_display']
@@ -38,7 +40,7 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 
 
-logger = logging.getLogger(__name__)
+
 
 
 
@@ -53,21 +55,27 @@ class AdminKontorListesi(admin.ModelAdmin):
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
     def update_api1_with_selected_api(modeladmin, request, queryset):
-        print("girdm...")
+        with open('/home/Melih/GirdimKi.txt', 'w') as file:
+            file.write('GirdimKi!\n')
         if request.POST.get('post'):
-            print("131231")
+            with open('/home/Melih/GeldimKi.txt', 'w') as file:
+                file.write('GeldimKi!\n')
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
+                with open('/home/Melih/selected_api.txt', 'w') as file:
+                    file.write(f'{selected_api}!\n')
                 queryset.update(api1_id=selected_api.id)
-                logger.info("API güncelleme başarılı!")
+                with open('/home/Melih/Basarili.txt', 'w') as file:
+                    file.write('API güncelleme başarılı!\n')
                 return None
             else:
-                logger.error("Form geçersiz!")
+                with open('/home/Melih/GecersizForm.txt', 'w') as file:
+                    file.write('GecersizForm GecersizForm GecersizForm!\n')
         else:
             form = SelectAPIForm()
-            logger.debug("Post isteği alınmadı!")
-            print("3333")
+            with open('/home/Melih/NoPost.txt', 'w') as file:
+                file.write('NoPost NoPost NoPost!\n')
 
         return render(request, "select_api_form.html", {"form": form})
 
