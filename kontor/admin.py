@@ -47,7 +47,8 @@ def update_api1_with_selected_api(modeladmin, request, queryset):
         if form.is_valid():
             selected_api = form.cleaned_data['selected_api']
             queryset = KontorList.objects.filter(api1__isnull=False)
-            updated_count = queryset.update(api1=selected_api)
+            Apisi = Apiler.objects.get(pk=selected_api)
+            updated_count = queryset.update(api1=Apisi)
             # Güncelleme işlemi başarılı olduysa kullanıcıyı başka bir sayfaya yönlendirin
             if updated_count > 0:
                 return redirect('success_url')
