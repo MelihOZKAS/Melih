@@ -6,7 +6,9 @@
 </head>
 <body>
 <body>
-{% messages %}
+{% for message in messages %}
+<p>{{ message }}</p>
+{% endfor %}
 <form method="post" action="">
   {% csrf_token %}
   <label for="{{ form.selected_api.id_for_label }}">{{ form.selected_api.label }}</label>
@@ -14,6 +16,7 @@
   <button type="submit">API1'i Güncelle</button>
 </form>
 </body>
+
 
 
 
