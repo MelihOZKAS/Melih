@@ -13,6 +13,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from .urunleri_cek import *
 from .forms import *
+import os
 
 
 
@@ -55,26 +56,42 @@ class AdminKontorListesi(admin.ModelAdmin):
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
     def update_api1_with_selected_api(modeladmin, request, queryset):
-        with open('/home/Melih/GirdimKi.txt', 'w') as file:
+        directory = '/home/Melih'
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        girdim_ki_file = os.path.join(directory, 'GirdimKi.txt')
+        geldim_ki_file = os.path.join(directory, 'GeldimKi.txt')
+        selected_api_file = os.path.join(directory, 'selected_api.txt')
+        basarili_file = os.path.join(directory, 'Basarili.txt')
+        gecersiz_form_file = os.path.join(directory, 'GecersizForm.txt')
+        no_post_file = os.path.join(directory, 'NoPost.txt')
+
+        with open(girdim_ki_file, 'w') as file:
             file.write('GirdimKi!\n')
+
         if request.POST.get('post'):
-            with open('/home/Melih/GeldimKi.txt', 'w') as file:
+            with open(geldim_ki_file, 'w') as file:
                 file.write('GeldimKi!\n')
+
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
-                with open('/home/Melih/selected_api.txt', 'w') as file:
+                with open(selected_api_file, 'w') as file:
                     file.write(f'{selected_api}!\n')
+
                 queryset.update(api1_id=selected_api.id)
-                with open('/home/Melih/Basarili.txt', 'w') as file:
+
+                with open(basarili_file, 'w') as file:
                     file.write('API güncelleme başarılı!\n')
+
                 return None
             else:
-                with open('/home/Melih/GecersizForm.txt', 'w') as file:
+                with open(gecersiz_form_file, 'w') as file:
                     file.write('GecersizForm GecersizForm GecersizForm!\n')
         else:
             form = SelectAPIForm()
-            with open('/home/Melih/NoPost.txt', 'w') as file:
+            with open(no_post_file, 'w') as file:
                 file.write('NoPost NoPost NoPost!\n')
 
         return render(request, "select_api_form.html", {"form": form})
