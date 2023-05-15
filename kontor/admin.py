@@ -5,11 +5,10 @@ from django.urls import reverse,path
 from django.utils import timesince,timezone
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
-
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.forms import Select, RadioSelect, PasswordInput
-from django import forms
-import inspect
-from django.shortcuts import render
+
 from django.contrib.auth.models import User
 from .urunleri_cek import *
 from .forms import *
@@ -45,8 +44,7 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 
 
-from django.contrib import messages
-from django.shortcuts import render, redirect
+
 class AdminKontorListesi(admin.ModelAdmin):
     list_display = ("id","Kupur","Urun_adi","MaliyetFiyat","SatisFiyat","Aktifmi","api1","api2","api3", "alternatif_urunler_count",)#"alternatif_urunler",
     list_editable = ("Urun_adi","Aktifmi","MaliyetFiyat","SatisFiyat","api1","api2","api3",)
@@ -61,20 +59,20 @@ class AdminKontorListesi(admin.ModelAdmin):
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
-                queryset.update(api1_id=selected_api.id)
+                queryset.update(api1_id=selected_api)
                 messages.success(request, "API güncelleme başarılı!")
                 return redirect("admin:index")
             else:
                 for field, errors in form.errors.items():
                     for error in errors:
                         messages.error(request, f"{field}: {error}")
-            selected_api_value = request.POST.get('selected_api')
+            choices_str = ', '.join(str(choice) for choice in form.fields['selected_api'].choices)
+            messages.success(request, f"Choices: {choices_str}")
         else:
             form = SelectAPIForm()
-            selected_api_value = "Post isteği alınmadı!"
-
-        return render(request, "select_api_form.html", {"form": form, "selected_api_value": selected_api_value})
-
+            choices_str = ', '.join(str(choice) for choice in form.fields['selected_api'].choices)
+            messages.success(request, f"Choices: {choices_str}")
+        return render(request, "select_api_form.html", {"form": form})
     def otoyap_action(self, request, queryset):
 
         selected = queryset
