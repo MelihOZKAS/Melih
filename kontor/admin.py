@@ -44,11 +44,8 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 from django import forms
 class SelectAPIForm(forms.Form):
-    selected_api = forms.ChoiceField(label="Selected API", required=True)
+    selected_api = forms.ModelChoiceField(queryset=Apiler.objects.all(), label="Selected API", required=True)
 
-    def __init__(self, *args, **kwargs):
-        super(SelectAPIForm, self).__init__(*args, **kwargs)
-        self.fields['selected_api'].choices = [(str(api.id), str(api)) for api in Apiler.objects.all()]
 
 class AdminKontorListesi(admin.ModelAdmin):
     list_display = ("id","Kupur","Urun_adi","MaliyetFiyat","SatisFiyat","Aktifmi","api1","api2","api3", "alternatif_urunler_count",)#"alternatif_urunler",
@@ -63,7 +60,7 @@ class AdminKontorListesi(admin.ModelAdmin):
         form = SelectAPIForm(request.POST)
         if form.is_valid():
             selected_api = form.cleaned_data['selected_api']
-            queryset.update(api=selected_api)
+            queryset.update(api1=selected_api)
             self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
         else:
             self.message_user(request, "Form geçerli değil!", messages.ERROR)
