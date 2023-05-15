@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Nasip</title>
-<form method="post" action="">
-  {% csrf_token %}
-  {{ form }}
-  <button type="submit">API1'i Güncelle</button>
-</form>
-
-
 </head>
 <body>
-
+  <form method="post" action="">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">API1'i Güncelle</button>
+  </form>
 </body>
 </html>
