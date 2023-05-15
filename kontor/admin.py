@@ -45,7 +45,8 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 
 
-
+from django.contrib import messages
+from django.shortcuts import render, redirect
 class AdminKontorListesi(admin.ModelAdmin):
     list_display = ("id","Kupur","Urun_adi","MaliyetFiyat","SatisFiyat","Aktifmi","api1","api2","api3", "alternatif_urunler_count",)#"alternatif_urunler",
     list_editable = ("Urun_adi","Aktifmi","MaliyetFiyat","SatisFiyat","api1","api2","api3",)
@@ -55,23 +56,23 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
+
+
     def update_api1_with_selected_api(modeladmin, request, queryset):
         if request.POST.get('post'):
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
                 queryset.update(api1_id=selected_api.id)
-                print("API güncelleme başarılı!")
-                return None
+                messages.success(request, "API güncelleme başarılı!")
+                return redirect("admin:index")  # Ya da uygun bir yönlendirme yapabilirsiniz.
             else:
-                print("Form geçersiz!")
+                messages.error(request, "Form geçersiz!")
         else:
             form = SelectAPIForm()
-            print("Post isteği alınmadı!")
+            messages.info(request, "Post isteği alınmadı!")
 
         return render(request, "select_api_form.html", {"form": form})
-
-    update_api1_with_selected_api.short_description = "API1'i Seçilen API ile Güncelle"
 
     def otoyap_action(self, request, queryset):
 
