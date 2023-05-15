@@ -60,7 +60,7 @@ class AdminKontorListesi(admin.ModelAdmin):
             messages.info(request, f"Choices: {form}")
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
-                queryset.update(api1_id=selected_api)
+                queryset.update(api1=selected_api)
                 messages.success(request, "API güncelleme başarılı!")
                 return redirect("admin:index")
             else:
