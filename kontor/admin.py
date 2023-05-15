@@ -46,28 +46,15 @@ def update_api1_with_selected_api(modeladmin, request, queryset):
         form = SelectAPIForm(request.POST)
         if form.is_valid():
             selected_api = form.cleaned_data['selected_api']
-            updated_count = 0
-
-            for obj in queryset:
-                obj.api1 = selected_api
-                obj.save()
-                updated_count += 1
-
+            queryset = KontorList.objects.filter(api1__isnull=False)
+            updated_count = queryset.update(api1=selected_api)
+            # Güncelleme işlemi başarılı olduysa kullanıcıyı başka bir sayfaya yönlendirin
             if updated_count > 0:
-                messages.success(request, f"Seçilen {updated_count} ürünün API1 alanı başarıyla güncellendi.")
-            else:
-                messages.info(request, "Güncellenecek ürün bulunamadı.")
-
-            return redirect('admin:kontorlistesi_changelist')
-
+                return redirect('success_url')
     else:
         form = SelectAPIForm()
 
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'select_api_form.html', context)
+    return render(request, 'select_api.html', {'form': form})
 
 
 
