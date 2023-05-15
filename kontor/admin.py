@@ -89,11 +89,9 @@ class AdminKontorListesi(admin.ModelAdmin):
 
         return render(request, "select_api_form.html", {"form": form})
 
-
     update_api1_with_selected_api.short_description = "API1'i Seçilen API ile Güncelle"
 
-
-def otoyap_action(self, request, queryset):
+    def otoyap_action(self, request, queryset):
 
         selected = queryset
         for obj in selected:
