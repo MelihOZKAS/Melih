@@ -13,6 +13,8 @@ from django.contrib.auth.models import User
 from .urunleri_cek import *
 from .forms import *
 
+from django.contrib import messages
+
 from django.shortcuts import render
 
 # Register your models here.
@@ -39,16 +41,32 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 from django.shortcuts import render
 
 def update_api1_with_selected_api(modeladmin, request, queryset):
-    form = SelectAPIForm(request.POST or None)
+    if request.method == 'POST':
+        form = SelectAPIForm(request.POST)
+        if form.is_valid():
+            selected_api = form.cleaned_data['selected_api']
+            updated_count = 0
 
-    if request.method == 'POST' and form.is_valid():
-        selected_api = form.cleaned_data['api_choice']
-        gelenApi = Apiler.objects.get(pk=selected_api)
-        updated_count = queryset.update(api1=gelenApi)
-        modeladmin.message_user(request, f"{updated_count} ürünün api1 değeri seçilen API ile güncellendi.")
-        return
+            for obj in queryset:
+                obj.api1 = selected_api
+                obj.save()
+                updated_count += 1
 
-    return render(request, 'select_api_form.html', {'form': form})
+            if updated_count > 0:
+                messages.success(request, f"Seçilen {updated_count} ürünün API1 alanı başarıyla güncellendi.")
+            else:
+                messages.info(request, "Güncellenecek ürün bulunamadı.")
+
+            return redirect('admin:kontorlistesi_changelist')
+
+    else:
+        form = SelectAPIForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'select_api_form.html', context)
 
 
 
