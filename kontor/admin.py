@@ -65,9 +65,10 @@ class AdminKontorListesi(admin.ModelAdmin):
                 messages.success(request, "API güncelleme başarılı!")
                 return redirect("admin:index")
             else:
-                selected_api = form.cleaned_data['selected_api']
+
                 for field, errors in form.errors.items():
                     for error in errors:
+                        selected_api = form.cleaned_data['selected_api']
                         messages.error(request, f"{field}: {error}   ___{selected_api}")
         else:
             form = SelectAPIForm()
