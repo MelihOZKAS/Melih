@@ -203,6 +203,8 @@ class AdminSiparisler(admin.ModelAdmin):
         self.message_user(request, f"{rows_updated} sipariş Beklemeye Alındı.")
     BeklemeyeAL_action.short_description = "Beklemeye Al"
 
+
+    #TODO iptal et bölümünde bakiye iadesi + basairli ise api bakiyesi iadesi de lazım.
     def iptalEt_action(self, request, queryset):
         for siparis in queryset:
             user = request.user

@@ -570,13 +570,14 @@ def AlternatifSonucKontrol():
                 url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={alternatifOrder.SanalRefIdesi}"
             response = requests.get(url)
             print(response.text)
+            response = unquote(response.text)
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
-                response = response.text.split(":")
+                response = response.split(":")
                 responses = "responses"
             elif ApiTuruadi == "grafi":
-                responses = response.text.split(" ")
-                response = response.text.replace(" ", "").replace(",", ".").split("|")
+                responses = response.split(" ")
+                response = response.replace(" ", "").replace(",", ".").split("|")
 #                grafiTutar = float(str(response[1]).replace(" ", "").replace(",", "."))
 
 
