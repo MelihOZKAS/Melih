@@ -58,7 +58,7 @@ def update_api1_with_selected_api(modeladmin, request, queryset):
     context = {
         'formset': formset,
     }
-    return render(request, 'admin/select_api_form.html', context)
+    return render(request, 'select_api_form.html', context)
 
 update_api1_with_selected_api.short_description = "değiştir apiyi API"
 
