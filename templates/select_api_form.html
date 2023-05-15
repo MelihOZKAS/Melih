@@ -5,20 +5,12 @@
     <title>Nasip</title>
 </head>
 <body>
-<body>
-{% for message in messages %}
-<p>{{ message }}</p>
-{% endfor %}
-<form method="post" action="">
-  {% csrf_token %}
-  <label for="{{ form.selected_api.id_for_label }}">{{ form.selected_api.label }}</label>
-  {{ form.selected_api }}
-  <button type="submit">API1'i Güncelle</button>
-</form>
-</body>
-
-
-
-
+    <p>Selected API Value: {{ selected_api_value }}</p>
+    <form method="post" action="">
+        {% csrf_token %}
+        <label for="{{ form.selected_api.id_for_label }}">{{ form.selected_api.label }}</label>
+        {{ form.selected_api }}
+        <button type="submit">API1'i Güncelle</button>
+    </form>
 </body>
 </html>
