@@ -209,18 +209,22 @@ class AdminSiparisler(admin.ModelAdmin):
 
             guncel_aciklama = siparis.Aciklama or ""
             GelenApi = siparis.ManuelApi.Apiadi if siparis.ManuelApi else ""
+            iptal = Durumlar.objects.get(durum_id=Durumlar.IPTAL_EDILDI)
 
             yeni_aciklama = user.username +" _Tarafından_ " +GelenApi +" Apisinden <- iptale Alındı\n "
             siparis.Aciklama = guncel_aciklama + yeni_aciklama
-            siparis.Durum = 97  # Durum 99: Tamamlandı
+            siparis.Durum = iptal
             siparis.save()
 
         rows_updated = len(queryset)
         self.message_user(request, f"{rows_updated} sipariş iptalle Alındı.")
+
     iptalEt_action.short_description = "siparişleri iptal Et"
 
+
+    #TODO Sipariş Silme Kapatma!
     def has_delete_permission(self, request, obj=None):
-        return True
+        return False
 
     def gecen_sure(self, obj):
         if obj.SonucTarihi:
@@ -230,13 +234,6 @@ class AdminSiparisler(admin.ModelAdmin):
             return 'devam ediyor'
 
     gecen_sure.short_description = 'Geçen Süre'
-
-    #def gecen_sure(self, obj):
-    #    suanki_zaman = timezone.now()
-    #    gecen_zaman = suanki_zaman - obj.OlusturmaTarihi
-    #    return '{:.0f} saniye'.format(gecen_zaman.total_seconds())
-#
-    #gecen_sure.short_description = 'Geçen Süre'
 
 
 class AdminAnaOperator(admin.ModelAdmin):

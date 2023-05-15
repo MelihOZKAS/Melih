@@ -348,7 +348,7 @@ def VodafonePaketleriSunucudanCek(request):
                 if PaketiGuncelle.Kupur == Decimal("4405"):
                     PaketNames = "Kolay Paket 7"
                 if PaketiGuncelle.Kupur == Decimal("4406"):
-                    PaketNames = "Kolay Paket 6"
+                    PaketNames = "Kolay Paket 10"
                 if PaketiGuncelle.Kupur == Decimal("4407"):
                     PaketNames = "Kolay Paket 12"
                 if PaketiGuncelle.Kupur == Decimal("4780"):
