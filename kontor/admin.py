@@ -67,6 +67,8 @@ class AdminKontorListesi(admin.ModelAdmin):
                 for field, errors in form.errors.items():
                     for error in errors:
                         messages.error(request, f"{field}: {error}")
+                        selected_api_from_post = request.POST.get('selected_api', 'Değer gelmedi')
+                        messages.info(request, f"POST'tan gelen selected_api değeri: {selected_api_from_post}")
             choices_str = ', '.join(str(choice) for choice in form.fields['selected_api'].choices)
             messages.success(request, f"Choices: {choices_str}")
         else:
@@ -74,8 +76,7 @@ class AdminKontorListesi(admin.ModelAdmin):
             choices_str = ', '.join(str(choice) for choice in form.fields['selected_api'].choices)
             messages.success(request, f"Choiceszzz: {choices_str}")
 
-            selected_api_from_post = request.POST.get('selected_api', 'Değer gelmedi')
-            messages.info(request, f"POST'tan gelen selected_api değeri: {selected_api_from_post}")
+
         return render(request, "select_api_form.html", {"form": form})
     def otoyap_action(self, request, queryset):
 
