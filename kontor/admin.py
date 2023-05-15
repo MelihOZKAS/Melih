@@ -43,25 +43,24 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 from django.shortcuts import render
 
-def update_api1_with_selected_api(modeladmin, request, queryset):
-    SelectAPIFormSet = modelformset_factory(
-        KontorList,
-        fields=('api1',),
-        extra=0,
-
-    )
-
+def update_api1_with_selected_api(request, queryset):
     if request.method == "POST":
-        formset = SelectAPIFormSet(request.POST, queryset=KontorList.objects.all())
-        if formset.is_valid():
-            selected_api = formset.cleaned_data[0]['api1']
-            queryset = formset.queryset
-            updated_count = queryset.update(api1=selected_api)
-            return redirect("admin:index")
+        selected_api = request.POST.get('selected_api')
+        selected_ids = request.POST.getlist('selected_ids')
+        queryset = KontorList.objects.filter(id__in=selected_ids)
+        for obj in queryset:
+            obj.api1_id = selected_api
+            obj.save()
+        return redirect(admin.reverse("admin:index"))
     else:
+        SelectAPIFormSet = modelformset_factory(
+            KontorList,
+            fields=('api1',),
+            extra=0,
+            widgets={'api1': forms.Select(choices=Apiler.objects.values_list('id', 'Apiadi'))}
+        )
         formset = SelectAPIFormSet(queryset=KontorList.objects.none())
-
-    return render(request, "select_api_form.html", {"formset": formset})
+        return render(request, "admin/kontor/select_api_form.html", {"formset": formset})
 
 update_api1_with_selected_api.short_description = "değiştir apiyi API"
 
