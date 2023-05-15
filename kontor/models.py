@@ -161,7 +161,6 @@ class KontorList(models.Model):
     Sebekeici = models.DecimalField(max_digits=100, decimal_places=2, default=0)
     internet = models.DecimalField(max_digits=100, decimal_places=2, default=0)
     SMS = models.DecimalField(max_digits=100, decimal_places=2, default=0)
-
     YurtDisiDk = models.DecimalField(max_digits=100, decimal_places=2, default=0)
     Aktifmi = models.BooleanField("Aktif mi ?", default=True)
     AlternatifYapilmasin = models.BooleanField("Alternatif Yapmıyorum", default=False)
