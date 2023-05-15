@@ -14,6 +14,7 @@ from .urunleri_cek import *
 from .forms import *
 
 from django.contrib import messages
+from django.shortcuts import redirect
 
 from django.shortcuts import render
 
