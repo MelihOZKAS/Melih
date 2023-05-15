@@ -45,18 +45,16 @@ from django.shortcuts import render
 
 def update_api1_with_selected_api(modeladmin, request, queryset):
     if request.POST.get('post'):
-        selected_api = request.POST.get('selected_api')
-        queryset.update(api1_id=selected_api)
-        return None
+        form = SelectAPIForm(request.POST)
+        if form.is_valid():
+            selected_api = form.cleaned_data['selected_api']
+            queryset.update(api1_id=selected_api.id)
+            return None
+    else:
+        form = SelectAPIForm()
 
-    SelectAPIFormSet = modelformset_factory(
-        KontorList,
-        fields=('api1',),
-        extra=0,
-        widgets={'api1': forms.Select(choices=Apiler.objects.values_list('id', 'Apiadi'))}
-    )
-    formset = SelectAPIFormSet(queryset=queryset)
-    return render(request, "select_api_form.html", {"formset": formset})
+    return render(request, "select_api_form.html", {"form": form})
+
 
 
 update_api1_with_selected_api.short_description = "API1'i Seçilen API ile Güncelle"
