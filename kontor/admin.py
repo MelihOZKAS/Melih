@@ -42,8 +42,9 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 
 
-
-
+from django import forms
+class SelectAPIForm(forms.Form):
+    selected_api = forms.ChoiceField(label="Selected API", required=True)
 
 class AdminKontorListesi(admin.ModelAdmin):
     list_display = ("id","Kupur","Urun_adi","MaliyetFiyat","SatisFiyat","Aktifmi","api1","api2","api3", "alternatif_urunler_count",)#"alternatif_urunler",
