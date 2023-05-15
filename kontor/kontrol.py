@@ -427,9 +427,9 @@ def SorguSonucKontrol():
          #   2: islemde:5.50
          #   3: iptal_nedeni
 
-            response = requests.get(url)
-            print(response.text)
-            response = response.text.split(":")
+            response = requests.get(url).text.replace(" ","")
+            print(response)
+            response = response.split(":")
             if response[0] == "3":
                 if response[1] == "1":
                     # Cevabı işleyin ve veritabanına kaydedin
