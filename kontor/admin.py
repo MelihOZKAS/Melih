@@ -67,7 +67,9 @@ class AdminKontorListesi(admin.ModelAdmin):
                 messages.success(request, "API güncelleme başarılı!")
                 return redirect("admin:index")  # Ya da uygun bir yönlendirme yapabilirsiniz.
             else:
-                messages.error(request, "Form geçersiz!")
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f"{field}: {error}")
         else:
             form = SelectAPIForm()
             messages.info(request, "Post isteği alınmadı!")
