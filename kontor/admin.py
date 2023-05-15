@@ -60,15 +60,16 @@ class AdminKontorListesi(admin.ModelAdmin):
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
     def update_api1_with_selected_api(self, request, queryset):
-        form = SelectAPIForm(request.POST)
-        if form.is_valid():
-            selected_api = form.cleaned_data['selected_api']
-            queryset.update(api1_id=selected_api)
-            self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
+        if request.method == 'POST':
+            form = SelectAPIForm(request.POST)
+            if form.is_valid():
+                selected_api = form.cleaned_data['selected_api']
+                queryset.update(api1=selected_api)
+                self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
+            else:
+                self.message_user(request, "Form geçerli değil!", messages.ERROR)
         else:
-            self.message_user(request, "Form geçerli değil!", messages.ERROR)
-
-        # Formu görüntülemek için render yöntemini kullan
+            form = SelectAPIForm()
         return render(request, "select_api_form.html", {"form": form})
 
 
