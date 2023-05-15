@@ -54,7 +54,7 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
-    def update_api1_with_selected_api(modeladmin, request, queryset):
+    def update_api1_with_selected_api(request, queryset):
         if request.method == 'POST':
             form = SelectAPIForm(request.POST)
             messages.info(request, f"Choices: {form}")
