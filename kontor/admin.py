@@ -44,7 +44,12 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 from django import forms
 class SelectAPIForm(forms.Form):
-    selected_api = forms.ModelChoiceField(queryset=Apiler.objects.all(), label="Selected API", required=True)
+    selected_api = forms.ModelChoiceField(
+        label="Selected API",
+        queryset=Apiler.objects.filter(ApiAktifmi=True),
+        empty_label=None,
+        required=True
+    )
 
 
 class AdminKontorListesi(admin.ModelAdmin):
@@ -64,7 +69,6 @@ class AdminKontorListesi(admin.ModelAdmin):
             self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
         else:
             self.message_user(request, "Form geçerli değil!", messages.ERROR)
-
 
 
 
