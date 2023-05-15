@@ -54,7 +54,7 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
-    def update_api1_with_selected_api(request, queryset):
+    def update_api1_with_selected_api(modeladmin, request, queryset):
         if request.method == 'POST':
             form = SelectAPIForm(request.POST)
             messages.info(request, f"Choices: {form}")
@@ -76,8 +76,8 @@ class AdminKontorListesi(admin.ModelAdmin):
             choices_str = ', '.join(str(choice) for choice in form.fields['selected_api'].choices)
             messages.success(request, f"Choiceszzz: {choices_str}")
 
+    update_api1_with_selected_api.short_description = "Seçilen API'yi Güncelle"
 
-        return render(request, "select_api_form.html", {"form": form})
     def otoyap_action(self, request, queryset):
 
         selected = queryset
