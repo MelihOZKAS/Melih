@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Nasip</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
-    <p>Selected API Value: {{ selected_api_value }}</p>
-    <form method="post" action="">
-        {% csrf_token %}
-        <label for="{{ form.selected_api.id_for_label }}">{{ form.selected_api.label }}</label>
-        {{ form.selected_api }}
-        <button type="submit">API1'i Güncelle</button>
-    </form>
+    <div class="container">
+        <h2>API Seçin</h2>
+        <p>Selected API Value: {{ selected_api_value }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.selected_api.id_for_label }}">{{ form.selected_api.label }}</label>
+                <select name="selected_api" id="{{ form.selected_api.id_for_label }}" class="form-control">
+                    {% for value, text in form.selected_api.field.choices %}
+                    <option value="{{ value }}"{% if form.selected_api.value == value %} selected{% endif %}>{{ text }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">API1'i Güncelle</button>
+        </form>
+    </div>
 </body>
 </html>
