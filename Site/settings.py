@@ -98,9 +98,9 @@ DATABASES = {
 
 }
 
-SUBDOMAIN_URLCONFS = {
-    'bayi': 'bayi.urls',
-}
+#SUBDOMAIN_URLCONFS = {
+#    'bayi': 'bayi.urls',
+#}
 
 
 # Password validation
