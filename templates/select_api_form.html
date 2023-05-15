@@ -5,16 +5,16 @@
     <title>Nasip</title>
 </head>
 <body>
+<body>
+{% messages %}
 <form method="post" action="">
   {% csrf_token %}
   <label for="{{ form.selected_api.id_for_label }}">{{ form.selected_api.label }}</label>
-  <select name="selected_api" id="{{ form.selected_api.id_for_label }}">
-    {% for value, label in form.selected_api.field.choices %}
-    <option value="{{ value }}">{{ label }}</option>
-    {% endfor %}
-  </select>
+  {{ form.selected_api }}
   <button type="submit">API1'i Güncelle</button>
 </form>
+</body>
+
 
 
 </body>
