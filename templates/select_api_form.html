@@ -8,9 +8,14 @@
 <form method="post" action="">
   {% csrf_token %}
   <label for="{{ form.selected_api.id_for_label }}">{{ form.selected_api.label }}</label>
-  {{ form.selected_api }}
+  <select name="selected_api" id="{{ form.selected_api.id_for_label }}">
+    {% for value, label in form.selected_api.field.choices %}
+    <option value="{{ value }}">{{ label }}</option>
+    {% endfor %}
+  </select>
   <button type="submit">API1'i Güncelle</button>
 </form>
+
 
 </body>
 </html>
