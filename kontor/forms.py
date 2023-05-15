@@ -6,4 +6,5 @@ class SelectAPIForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(SelectAPIForm, self).__init__(*args, **kwargs)
-        self.fields['selected_api'].choices = [(api.id, str(api)) for api in Apiler.objects.all()]
+        self.fields['selected_api'].choices = [(str(api.id), str(api)) for api in Apiler.objects.all()]
+
