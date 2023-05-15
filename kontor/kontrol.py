@@ -920,31 +920,19 @@ def AlternatifKontrol(request):
         vergiTutari = "Nasip"
         if len(cikan_idler) == 0:
             print("CikanID == 000000")
-            if 8703.00 in PaketSorguListesi:
-                print("En az 18TL lik vergi Borcu var.")
-                vergiTutari = "En az 18TL yüklemesi gerekiyor vergi borcu var."
+
             if 8703 in PaketSorguListesi:
                 print("En az 18TL lik vergi Borcu var.")
-                vergiTutari = "En az 18TL yüklemesi gerekiyor vergi borcu var-"
-            if 7353.00 in PaketSorguListesi:
-                print("En az 36TL lik vergi Borcu var.")
-                vergiTutari = "En az 36TL yüklemesi gerekiyor vergi borcu var."
+                vergiTutari = "En az 18TL yüklemesi gerekiyor vergi borcu var -"
             if 7353 in PaketSorguListesi:
                 print("En az 36TL lik vergi Borcu var.")
-                vergiTutari = "En az 36TL yüklemesi gerekiyor vergi borcu var-"
-            if 7354.00 in PaketSorguListesi:
-                print("En az 54TL lik vergi Borcu var.")
-                vergiTutari = "En az 54TL yüklemesi gerekiyor vergi borcu var."
+                vergiTutari = "En az 36TL yüklemesi gerekiyor vergi borcu var -"
             if 7354 in PaketSorguListesi:
                 print("En az 54TL lik vergi Borcu var.")
-                vergiTutari = "En az 54TL yüklemesi gerekiyor vergi borcu var-"
-            if 7355.00 in PaketSorguListesi:
-                print("En az 72TL lik vergi Borcu var.")
-                vergiTutari = "En az 72TL yüklemesi gerekiyor vergi borcu var."
+                vergiTutari = "En az 54TL yüklemesi gerekiyor vergi borcu var -"
             if 7355 in PaketSorguListesi:
                 print("En az 72TL lik vergi Borcu var.")
-                vergiTutari = "En az 72TL yüklemesi gerekiyor vergi borcu var-"
-
+                vergiTutari = "En az 72TL yüklemesi gerekiyor vergi borcu var -"
             if vergiTutari != "Nasip":
                 print("vergiTutari == İçine girdim.")
                 siparis.Durum = iptalEdildi

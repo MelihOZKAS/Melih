@@ -480,7 +480,7 @@ def Turkcell_Paketleri_Ekle(modeladmin, request, queryset):
                     PaketiGuncelle.kupur = kontor.Kupur
                     PaketiGuncelle.eslestirme_operator_adi = "turkcell"
                     PaketiGuncelle.eslestirme_operator_tipi = "ses"
-                    PaketiGuncelle.eslestirme_kupur = kontor.zNetKupur
+                    PaketiGuncelle.eslestirme_kupur = kontor.Kupur
                 elif SecilenApi == "Gencan":
                     GelenRef = str(api.ApiTanim).split(",")
                     print(GelenRef)
@@ -489,7 +489,7 @@ def Turkcell_Paketleri_Ekle(modeladmin, request, queryset):
                     PaketiGuncelle.kupur = kontor.Kupur
                     PaketiGuncelle.eslestirme_operator_adi = GelenRef[0]
                     PaketiGuncelle.eslestirme_operator_tipi = GelenRef[1]
-                    PaketiGuncelle.eslestirme_kupur = kontor.zNetKupur
+                    PaketiGuncelle.eslestirme_kupur = kontor.Kupur
                 elif SecilenApi == "grafi":
                     PaketiGuncelle.apiler = api
                     PaketiGuncelle.urun_adi = kontor.Urun_adi
