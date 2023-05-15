@@ -9,17 +9,12 @@ from django.http import HttpResponse
 from django.forms import Select, RadioSelect, PasswordInput
 from django import forms
 import inspect
+from django.shortcuts import render
 from django.contrib.auth.models import User
 from .urunleri_cek import *
 from .forms import *
 
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.forms import modelformset_factory
-from django.http import HttpResponseRedirect
-
-from django.shortcuts import render
-
+import logging
 # Register your models here.
 class DurumlarAdmin(admin.ModelAdmin):
     list_display = ['durum_id', 'get_durum_id_display']
@@ -41,20 +36,23 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 
 
-from django.shortcuts import render
+
+
+logger = logging.getLogger(__name__)
 
 def update_api1_with_selected_api(modeladmin, request, queryset):
-    if request.method == 'POST':
+    if request.POST.get('post'):
         form = SelectAPIForm(request.POST)
         if form.is_valid():
             selected_api = form.cleaned_data['selected_api']
-            print(selected_api)
-            for obj in queryset:
-                obj.api1 = selected_api
-                obj.save()
+            queryset.update(api1_id=selected_api.id)
+            logger.info("API güncelleme başarılı!")
             return None
+        else:
+            logger.error("Form geçersiz!")
     else:
         form = SelectAPIForm()
+        logger.debug("Post isteği alınmadı!")
 
     return render(request, "select_api_form.html", {"form": form})
 
