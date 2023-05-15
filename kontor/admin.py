@@ -54,7 +54,7 @@ def update_api1_with_selected_api(modeladmin, request, queryset):
     else:
         form = SelectAPIForm()
 
-    return render(request, 'select_api.html', {'form': form})
+    return render(request, 'select_api_form.html', {'form': form})
 
 
 
