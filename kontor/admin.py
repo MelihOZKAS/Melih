@@ -48,6 +48,7 @@ def update_api1_with_selected_api(modeladmin, request, queryset):
         form = SelectAPIForm(request.POST)
         if form.is_valid():
             selected_api = form.cleaned_data['selected_api']
+            print(selected_api)
             for obj in queryset:
                 obj.api1 = selected_api
                 obj.save()
