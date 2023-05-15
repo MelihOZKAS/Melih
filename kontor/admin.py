@@ -41,7 +41,9 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 logger = logging.getLogger(__name__)
 
 def update_api1_with_selected_api(modeladmin, request, queryset):
+    print("girdm...")
     if request.POST.get('post'):
+        print("131231")
         form = SelectAPIForm(request.POST)
         if form.is_valid():
             selected_api = form.cleaned_data['selected_api']
@@ -53,6 +55,7 @@ def update_api1_with_selected_api(modeladmin, request, queryset):
     else:
         form = SelectAPIForm()
         logger.debug("Post isteği alınmadı!")
+        print("3333")
 
     return render(request, "select_api_form.html", {"form": form})
 
