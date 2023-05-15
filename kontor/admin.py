@@ -54,32 +54,12 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
-    def update_api1_with_selected_api(modeladmin, request, queryset):
-        if request.method == 'POST':
-            form = SelectAPIForm(request.POST)
-            messages.info(request, f"Choices: {form}")
-            if form.is_valid():
-                selected_api = form.cleaned_data['selected_api']
-                queryset.update(api1=selected_api)
-                messages.success(request, "API güncelleme başarılı!")
-                return redirect("admin:index")
-            else:
-                for field, errors in form.errors.items():
-                    for error in errors:
-                        messages.error(request, f"{field}: {error}")
-                selected_api_from_post = request.POST.get('selected_api', 'Değer gelmedi')
-                messages.info(request, f"POST'tan gelen selected_api değeri: {selected_api_from_post}")
-            choices_str = ', '.join(str(choice) for choice in form.fields['selected_api'].choices)
-            messages.success(request, f"Choices: {choices_str}")
-        else:
-            form = SelectAPIForm()
-            choices_str = ', '.join(str(choice) for choice in form.fields['selected_api'].choices)
-            messages.success(request, f"Choiceszzz: {choices_str}")
+    def change_api1_selected(self, request, queryset):
+        selected_api = Apiler.objects.get(pk=request.POST['selected_api'])
+        queryset.update(api1=selected_api)
+        self.message_user(request, f"Seçilen {queryset.count()} ürünün api1 değeri başarıyla güncellendi.")
 
-        selected_api_value = request.POST.get('selected_api', '')
-        return render(request, "select_api_form.html", {"form": form, "selected_api_value": selected_api_value})
-
-    update_api1_with_selected_api.short_description = "Seçilen API'yi Güncelle"
+    change_api1_selected.short_description = "Seçilen Ürünlerin api1 Değerini Değiştir"
 
     def otoyap_action(self, request, queryset):
 
