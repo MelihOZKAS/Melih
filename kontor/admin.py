@@ -53,8 +53,9 @@ def update_api1_with_selected_api(modeladmin, request, queryset):
 
 
             for obj in queryset:
-                obj.api1 = gelenApi
-                obj.save()
+                Paket= KontorList.objects.filter(pk=obj)
+                Paket.api1 = gelenApi
+                Paket.save()
                 updated_count += 1
 
             if updated_count > 0:
