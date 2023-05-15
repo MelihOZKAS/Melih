@@ -911,6 +911,7 @@ def AlternatifKontrol(request):
         # AnaPaketVar mi Kontrollü
 
         #vergiList=['8703','7353','7354','7355']
+        print(siparis.Numara)
         print("Onemli")
         print(cikan_idler)
         print('*'*31)
