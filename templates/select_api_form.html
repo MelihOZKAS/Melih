@@ -12,11 +12,7 @@
             {% csrf_token %}
             <div class="mb-3">
                 <label for="id_selected_api" class="form-label">Selected API</label>
-                <select name="selected_api" id="id_selected_api" class="form-select">
-                    {% for value, text in form.selected_api.field.choices %}
-                    <option value="{{ value }}" {% if form.selected_api.value == value %}selected{% endif %}>{{ text }}</option>
-                    {% endfor %}
-                </select>
+                <input type="text" name="selected_api" id="id_selected_api" class="form-control">
             </div>
             <button type="submit" class="btn btn-primary">API1'i Güncelle</button>
         </form>
