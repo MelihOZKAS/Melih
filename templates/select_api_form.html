@@ -10,10 +10,11 @@
         <h2>API Seçin</h2>
         <form method="post">
             {% csrf_token %}
-            <div class="mb-3">
-                <label for="id_selected_api" class="form-label">Selected API</label>
-                <input type="text" name="selected_api" id="id_selected_api" class="form-control">
-            </div>
+<div class="mb-3">
+    <label for="id_selected_api" class="form-label">Selected API</label>
+    {{ form.selected_api }}
+</div>
+
             <button type="submit" class="btn btn-primary">API1'i Güncelle</button>
         </form>
     </div>
