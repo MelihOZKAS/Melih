@@ -70,8 +70,11 @@ class AdminKontorListesi(admin.ModelAdmin):
             form = ApiForm(request.POST)
             if form.is_valid():
                 api = form.cleaned_data.get('api1')
-                queryset.update(api1=api)
-                self.message_user(request, "API1 Başarıyla Güncellendi!")
+                updated = queryset.update(api1=api)
+                if updated:
+                    self.message_user(request, f"API1 Başarıyla Güncellendi! {updated} öğe güncellendi.")
+                else:
+                    messages.error(request, 'Hiçbir öğe güncellenemedi.')
             else:
                 messages.error(request, 'Form geçerli değil, lütfen tekrar deneyin.')
         else:
