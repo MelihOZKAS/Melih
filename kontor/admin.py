@@ -72,6 +72,7 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     def change_api(self, request, queryset):
         if 'apply' in request.POST:
+            self.message_user(request, f"Buraya Geldim1")  # Debug: request.POST bilgisini yazdır
             form = ApiForm(request.POST)
             if form.is_valid():
                 api1 = form.cleaned_data['api1']
