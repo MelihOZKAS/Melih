@@ -12,14 +12,24 @@
         <div class="col-md-6 offset-md-3 mt-5">
             <h3>API Değiştir</h3>
             <form action="{% url 'admin:kontor_kontorlist_changelist' %}" method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="api1" class="form-label">API1</label>
-                    {{ form.api1 }}
-                </div>
-                {{ form.selected_items }}
-                <button type="submit" class="btn btn-primary">API Değiştir</button>
-            </form>
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="api1" class="form-label">API1</label>
+        {{ form.api1 }}
+    </div>
+    <div class="mb-3">
+        <label for="api2" class="form-label">API2</label>
+        {{ form.api2 }}
+    </div>
+    <div class="mb-3">
+        <label for="api3" class="form-label">API3</label>
+        {{ form.api3 }}
+    </div>
+    {{ form.selected_items }}
+                    <button type="submit" class="btn btn-primary" name="apply">API Değiştir</button>
+</form>
+
+
         </div>
     </div>
 </div>
