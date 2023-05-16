@@ -54,7 +54,7 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
+    actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api_view"]
 
     def get_urls(self):
         urls = super().get_urls()
