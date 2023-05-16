@@ -93,7 +93,6 @@ class AdminKontorListesi(admin.ModelAdmin):
 
 
 
-
     def otoyap_action(self, request, queryset):
 
         selected = queryset
