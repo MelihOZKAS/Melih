@@ -54,7 +54,6 @@ class ApiForm(forms.Form):
 
 
 
-
 class AdminKontorListesi(admin.ModelAdmin):
     list_display = ("id","Kupur","Urun_adi","MaliyetFiyat","SatisFiyat","Aktifmi","api1","api2","api3", "alternatif_urunler_count",)#"alternatif_urunler",
     list_editable = ("Urun_adi","Aktifmi","MaliyetFiyat","SatisFiyat","api1","api2","api3",)
@@ -62,17 +61,7 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action','TumAlternetifiSil_action',"change_api1"]
-
-
-    actions = ['otoyap_action','TumAlternetifiSil_action','change_api1']
-
-    action_forms = {
-        'change_api1': ApiForm
-    }
-
-    def get_action_form(self, request, action=None):
-        return self.action_forms.get(action, super().get_action_form(request, action))
+    actions = ['otoyap_action','TumAlternetifiSil_action']
 
     def change_api1(self, request, queryset):
         api = Apiler.objects.get(pk=request.POST.get('api1'))
@@ -80,6 +69,13 @@ class AdminKontorListesi(admin.ModelAdmin):
         self.message_user(request, "Seçilen Ürünlerin API'si başarıyla güncellendi.")
 
     change_api1.short_description = "API1'i Değiştir"
+
+    def get_action_form(self, request, action=None):
+        if action == 'change_api1':
+            return ApiForm
+        return super().get_action_form(request, action)
+
+    action_form = ApiForm
 
     def otoyap_action(self, request, queryset):
 
