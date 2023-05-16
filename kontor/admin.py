@@ -68,11 +68,14 @@ class AdminKontorListesi(admin.ModelAdmin):
     actions = ['otoyap_action','TumAlternetifiSil_action',"change_api"]
 
     def change_api(self, request, queryset):
+        self.message_user(request, f"Debug: request.POST: {request.POST}")  # Debug: request.POST bilgisini yazdır
         form = None
         if 'api1' in request.POST:
             form = ApiForm(request.POST)
             if form.is_valid():
                 api = form.cleaned_data['api1']
+                self.message_user(request,
+                                  f"Debug: form is valid, api: {api}")  # Debug: Formun geçerli olduğunu ve api bilgisini yazdır
                 queryset.update(api1=api)
                 self.message_user(request, f"API1 Başarıyla Güncellendi! {api}")
                 return None
@@ -83,7 +86,6 @@ class AdminKontorListesi(admin.ModelAdmin):
             form = ApiForm(initial={'selected_items': queryset.values_list('id', flat=True)})
         return render(request, 'change_api.html', {'form': form, 'queryset': queryset})
 
-    change_api.short_description = "API1'i Değiştir"
     def otoyap_action(self, request, queryset):
 
         selected = queryset
