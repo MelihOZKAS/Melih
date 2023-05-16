@@ -65,8 +65,7 @@ class AdminKontorListesi(admin.ModelAdmin):
                 queryset = self.get_queryset(request)
                 queryset.update(api1=selected_api)
                 self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
-            else:
-                self.message_user(request, "Form geçerli değil!", messages.ERROR)
+                return
         else:
             form = SelectAPIForm()
 
