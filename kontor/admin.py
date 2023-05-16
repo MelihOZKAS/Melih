@@ -63,6 +63,7 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"change_api1"]
 
+
     def change_api1(self, request, queryset):
         api = Apiler.objects.get(pk=request.POST.get('api1'))
         queryset.update(api1=api)
