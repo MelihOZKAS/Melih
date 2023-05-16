@@ -44,7 +44,7 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 from django import forms
 class SelectAPIForm(forms.Form):
-    selected_api = forms.ChoiceField(label="Selected API", required=True)
+    selected_api = forms.CharField(label="Selected API", required=True)
 
 
 
