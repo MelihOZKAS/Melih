@@ -59,7 +59,7 @@ class AdminKontorListesi(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            path('update_api1_with_selected_api/', self.admin_site.admin_view(self.update_api1_with_selected_api_view),
+            path('update_api1_with_selected_api/', self.update_api1_with_selected_api_view,
                  name='update_api1_with_selected_api'),
         ]
         return my_urls + urls
