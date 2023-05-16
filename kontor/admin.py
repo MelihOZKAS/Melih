@@ -68,7 +68,7 @@ class AdminKontorListesi(admin.ModelAdmin):
                 self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
                 return
             else:
-                messages.alert(request, form.errors)
+                messages.warning(request, form.errors)
         else:
             form = SelectAPIForm()
 
