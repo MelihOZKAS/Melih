@@ -51,6 +51,8 @@ from django import forms
 
 class ApiForm(forms.Form):
     api1 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=True)
+    selected_items = forms.CharField(widget=forms.HiddenInput())
+
 
 
 
@@ -70,6 +72,9 @@ class AdminKontorListesi(admin.ModelAdmin):
             form = ApiForm(request.POST)
             if form.is_valid():
                 api = form.cleaned_data.get('api1')
+                selected_items = form.cleaned_data.get('selected_items')
+                selected_ids = selected_items.split(',')
+                queryset = KontorList.objects.filter(id__in=selected_ids)
                 updated = queryset.update(api1=api)
                 if updated:
                     self.message_user(request, f"API1 Başarıyla Güncellendi! {updated} öğe güncellendi.")
@@ -78,11 +83,10 @@ class AdminKontorListesi(admin.ModelAdmin):
             else:
                 messages.error(request, 'Form geçerli değil, lütfen tekrar deneyin.')
         else:
-            form = ApiForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
+            selected_items = ','.join([str(id) for id in queryset.values_list('id', flat=True)])
+            form = ApiForm(initial={'_selected_action': selected_items})
 
         return render(request, 'change_api.html', {'items': queryset, 'form': form})
-
-    change_api.short_description = "API1'i Değiştir"
 
     def otoyap_action(self, request, queryset):
 
