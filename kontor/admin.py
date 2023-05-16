@@ -77,7 +77,7 @@ class AdminKontorListesi(admin.ModelAdmin):
         else:
             form = ApiForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
 
-        return render(request, 'admin/change_api.html', {'items': queryset, 'form': form})
+        return render(request, 'change_api.html', {'items': queryset, 'form': form})
 
     change_api.short_description = "API1'i Değiştir"
 
