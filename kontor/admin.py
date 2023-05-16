@@ -43,13 +43,14 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 
 from django import forms
+#class ApiForm(forms.Form):
+#    api1 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
+#    action = forms.CharField(widget=forms.HiddenInput, initial='change_api1')
+#    select_across = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
+
+
 class ApiForm(forms.Form):
-    api1 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
-    action = forms.CharField(widget=forms.HiddenInput, initial='change_api1')
-    select_across = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
-
-
-
+    api1 = forms.ModelChoiceField(queryset=Apiler.objects.all())
 
 
 
@@ -61,28 +62,18 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action','TumAlternetifiSil_action',"change_api1"]
+    actions = ['otoyap_action','TumAlternetifiSil_action',"change_api"]
 
-
-    def get_action_form(self, request, action=None):
-        if action == 'change_api1':
-            return ApiForm
+    def change_api(request):
+        if request.method == "POST":
+            form = ApiForm(request.POST)
+            if form.is_valid():
+                api = form.cleaned_data.get('api1')
+                # Burada queryset'i güncelleyebilirsiniz. Örneğin:
+                # KontorList.objects.all().update(api1=api)
         else:
-            return super().get_action_form(request, action)
-
-    # ... other methods ...
-
-    def change_api1(self, request, queryset):
-        form = self.get_action_form(request, 'change_api1')(request.POST)
-        if form.is_valid():
-            api = form.cleaned_data.get('api1')
-            if api is not None:
-                queryset.update(api1=api)
-                self.message_user(request, "Seçilen Ürünlerin API'si başarıyla güncellendi.")
-            else:
-                self.message_user(request, "API seçilmedi.")
-
-    change_api1.short_description = "API1'i Değiştir"
+            form = ApiForm()
+        return render(request, 'change_api.html', {'form': form})
 
     def otoyap_action(self, request, queryset):
 
