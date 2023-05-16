@@ -74,8 +74,10 @@ class AdminKontorListesi(admin.ModelAdmin):
         self.message_user(request, f"Debug: request.queryset: {queryset}")  # Debug: request.POST bilgisini yazdır
         form = None
         if 'apply' in request.POST:
+            self.message_user(request, f"Buraya Geldim1")  # Debug: request.POST bilgisini yazdır
             form = ApiForm(request.POST)
             if form.is_valid():
+                self.message_user(request,f"Buraya Geldim2")  # Debug: request.POST bilgisini yazdır
                 api1 = form.cleaned_data['api1']
                 api2 = form.cleaned_data.get('api2')  # get methodunu kullanarak None dönebilir
                 api3 = form.cleaned_data.get('api3')  # get methodunu kullanarak None dönebilir
@@ -96,7 +98,6 @@ class AdminKontorListesi(admin.ModelAdmin):
             form = ApiForm(initial={'selected_items': queryset.values_list('id', flat=True)})
         return render(request, 'change_api.html', {'form': form, 'queryset': queryset})
     def otoyap_action(self, request, queryset):
-
         selected = queryset
         for obj in selected:
             alternatif_urunler = []
