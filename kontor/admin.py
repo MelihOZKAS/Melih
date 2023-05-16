@@ -78,12 +78,12 @@ class AdminKontorListesi(admin.ModelAdmin):
                 return None
             else:
                 messages.error(request, f'Form geçerli değil, lütfen tekrar deneyin. Post verisi: {request.POST}')
+                messages.error(request, f'Form hataları: {form.errors}')
         if not form:
             form = ApiForm(initial={'selected_items': queryset.values_list('id', flat=True)})
         return render(request, 'change_api.html', {'form': form, 'queryset': queryset})
 
     change_api.short_description = "API1'i Değiştir"
-
     def otoyap_action(self, request, queryset):
 
         selected = queryset
