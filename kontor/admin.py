@@ -44,10 +44,11 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 from django import forms
 class SelectAPIForm(forms.Form):
-   # selected_api = forms.CharField(label="Selected API", required=True)
-   class SelectAPIForm(forms.Form):
-       selected_api = forms.ModelChoiceField(queryset=Apiler.objects.all(), label="Selected API", required=True)
+    selected_api = forms.ChoiceField(label="Selected API", required=True)
 
+    def __init__(self, *args, **kwargs):
+        super(SelectAPIForm, self).__init__(*args, **kwargs)
+        self.fields['selected_api'].choices = [(str(api.id), str(api)) for api in Apiler.objects.all()]
 
 
 class AdminKontorListesi(admin.ModelAdmin):
@@ -59,35 +60,31 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api_view"]
 
-    def update_api1_with_selected_api_view(self, request, queryset):
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('update_api1/', self.update_api1_with_selected_api_view, name='update_api1'),
+        ]
+        return my_urls + urls
+
+    def update_api1_with_selected_api_view(self, request):
         if request.method == 'POST':
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
-                apisi = Apiler.objects.get(pk=selected_api)
-
-
-                queryset.update(api1=apisi)
+                queryset = self.get_queryset(request)
+                queryset.update(api1_id=selected_api)
                 self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
-                return
             else:
-                messages.warning(request, form.errors)
+                self.message_user(request, "Form geçerli değil!", messages.ERROR)
         else:
             form = SelectAPIForm()
 
         context = {
-            'form': form,
+            'form': form
         }
+
         return render(request, 'select_api_form.html', context)
-
-    def get_urls(self):
-        urls = super().get_urls()
-        my_urls = [
-            path('update_api1_with_selected_api/', self.update_api1_with_selected_api_view,
-                 name='update_api1_with_selected_api'),
-        ]
-        return my_urls + urls
-
 
 
 

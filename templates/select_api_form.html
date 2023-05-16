@@ -8,13 +8,9 @@
 <body>
     <div class="container">
         <h2>API Seçin</h2>
-        <form method="post">
+        <form method="post" action="{% url 'admin:kontor_kontorlist_update_api1' %}">
             {% csrf_token %}
-<div class="mb-3">
-    <label for="id_selected_api" class="form-label">Selected API</label>
-    {{ form.selected_api }}
-</div>
-
+            {{ form.as_p }}
             <button type="submit" class="btn btn-primary">API1'i Güncelle</button>
         </form>
     </div>
