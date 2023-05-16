@@ -45,7 +45,8 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 from django import forms
 class ApiForm(forms.Form):
     api1 = forms.ModelChoiceField(queryset=Apiler.objects.all())
-    action = forms.CharField(widget=forms.HiddenInput)
+    action = forms.CharField(widget=forms.HiddenInput, initial='change_api1')
+
 
 
 
