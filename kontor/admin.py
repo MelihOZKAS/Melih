@@ -62,7 +62,7 @@ class AdminKontorListesi(admin.ModelAdmin):
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
-                apisi = Apiler.objects.get(pk=selected_api.id)
+                apisi = Apiler.objects.get(pk=selected_api)
 
 
                 queryset.update(api1=apisi)
