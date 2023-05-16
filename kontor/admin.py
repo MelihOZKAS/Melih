@@ -56,15 +56,8 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api_view"]
 
-    def get_urls(self):
-        urls = super().get_urls()
-        my_urls = [
-            path('update_api1_with_selected_api/', self.update_api1_with_selected_api_view,
-                 name='update_api1_with_selected_api'),
-        ]
-        return my_urls + urls
-
-    def update_api1_with_selected_api_view(self, request):
+    def update_api1_with_selected_api_view(self, *args):
+        request = args[0]
         if request.method == 'POST':
             form = SelectAPIForm(request.POST)
             if form.is_valid():
@@ -81,6 +74,14 @@ class AdminKontorListesi(admin.ModelAdmin):
             'form': form,
         }
         return render(request, 'select_api_form.html', context)
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('update_api1_with_selected_api/', self.update_api1_with_selected_api_view,
+                 name='update_api1_with_selected_api'),
+        ]
+        return my_urls + urls
 
 
 
