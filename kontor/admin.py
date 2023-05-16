@@ -61,21 +61,28 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action','TumAlternetifiSil_action']
+    actions = ['otoyap_action','TumAlternetifiSil_action',"change_api1"]
 
-    def change_api1(self, request, queryset):
-        api = Apiler.objects.get(pk=request.POST.get('api1'))
-        queryset.update(api1=api)
-        self.message_user(request, "Seçilen Ürünlerin API'si başarıyla güncellendi.")
-
-    change_api1.short_description = "API1'i Değiştir"
 
     def get_action_form(self, request, action=None):
         if action == 'change_api1':
             return ApiForm
-        return super().get_action_form(request, action)
+        else:
+            return super().get_action_form(request, action)
 
-    action_form = ApiForm
+    # ... other methods ...
+
+    def change_api1(self, request, queryset):
+        form = self.get_action_form(request, 'change_api1')(request.POST)
+        if form.is_valid():
+            api = form.cleaned_data.get('api1')
+            if api is not None:
+                queryset.update(api1=api)
+                self.message_user(request, "Seçilen Ürünlerin API'si başarıyla güncellendi.")
+            else:
+                self.message_user(request, "API seçilmedi.")
+
+    change_api1.short_description = "API1'i Değiştir"
 
     def otoyap_action(self, request, queryset):
 
