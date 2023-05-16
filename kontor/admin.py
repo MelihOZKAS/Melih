@@ -46,6 +46,8 @@ from django import forms
 class ApiForm(forms.Form):
     api1 = forms.ModelChoiceField(queryset=Apiler.objects.all())
     action = forms.CharField(widget=forms.HiddenInput, initial='change_api1')
+    select_across = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
+
 
 
 
