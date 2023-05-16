@@ -56,13 +56,12 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api_view"]
 
-    def update_api1_with_selected_api_view(self, request):
+    def update_api1_with_selected_api_view(self, request, queryset):
         if request.method == 'POST':
             form = SelectAPIForm(request.POST)
             if form.is_valid():
                 selected_api = form.cleaned_data['selected_api']
-                queryset = self.get_queryset(request)
-                queryset.update(api1_id=selected_api.id)
+                queryset.update(api1=selected_api.id)
                 self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
                 return
         else:
@@ -80,6 +79,9 @@ class AdminKontorListesi(admin.ModelAdmin):
                  name='update_api1_with_selected_api'),
         ]
         return my_urls + urls
+
+
+
 
 
 
