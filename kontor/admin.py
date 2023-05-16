@@ -71,6 +71,7 @@ class AdminKontorListesi(admin.ModelAdmin):
     actions = ['otoyap_action','TumAlternetifiSil_action',"change_api"]
 
     def change_api(self, request, queryset):
+        self.message_user(request, f"Buraya....")
         if 'apply' in request.POST:
             self.message_user(request, f"Buraya Geldim1")  # Debug: request.POST bilgisini yazdır.
             form = ApiForm(request.POST)
@@ -89,6 +90,7 @@ class AdminKontorListesi(admin.ModelAdmin):
                 self.message_user(request, f"API'ler Başarıyla Güncellendi! API1: {api1}, API2: {api2}, API3: {api3}")
                 return HttpResponseRedirect(request.get_full_path())
         else:
+            self.message_user(request, f"direkGeldim")
             form = ApiForm(initial={'selected_items': queryset.values_list('id', flat=True)})
             return render(request, 'change_api.html', {'form': form, 'queryset': queryset})
 
