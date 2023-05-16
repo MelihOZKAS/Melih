@@ -68,7 +68,7 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     def change_api(self, request, queryset):
         form = None
-        if 'apply' in request.POST:
+        if 'api1' in request.POST:
             form = ApiForm(request.POST)
             if form.is_valid():
                 api = form.cleaned_data['api1']
