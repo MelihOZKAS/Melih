@@ -74,10 +74,10 @@ class AdminKontorListesi(admin.ModelAdmin):
             if form.is_valid():
                 api = form.cleaned_data['api1']
                 queryset.update(api1=api)
-                self.message_user(request, "API1 Başarıyla Güncellendi!")
+                self.message_user(request, f"API1 Başarıyla Güncellendi! {api}")
                 return None
             else:
-                messages.error(request, 'Form geçerli değil, lütfen tekrar deneyin.')
+                messages.error(request, f'Form geçerli değil, lütfen tekrar deneyin. Post verisi: {request.POST}')
         if not form:
             form = ApiForm(initial={'selected_items': queryset.values_list('id', flat=True)})
         return render(request, 'change_api.html', {'form': form, 'queryset': queryset})
