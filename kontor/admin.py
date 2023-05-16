@@ -50,7 +50,7 @@ from django import forms
 
 
 class ApiForm(forms.Form):
-    api1 = forms.ModelChoiceField(queryset=Apiler.objects.all())
+    api1 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=True)
 
 
 
@@ -64,16 +64,22 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"change_api"]
 
-    def change_api(request):
-        if request.method == "POST":
+    def change_api(self, request, queryset):
+        form = None
+        if 'apply' in request.POST:
             form = ApiForm(request.POST)
             if form.is_valid():
                 api = form.cleaned_data.get('api1')
-                # Burada queryset'i güncelleyebilirsiniz. Örneğin:
-                # KontorList.objects.all().update(api1=api)
+                queryset.update(api1=api)
+                self.message_user(request, "API1 Başarıyla Güncellendi!")
+            else:
+                messages.error(request, 'Form geçerli değil, lütfen tekrar deneyin.')
         else:
-            form = ApiForm()
-        return render(request, 'change_api.html', {'form': form})
+            form = ApiForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
+
+        return render(request, 'admin/change_api.html', {'items': queryset, 'form': form})
+
+    change_api.short_description = "API1'i Değiştir"
 
     def otoyap_action(self, request, queryset):
 
