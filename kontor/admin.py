@@ -71,7 +71,7 @@ class AdminKontorListesi(admin.ModelAdmin):
     actions = ['otoyap_action','TumAlternetifiSil_action',"change_api"]
 
     def change_api(self, request, queryset):
-        self.message_user(request, f"Debug: request.POST: {request.POST}")  # Debug: request.POST bilgisini yazdır
+        self.message_user(request, f"Debug: request.queryset: {queryset}")  # Debug: request.POST bilgisini yazdır
         form = None
         if 'apply' in request.POST:
             form = ApiForm(request.POST)
