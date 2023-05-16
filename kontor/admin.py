@@ -67,7 +67,8 @@ class AdminKontorListesi(admin.ModelAdmin):
         ]
         return my_urls + urls
 
-    def update_api1_with_selected_api_view(self, request):
+    @classmethod
+    def update_api1_with_selected_api_view(self, modeladmin, request):
         if request.method == 'POST':
             form = SelectAPIForm(request.POST)
             if form.is_valid():
