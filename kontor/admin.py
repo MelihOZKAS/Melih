@@ -70,6 +70,19 @@ class AdminKontorListesi(admin.ModelAdmin):
         else:
             self.message_user(request, "Form geçerli değil!", messages.ERROR)
 
+    update_api1_with_selected_api.short_description = "API1'i Seçilen API ile Güncelle"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('select_api_form.html/', self.admin_site.admin_view(self.update_api1_with_selected_api_view), name='update_api1_with_selected_api'),
+        ]
+        return custom_urls + urls
+
+    def update_api1_with_selected_api_view(self, request):
+        form = SelectAPIForm()
+        return render(request, 'select_api_form.html', {'form': form})
+
 
 
 
