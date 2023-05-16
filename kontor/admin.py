@@ -45,6 +45,8 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 from django import forms
 class ApiForm(forms.Form):
     api1 = forms.ModelChoiceField(queryset=Apiler.objects.all())
+    action = forms.CharField(widget=forms.HiddenInput)
+
 
 
 
@@ -58,7 +60,6 @@ class AdminKontorListesi(admin.ModelAdmin):
     actions = ['otoyap_action','TumAlternetifiSil_action',"change_api1"]
 
     def change_api1(self, request, queryset):
-        selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
         api = Apiler.objects.get(Apiadi=request.POST.get('api1'))
         queryset.update(api1=api)
         self.message_user(request, "Seçilen Ürünlerin API'si başarıyla güncellendi.")
@@ -69,6 +70,8 @@ class AdminKontorListesi(admin.ModelAdmin):
         if action == 'change_api1':
             return ApiForm
         return super().get_action_form(request, action)
+
+    action_form = ApiForm
 
     def otoyap_action(self, request, queryset):
 
