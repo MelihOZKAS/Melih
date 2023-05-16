@@ -43,12 +43,9 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 
 from django import forms
-class SelectAPIForm(forms.Form):
-    selected_api = forms.ChoiceField(label="Selected API", required=True)
+class ApiForm(forms.Form):
+    api1 = forms.ModelChoiceField(queryset=Apiler.objects.all())
 
-    def __init__(self, *args, **kwargs):
-        super(SelectAPIForm, self).__init__(*args, **kwargs)
-        self.fields['selected_api'].choices = [(str(api.id), str(api)) for api in Apiler.objects.all()]
 
 
 class AdminKontorListesi(admin.ModelAdmin):
@@ -58,41 +55,20 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api_view"]
+    actions = ['otoyap_action','TumAlternetifiSil_action',"change_api1"]
 
-    def get_urls(self):
-        urls = super().get_urls()
-        my_urls = [
-            path('update_api1/', self.update_api1_with_selected_api_view, name='update_api1'),
-        ]
-        return my_urls + urls
+    def change_api1(self, request, queryset):
+        selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
+        api = Apiler.objects.get(Apiadi=request.POST.get('api1'))
+        queryset.update(api1=api)
+        self.message_user(request, "Seçilen Ürünlerin API'si başarıyla güncellendi.")
 
-    @classmethod
-    def update_api1_with_selected_api_view(self, modeladmin, request):
-        if request.method == 'POST':
-            form = SelectAPIForm(request.POST)
-            if form.is_valid():
-                selected_api = form.cleaned_data['selected_api']
-                queryset = self.get_queryset(request)
-                queryset.update(api1_id=selected_api)
-                self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
-            else:
-                self.message_user(request, "Form geçerli değil!", messages.ERROR)
-        else:
-            form = SelectAPIForm()
+    change_api1.short_description = "API1'i Değiştir"
 
-        context = {
-            'form': form
-        }
-
-        return render(request, 'select_api_form.html', context)
-
-
-
-
-
-
-
+    def get_action_form(self, request, action=None):
+        if action == 'change_api1':
+            return ApiForm
+        return super().get_action_form(request, action)
 
     def otoyap_action(self, request, queryset):
 
