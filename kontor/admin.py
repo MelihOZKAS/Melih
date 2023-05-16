@@ -82,6 +82,7 @@ class AdminKontorListesi(admin.ModelAdmin):
             else:
                 messages.error(request, f'Form geçerli değil, lütfen tekrar deneyin. Post verisi: {request.POST}')
                 messages.error(request, f'Form hataları: {form.errors}')
+                return None  # Form geçerli değilse, burada return ediyoruz.
         if not form:
             form = ApiForm(initial={'selected_items': queryset.values_list('id', flat=True)})
         return render(request, 'change_api.html', {'form': form, 'queryset': queryset})
