@@ -44,12 +44,7 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 from django import forms
 class SelectAPIForm(forms.Form):
-    selected_api = forms.ModelChoiceField(
-        label="Selected API",
-        queryset=Apiler.objects.filter(ApiAktifmi=True),
-        empty_label=None,
-        required=True
-    )
+    selected_api = forms.ModelChoiceField(label="Selected API", queryset=Apiler.objects.all())
 
 
 class AdminKontorListesi(admin.ModelAdmin):
@@ -61,27 +56,31 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"update_api1_with_selected_api"]
 
-    def update_api1_with_selected_api(self, request, queryset):
-        form = SelectAPIForm(request.POST)
-        if form.is_valid():
-            selected_api = form.cleaned_data['selected_api']
-            queryset.update(api1=selected_api)
-            self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
-        else:
-            self.message_user(request, "Form geçerli değil!", messages.ERROR)
-
-    update_api1_with_selected_api.short_description = "API1'i Seçilen API ile Güncelle"
-
     def get_urls(self):
         urls = super().get_urls()
-        custom_urls = [
-            path('select_api_form.html/', self.admin_site.admin_view(self.update_api1_with_selected_api_view), name='update_api1_with_selected_api'),
+        my_urls = [
+            path('update_api1_with_selected_api/', self.admin_site.admin_view(self.update_api1_with_selected_api_view),
+                 name='update_api1_with_selected_api'),
         ]
-        return custom_urls + urls
+        return my_urls + urls
 
     def update_api1_with_selected_api_view(self, request):
-        form = SelectAPIForm()
-        return render(request, 'select_api_form.html', {'form': form})
+        if request.method == 'POST':
+            form = SelectAPIForm(request.POST)
+            if form.is_valid():
+                selected_api = form.cleaned_data['selected_api']
+                queryset = self.get_queryset(request)
+                queryset.update(api1=selected_api)
+                self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
+            else:
+                self.message_user(request, "Form geçerli değil!", messages.ERROR)
+        else:
+            form = SelectAPIForm()
+
+        context = {
+            'form': form,
+        }
+        return render(request, 'select_api_form.html', context)
 
 
 
