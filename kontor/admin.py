@@ -72,9 +72,10 @@ class AdminKontorListesi(admin.ModelAdmin):
 
     def change_api(self, request, queryset):
         if 'apply' in request.POST:
-            self.message_user(request, f"Buraya Geldim1")  # Debug: request.POST bilgisini yazdır
+            self.message_user(request, f"Buraya Geldim1")  # Debug: request.POST bilgisini yazdır.
             form = ApiForm(request.POST)
             if form.is_valid():
+                self.message_user(request, f"Buraya Geldim2")  # Debug: request.POST bilgisini yazdır.
                 api1 = form.cleaned_data['api1']
                 api2 = form.cleaned_data.get('api2')  # get methodunu kullanarak None dönebilir
                 api3 = form.cleaned_data.get('api3')  # get methodunu kullanarak None dönebilir
