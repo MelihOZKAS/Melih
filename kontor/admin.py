@@ -76,28 +76,25 @@ class AdminKontorListesi(admin.ModelAdmin):
         if 'apply' in request.POST:
             form = ApiForm(request.POST)
             if form.is_valid():
-                api1 = form.cleaned_data.get('api1', None)
-                api2 = form.cleaned_data.get('api2', None)
-                api3 = form.cleaned_data.get('api3', None)
-
-                if api1:
-                    queryset.update(api1=api1)
-                    self.message_user(request, f"API1 Başarıyla Güncellendi! {api1}")
-                if api2:
-                    queryset.update(api2=api2)
-                    self.message_user(request, f"API2 Başarıyla Güncellendi! {api2}")
-                if api3:
-                    queryset.update(api3=api3)
-                    self.message_user(request, f"API3 Başarıyla Güncellendi! {api3}")
+                api1 = form.cleaned_data['api1']
+                api2 = form.cleaned_data.get('api2')  # get methodunu kullanarak None dönebilir
+                api3 = form.cleaned_data.get('api3')  # get methodunu kullanarak None dönebilir
+                self.message_user(request,
+                                  f"Debug: form is valid, api1: {api1}, api2: {api2}, api3: {api3}")  # Debug: Formun geçerli olduğunu ve api bilgisini yazdır
+                update_fields = {'api1': api1}
+                if api2 is not None:
+                    update_fields['api2'] = api2
+                if api3 is not None:
+                    update_fields['api3'] = api3
+                queryset.update(**update_fields)
+                self.message_user(request, f"API'ler Başarıyla Güncellendi! API1: {api1}, API2: {api2}, API3: {api3}")
                 return None
             else:
                 messages.error(request, f'Form geçerli değil, lütfen tekrar deneyin. Post verisi: {request.POST}')
                 messages.error(request, f'Form hataları: {form.errors}')
-                return None
         if not form:
             form = ApiForm(initial={'selected_items': queryset.values_list('id', flat=True)})
         return render(request, 'change_api.html', {'form': form, 'queryset': queryset})
-
     def otoyap_action(self, request, queryset):
 
         selected = queryset
