@@ -51,7 +51,10 @@ from django import forms
 
 class ApiForm(forms.Form):
     api1 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=True)
+    api2 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
+    api3 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
     selected_items = forms.CharField(widget=forms.MultipleHiddenInput)
+
 
 
 
