@@ -59,12 +59,16 @@ class AdminKontorListesi(admin.ModelAdmin):
     def update_api1_with_selected_api_view(self, request, queryset):
         if request.method == 'POST':
             form = SelectAPIForm(request.POST)
+            if form.is_valid():
+                selected_api = form.cleaned_data['selected_api']
+                apisi = Apiler.objects.get(pk=selected_api.id)
 
-            selected_api = form.cleaned_data['selected_api']
-            apisi = Apiler.objects.get(pk=selected_api.id)
-            queryset.update(api1=apisi)
-            self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
-            return
+
+                queryset.update(api1=apisi)
+                self.message_user(request, "API güncelleme başarılı!", messages.SUCCESS)
+                return
+            else:
+                messages.alert(request, form.errors)
         else:
             form = SelectAPIForm()
 
