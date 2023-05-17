@@ -19,7 +19,7 @@ from django.http import HttpResponseRedirect
 
 
 class ApiForm(forms.Form):
-    api1 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
-    api2 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
-    api3 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
-    selected_items = forms.CharField(widget=forms.HiddenInput)
+    api1 = forms.ChoiceField(choices=[(api.id, api.name) for api in Apiler.objects.all()])
+    api2 = forms.ChoiceField(choices=[(api.id, api.name) for api in Apiler.objects.all()])
+    api3 = forms.ChoiceField(choices=[(api.id, api.name) for api in Apiler.objects.all()])
+    # ...
