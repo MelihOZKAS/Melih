@@ -71,30 +71,24 @@ class AdminKontorListesi(admin.ModelAdmin):
     actions = ['otoyap_action','TumAlternetifiSil_action',"change_api"]
 
     def change_api(self, request, queryset):
-        self.message_user(request, f"Debug: request.queryset: {queryset}")  # Debug: request.POST bilgisini yazdır
-        form = None
-        if request.method == 'POST':
-            self.message_user(request, f"Buraya Geldim1")  # Debug: request.POST bilgisini yazdır
+        if 'apply' in request.POST:
             form = ApiForm(request.POST)
             if form.is_valid():
-                self.message_user(request, f"Buraya Geldim2")  # Debug: request.POST bilgisini yazdır
                 api1 = form.cleaned_data['api1']
-                api2 = form.cleaned_data.get('api2')  # get methodunu kullanarak None dönebilir
-                api3 = form.cleaned_data.get('api3')  # get methodunu kullanarak None dönebilir
-                self.message_user(request,
-                                  f"Debug: form is valid, api1: {api1}, api2: {api2}, api3: {api3}")  # Debug: Formun geçerli olduğunu ve api bilgisini yazdır
+                api2 = form.cleaned_data.get('api2')
+                api3 = form.cleaned_data.get('api3')
+
                 update_fields = {'api1': api1}
                 if api2 is not None:
                     update_fields['api2'] = api2
                 if api3 is not None:
                     update_fields['api3'] = api3
+
                 queryset.update(**update_fields)
-                self.message_user(request, f"API'ler Başarıyla Güncellendi! API1: {api1}, API2: {api2}, API3: {api3}")
-                return None
-            else:
-                messages.error(request, f'Form geçerli değil, lütfen tekrar deneyin. Post verisi: {request.POST}')
-                messages.error(request, f'Form hataları: {form.errors}')
-        if not form:
+                messages.success(request, f"API'ler Başarıyla Güncellendi! API1: {api1}, API2: {api2}, API3: {api3}")
+                return HttpResponseRedirect(request.get_full_path())
+
+        else:
             form = ApiForm(initial={'selected_items': queryset.values_list('id', flat=True)})
         return render(request, 'change_api.html', {'form': form, 'queryset': queryset})
 
