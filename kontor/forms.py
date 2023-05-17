@@ -18,17 +18,18 @@ from django.http import HttpResponseRedirect
 
 
 
+#class ApiForm(forms.Form):
+#    api1 = forms.ChoiceField(choices=[(api.id, api.Apiadi) for api in Apiler.objects.all()])
+#    api2 = forms.ChoiceField(choices=[(api.id, api.Apiadi) for api in Apiler.objects.all()])
+#    api3 = forms.ChoiceField(choices=[(api.id, api.Apiadi) for api in Apiler.objects.all()])
+#    selected_items = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
+
 class ApiForm(forms.Form):
-    api1 = forms.ChoiceField(choices=[(api.id, api.Apiadi) for api in Apiler.objects.all()])
-    api2 = forms.ChoiceField(choices=[(api.id, api.Apiadi) for api in Apiler.objects.all()])
-    api3 = forms.ChoiceField(choices=[(api.id, api.Apiadi) for api in Apiler.objects.all()])
+    api1 = forms.ChoiceField(choices=[('', '-----')] + [(api.id, api.Apiadi) for api in Apiler.objects.all()], required=False)
+    api2 = forms.ChoiceField(choices=[('', '-----')] + [(api.id, api.Apiadi) for api in Apiler.objects.all()], required=False)
+    api3 = forms.ChoiceField(choices=[('', '-----')] + [(api.id, api.Apiadi) for api in Apiler.objects.all()], required=False)
     selected_items = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
 
-#class ApiForm(forms.Form):
-#    api1 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False, empty_label="----")
-#    api2 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False, empty_label="----")
-#    api3 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False, empty_label="----")
-#    selected_items = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
 
 
     def __init__(self, *args, **kwargs):
