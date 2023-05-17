@@ -12,6 +12,7 @@ from django.forms import Select, RadioSelect, PasswordInput
 from django.contrib.auth.models import User
 from .urunleri_cek import *
 from .forms import *
+from django import forms
 import os
 
 
@@ -42,28 +43,6 @@ class AdminApidenCekilenPaketler(admin.ModelAdmin):
 
 
 
-from django import forms
-#class ApiForm(forms.Form):
-#    api1 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
-#    action = forms.CharField(widget=forms.HiddenInput, initial='change_api1')
-#    select_across = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
-
-
-class ApiForm(forms.Form):
-    api1 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=True)
-    api2 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
-    api3 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
-    selected_items = forms.CharField(widget=forms.MultipleHiddenInput)
-
-    def clean_selected_items(self):
-        ids = self.cleaned_data.get('selected_items')
-        if not ids:
-            raise forms.ValidationError("No items selected.")
-        return KontorList.objects.filter(id__in=ids.split(','))
-
-
-
-
 
 
 
@@ -75,32 +54,14 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_filter = ("Kategorisi",)
     inlines = [AlternativeProductInline]
 
-    actions = ['otoyap_action','TumAlternetifiSil_action',"change_api"]
+    actions = ['otoyap_action','TumAlternetifiSil_action',"redirect_to_form"]
 
-    def change_api(self, request, queryset):
-        if 'apply' in request.POST:
-            form = ApiForm(request.POST)
-            if form.is_valid():
-                api1 = form.cleaned_data['api1']
-                api2 = form.cleaned_data.get('api2')
-                api3 = form.cleaned_data.get('api3')
-                selected_items = form.cleaned_data['selected_items']
+    def redirect_to_form(self, request, queryset):
+        selected = queryset.values_list('id', flat=True)
+        return HttpResponseRedirect(f"/change_api?ids={','.join(str(id) for id in selected)}")
 
-                update_fields = {'api1': api1}
-                if api2 is not None:
-                    update_fields['api2'] = api2
-                if api3 is not None:
-                    update_fields['api3'] = api3
+    redirect_to_form.short_description = "API Değiştir"
 
-                selected_items.update(**update_fields)
-                messages.success(request, f"API'ler Başarıyla Güncellendi! API1: {api1}, API2: {api2}, API3: {api3}")
-                return HttpResponseRedirect(request.get_full_path())
-
-        else:
-            form = ApiForm(initial={'selected_items': ','.join(map(str, queryset.values_list('id', flat=True)))})
-        return render(request, 'change_api.html', {'form': form, 'queryset': queryset})
-
-    change_api.short_description = "API Değiştir"
     def otoyap_action(self, request, queryset):
         selected = queryset
         for obj in selected:

@@ -13,11 +13,43 @@ import environ
 
 
 
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from .forms import *
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 env = environ.Env(DEBUG=(bool,False))
 
 environ.Env.read_env()
+
+
+
+def change_api(request):
+    if request.method == 'POST':
+        form = ApiForm(request.POST)
+        if form.is_valid():
+            api1 = form.cleaned_data['api1']
+            api2 = form.cleaned_data.get('api2')
+            api3 = form.cleaned_data.get('api3')
+            ids = form.cleaned_data['selected_items']
+            return HttpResponseRedirect(f"/update_api?api1={api1}&api2={api2}&api3={api3}&ids={ids}")
+    else:
+        form = ApiForm(initial={'selected_items': request.GET.get('ids', '')})
+    return render(request, 'change_api.html', {'form': form})
+
+
+def update_api(request):
+    api1 = request.GET.get('api1')
+    api2 = request.GET.get('api2')
+    api3 = request.GET.get('api3')
+    ids = request.GET.get('ids').split(',')
+
+    KontorList.objects.filter(id__in=ids).update(api1=api1, api2=api2, api3=api3)
+
+    return HttpResponseRedirect('/admin/kontor_kontorlist/')  # admin paneline yönlendir
+
 
 def AnaPaketGonder():
     AnaPaket = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
