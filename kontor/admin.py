@@ -55,6 +55,13 @@ class ApiForm(forms.Form):
     api3 = forms.ModelChoiceField(queryset=Apiler.objects.all(), required=False)
     selected_items = forms.CharField(widget=forms.MultipleHiddenInput)
 
+    def clean_selected_items(self):
+        ids = self.cleaned_data.get('selected_items')
+        if not ids:
+            raise forms.ValidationError("No items selected.")
+        return KontorList.objects.filter(id__in=ids.split(','))
+
+
 
 
 
@@ -77,6 +84,7 @@ class AdminKontorListesi(admin.ModelAdmin):
                 api1 = form.cleaned_data['api1']
                 api2 = form.cleaned_data.get('api2')
                 api3 = form.cleaned_data.get('api3')
+                selected_items = form.cleaned_data['selected_items']
 
                 update_fields = {'api1': api1}
                 if api2 is not None:
@@ -84,12 +92,12 @@ class AdminKontorListesi(admin.ModelAdmin):
                 if api3 is not None:
                     update_fields['api3'] = api3
 
-                queryset.update(**update_fields)
+                selected_items.update(**update_fields)
                 messages.success(request, f"API'ler Başarıyla Güncellendi! API1: {api1}, API2: {api2}, API3: {api3}")
                 return HttpResponseRedirect(request.get_full_path())
 
         else:
-            form = ApiForm(initial={'selected_items': queryset.values_list('id', flat=True)})
+            form = ApiForm(initial={'selected_items': ','.join(map(str, queryset.values_list('id', flat=True)))})
         return render(request, 'change_api.html', {'form': form, 'queryset': queryset})
 
     change_api.short_description = "API Değiştir"
