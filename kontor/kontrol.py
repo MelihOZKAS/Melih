@@ -40,15 +40,7 @@ def change_api(request):
     return render(request, 'change_api.html', {'form': form})
 
 
-def update_api(request):
-    api1 = request.GET.get('api1')
-    api2 = request.GET.get('api2')
-    api3 = request.GET.get('api3')
-    ids = request.GET.get('ids').split(',')
 
-    KontorList.objects.filter(id__in=ids).update(api1=api1, api2=api2, api3=api3)
-
-    return HttpResponseRedirect('/admin/kontor_kontorlist/')  # admin paneline yönlendir
 
 
 def AnaPaketGonder():
