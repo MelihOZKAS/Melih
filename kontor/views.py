@@ -171,17 +171,17 @@ def update_api(request):
                 kontor = KontorList.objects.get(pk=id)
                 if api1_id is not None:
                     if api1_id == "":
-                        kontor.api1 = None
+                        kontor.api1 = ""
                     else:
                         kontor.api1 = Apiler.objects.get(pk=api1_id)
                 if api2_id is not None:
                     if api2_id == "":
-                        kontor.api2 = None
+                        kontor.api2 = ""
                     else:
                         kontor.api2 = Apiler.objects.get(pk=api2_id)
                 if api3_id is not None:
                     if api3_id == "":
-                        kontor.api3 = None
+                        kontor.api3 = ""
                     else:
                         kontor.api3 = Apiler.objects.get(pk=api3_id)
                 kontor.save()
