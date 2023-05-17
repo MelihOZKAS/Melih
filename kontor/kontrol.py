@@ -34,9 +34,10 @@ def change_api(request):
             api2 = form.cleaned_data.get('api2')
             api3 = form.cleaned_data.get('api3')
             ids = form.cleaned_data['selected_items']
-            return HttpResponseRedirect(f"/update_api?api1={api1}&api2={api2}&api3={api3}&ids={ids}")
+            return HttpResponseRedirect(f"/update_api?api1={api1}&api2={api2}&api3={api3}&ids={','.join(ids)}")
     else:
-        form = ApiForm(initial={'selected_items': request.GET.get('ids', '')})
+        selected_items = request.GET.get('ids', '').split(',')
+        form = ApiForm(initial={'selected_items': selected_items})
     return render(request, 'change_api.html', {'form': form})
 
 

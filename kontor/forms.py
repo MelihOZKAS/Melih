@@ -24,3 +24,8 @@ class ApiForm(forms.Form):
     api3 = forms.ChoiceField(choices=[(api.id, api.Apiadi) for api in Apiler.objects.all()])
     selected_items = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
 
+    def __init__(self, *args, **kwargs):
+        super(ApiForm, self).__init__(*args, **kwargs)
+        self.fields['selected_items'].choices = [(kontor.id, kontor.Urun_adi) for kontor in KontorList.objects.all()]
+
+
