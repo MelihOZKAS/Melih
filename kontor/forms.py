@@ -22,4 +22,5 @@ class ApiForm(forms.Form):
     api1 = forms.ChoiceField(choices=[(api.id, api.Apiadi) for api in Apiler.objects.all()])
     api2 = forms.ChoiceField(choices=[(api.id, api.Apiadi) for api in Apiler.objects.all()])
     api3 = forms.ChoiceField(choices=[(api.id, api.Apiadi) for api in Apiler.objects.all()])
-    # ...
+    selected_items = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
+
