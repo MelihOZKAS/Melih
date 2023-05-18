@@ -703,7 +703,7 @@ class AdminFiyatlar(admin.ModelAdmin):
     list_display = ("id","FiyatKategorisi","OzelApi")
     list_editable = ("FiyatKategorisi","OzelApi")
     inlines = [FiyatlarInlines]
-    actions = ["veri_aktar"]
+    actions = ["veri_aktar","Sil"]
 
     def veri_aktar(modeladmin, request, queryset):
         # İlk olarak, operatörleri ve karşılık gelen Kategori örneklerini bir sözlükte tanımlayın
