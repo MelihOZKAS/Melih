@@ -778,7 +778,9 @@ class AdminFiyatlar(admin.ModelAdmin):
     def Sil(modeladmin, request, queryset):
         # İlk olarak, operatörleri ve karşılık gelen Kategori örneklerini bir sözlükte tanımlayın
         for FiyatGrubu in queryset:
-            FiyatGrubu.delete()
+            #FiyatGrubu.delete()
+            FiyatGrubu.Fiyatlar_set.all().delete()
+        modeladmin.message_user(request, "Seçilen Fiyat grubuna ait tüm fiyat kayıtları silindi.")
     Sil.short_description = "Seçili verileri sil"
 
 
