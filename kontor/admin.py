@@ -711,6 +711,7 @@ class AdminFiyatlar(admin.ModelAdmin):
         for FiyatlarCekildi in queryset:
 
             FiyatGrubu = FiyatlarCekildi.id
+            FiyatGrubu = Fiyatlar.objects.get(pk=FiyatGrubu)
 
 
 
