@@ -723,12 +723,12 @@ class AdminFiyatlar(admin.ModelAdmin):
                     # Fiyatlar modelinde bir örnek oluşturma veya güncelleme
                     Fiyatlar.objects.update_or_create(
                         PaketAdi=veri.urun_adi,
-                        Operatoru=AnaOperator.objects.get(AnaOperator.objects.get(pk=int(operator))),  # AnaOperator modelinde adı uygun olanı bul
+                        Operatoru=AnaOperator.objects.get(AnaOperator.objects.get(pk=int(kategori))),  # AnaOperator modelinde adı uygun olanı bul
                         defaults={
                             'Maliyet': veri.alis_fiyati,
                             'Kupur': veri.kupur,
                             'fiyat_grubu': obj,  # Fiyat grubunu seçilen FiyatGuruplari örneği olarak belirtme
-                            'KategorisiGelen': kategori,  # Kategori modelinde uygun olanı getirme
+
                             # Diğer alanlar, eğer varsa
                         },
                     )
