@@ -708,9 +708,9 @@ class AdminFiyatlar(admin.ModelAdmin):
     def veri_aktar(modeladmin, request, queryset):
         # İlk olarak, operatörleri ve karşılık gelen Kategori örneklerini bir sözlükte tanımlayın
         operators = {
-            'Turk Telekom Ses': (TTses, Kategori.objects.get(pk=4)),
-            'Turkcell Ses': (Turkcell, Kategori.objects.get(pk=1)),
-            'Vodafone Paketler': (VodafonePaketler, Kategori.objects.get(pk=3)),
+            'Turk Telekom Ses': (TTses,4),
+            'Turkcell Ses': (Turkcell, 1),
+            'Vodafone Paketler': (VodafonePaketler, 3),
         }
         # Her bir seçili FiyatGuruplari için
         for obj in queryset:
@@ -723,7 +723,7 @@ class AdminFiyatlar(admin.ModelAdmin):
                     # Fiyatlar modelinde bir örnek oluşturma veya güncelleme
                     Fiyatlar.objects.update_or_create(
                         PaketAdi=veri.urun_adi,
-                        Operatoru=AnaOperator.objects.get(operator),  # AnaOperator modelinde adı uygun olanı bul
+                        Operatoru=AnaOperator.objects.get(AnaOperator.objects.get(pk=int(operator))),  # AnaOperator modelinde adı uygun olanı bul
                         defaults={
                             'Maliyet': veri.alis_fiyati,
                             'Kupur': veri.kupur,
