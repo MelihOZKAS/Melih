@@ -332,6 +332,14 @@ class Fiyatlar(models.Model):
 
 
 
+    class Meta:
+        verbose_name = "Fiyat Bilgileri"
+        verbose_name_plural = "Fiyat Bilgileri"
+        ordering = ['Operatoru']
+
+    def __str__(self):
+        return f"{self.fiyat_grubu}"
+
 
 
 
