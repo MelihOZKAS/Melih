@@ -421,7 +421,8 @@ class FiyatlarForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance.pk:
-            self.fields['Operatoru'].queryset = AnaOperator.objects.filter(some_field=self.instance.some_field)
+            self.fields['Operatoru'].queryset = AnaOperator.objects.filter(fiyat_grubu=self.instance.fiyat_grubu)
+
 
 class FiyatlarInlines(admin.TabularInline):
     model = Fiyatlar
