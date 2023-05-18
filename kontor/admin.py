@@ -413,9 +413,21 @@ class TTtamInline(admin.TabularInline):
     extra = 1
 
 
+class FiyatlarForm(forms.ModelForm):
+    class Meta:
+        model = Fiyatlar
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['Operatoru'].queryset = AnaOperator.objects.filter(some_field=self.instance.some_field)
+
 class FiyatlarInlines(admin.TabularInline):
     model = Fiyatlar
+    form = FiyatlarForm
     extra = 1
+
 
 
 def TTSES_Paketleri_Ekle(modeladmin, request, queryset):
@@ -665,8 +677,6 @@ class ApilerAdminForm(forms.ModelForm):
             'Sifre': PasswordInput(render_value=True),
         }
 
-
-
 class AdminApiListesi(admin.ModelAdmin):
     form = ApilerAdminForm
     list_display = ("id","Apiadi","ApiBakiye","ApiTanim","ApiAktifmi","RefNumarasi","HataManuel",)
@@ -690,6 +700,7 @@ class AdminFiyatlar(admin.ModelAdmin):
     list_display = ("id","FiyatKategorisi","OzelApi")
     list_editable = ("FiyatKategorisi","OzelApi")
     inlines = [FiyatlarInlines]
+    actions = ["TümPaketleri Ekle"]
 
 
 
