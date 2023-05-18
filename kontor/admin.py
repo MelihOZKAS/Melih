@@ -740,7 +740,7 @@ class AdminFiyatlar(admin.ModelAdmin):
         else:
             form = BayiSatisFiyatiUpdateForm()
 
-        return render(request, 'your_specific_path/update_bayi_satis_fiyati.html', {'items': queryset, 'form': form})
+        return render(request, 'update_bayi_satis_fiyati.html', {'items': queryset, 'form': form})
 
     yuzde_hesaplama.short_description = "Seçilen operatör için Bayi Satis Fiyati güncelle"
 
