@@ -710,7 +710,7 @@ class AdminFiyatlar(admin.ModelAdmin):
 
         for FiyatlarCekildi in queryset:
 
-            FiyatGrubu = FiyatlarCekildi.FiyatKategorisi
+            FiyatGrubu = FiyatlarCekildi.id
 
 
 
