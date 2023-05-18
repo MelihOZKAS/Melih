@@ -304,10 +304,12 @@ class Siparisler(models.Model):
     def __str__(self):
         return f"{self.Numara}- {self.PaketKupur} - {self.Durum}"
 
-
-
+class FiyatGuruplari(models.Model):
+    FiyatKategorisi  = models.CharField(max_length=255,null=True, blank=True)
+    OzelApi = models.BooleanField("OzelApiYapilsin mi ?", default=False)
 
 class Fiyatlar(models.Model):
+    fiyat_grubu = models.ForeignKey(FiyatGuruplari, on_delete=models.CASCADE)
     Operatoru = models.CharField(max_length=255,null=True, blank=True)
     Paket = models.ForeignKey(KontorList, on_delete=models.CASCADE,null=True, blank=True)
     Maliyet = models.DecimalField("Maliyet",max_digits=100, decimal_places=2, null=True,blank=True)
@@ -321,9 +323,7 @@ class Fiyatlar(models.Model):
     #api4 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Ozel_Api_4', null=True, blank=True)
 
 
-class FiyatGuruplari(models.Model):
-    FiyatKategorisi  = models.CharField(max_length=255,null=True, blank=True)
-    OzelApi = models.BooleanField("OzelApiYapilsin mi ?", default=False)
+
 
 
 
