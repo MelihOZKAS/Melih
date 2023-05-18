@@ -328,6 +328,12 @@ class Fiyatlar(models.Model):
     api2 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Ozel_Api_2', null=True, blank=True)
     api3 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Ozel_Api_3', null=True, blank=True)
     #api4 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Ozel_Api_4', null=True, blank=True)
+    def save(self, *args, **kwargs):
+        if self.Maliyet is not None and self.BayiSatisFiyati is not None:
+            self.Kar = self.BayiSatisFiyati - self.Maliyet
+        else:
+            self.Kar = None
+        super().save(*args, **kwargs)
 
 
 
