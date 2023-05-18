@@ -710,7 +710,10 @@ class AdminFiyatlar(admin.ModelAdmin):
 
         for FiyatlarCekildi in queryset:
 
-            FiyatGrubu = FiyatlarCekildi.fiyat_grubu
+            FiyatGrubu = FiyatlarCekildi.FiyatKategorisi
+
+
+
             gelenAnaOperator = AnaOperator.objects.get(pk=int(3))
 
             kontor_listesi = KontorList.objects.filter(Kategorisi__in=[3])
