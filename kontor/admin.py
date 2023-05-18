@@ -268,7 +268,7 @@ class AdminKategoriListesi(admin.ModelAdmin):
     list_display = ("id","GorunecekName","KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
     list_editable = ("KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
 
-class AdminKategoriListesi(admin.ModelAdmin):
+class AdminFiyatlar(admin.ModelAdmin):
     list_display = ("FiyatKategorisi","OzelApi")
     list_editable = ("OzelApi")
 
