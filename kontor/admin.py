@@ -715,17 +715,12 @@ class AdminFiyatlar(admin.ModelAdmin):
 
         if 'YuzdeHesaplama' in request.POST:
             form = BayiSatisFiyatiUpdateForm(request.POST)
-            self.message_user(request, f"Geldim! Ki")
 
             if form.is_valid():
-                self.message_user(request, f"Buradasi bir ilk mi ?")
                 operator = form.cleaned_data['operator']
                 yuzde = form.cleaned_data['yuzde']
 
                 fiyatlar = Fiyatlar.objects.filter(Operatoru=operator)
-                self.message_user(request, f"Seçilen operatör: {operator}")
-                self.message_user(request, f"Yüzde: {yuzde}")
-                self.message_user(request, f"Fiyatlar: {fiyatlar.count()} adet bulundu.")
 
                 for fiyat in fiyatlar:
                     if fiyat.Maliyet is not None and fiyat.Maliyet != 0:
@@ -734,11 +729,10 @@ class AdminFiyatlar(admin.ModelAdmin):
                         self.message_user(request, f"ID: {fiyat.id} Bayi Satis Fiyati güncellendi.")
 
                 self.message_user(request, "Seçilen operatör için Bayi Satis Fiyati güncellendi.")
-                return
             else:
-                messages.error(request, "Form is not valid")
+                self.message_user(request, f"Form geçerli değil: {form.errors}")
         else:
-            self.message_user(request, f"Form geçerli değil: {form.errors}")
+            form = BayiSatisFiyatiUpdateForm()
 
 
         return render(request, 'update_bayi_satis_fiyati.html', {'items': queryset, 'form': form})
