@@ -713,19 +713,25 @@ class AdminFiyatlar(admin.ModelAdmin):
     def yuzde_hesaplama(self, request, queryset):
         form = None
 
-        if 'apply' in request.POST:
+        if 'YuzdeHesaplama' in request.POST:
             form = BayiSatisFiyatiUpdateForm(request.POST)
+            self.message_user(request, f"Geldim! Ki")
 
             if form.is_valid():
+                self.message_user(request, f"Buradasi bir ilk mi ?")
                 operator = form.cleaned_data['operator']
                 yuzde = form.cleaned_data['yuzde']
 
                 fiyatlar = Fiyatlar.objects.filter(Operatoru=operator)
+                self.message_user(request, f"Seçilen operatör: {operator}")
+                self.message_user(request, f"Yüzde: {yuzde}")
+                self.message_user(request, f"Fiyatlar: {fiyatlar.count()} adet bulundu.")
 
                 for fiyat in fiyatlar:
                     if fiyat.Maliyet is not None and fiyat.Maliyet != 0:
                         fiyat.BayiSatisFiyati = fiyat.Maliyet + (fiyat.Maliyet * yuzde / 100)
                         fiyat.save()
+                        self.message_user(request, f"ID: {fiyat.id} Bayi Satis Fiyati güncellendi.")
 
                 self.message_user(request, "Seçilen operatör için Bayi Satis Fiyati güncellendi.")
                 return
@@ -734,7 +740,7 @@ class AdminFiyatlar(admin.ModelAdmin):
         else:
             form = BayiSatisFiyatiUpdateForm()
 
-        return render(request, 'update_bayi_satis_fiyati.html', {'items': queryset, 'form': form})
+        return render(request, 'your_specific_path/update_bayi_satis_fiyati.html', {'items': queryset, 'form': form})
 
     yuzde_hesaplama.short_description = "Seçilen operatör için Bayi Satis Fiyati güncelle"
 
