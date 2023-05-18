@@ -699,11 +699,44 @@ class AdminApiKagetori(admin.ModelAdmin):
 
 
 
+
+class BayiSatisFiyatiUpdateForm(forms.Form):
+    operator = forms.ModelChoiceField(queryset=AnaOperator.objects.all())
+    yuzde = forms.IntegerField()
+
 class AdminFiyatlar(admin.ModelAdmin):
     list_display = ("id","FiyatKategorisi","OzelApi")
     list_editable = ("FiyatKategorisi","OzelApi")
     inlines = [FiyatlarInlines]
-    actions = ["veri_aktar","Sil"]
+    actions = ["veri_aktar","Sil","yuzde_hesaplama"]
+
+    def yuzde_hesaplama(self, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+            form = BayiSatisFiyatiUpdateForm(request.POST)
+
+            if form.is_valid():
+                operator = form.cleaned_data['operator']
+                yuzde = form.cleaned_data['yuzde']
+
+                fiyatlar = Fiyatlar.objects.filter(Operatoru=operator)
+
+                for fiyat in fiyatlar:
+                    if fiyat.Maliyet is not None and fiyat.Maliyet != 0:
+                        fiyat.BayiSatisFiyati = fiyat.Maliyet + (fiyat.Maliyet * yuzde / 100)
+                        fiyat.save()
+
+                self.message_user(request, "Seçilen operatör için Bayi Satis Fiyati güncellendi.")
+                return
+            else:
+                messages.error(request, "Form is not valid")
+        else:
+            form = BayiSatisFiyatiUpdateForm()
+
+        return render(request, 'your_specific_path/update_bayi_satis_fiyati.html', {'items': queryset, 'form': form})
+
+    yuzde_hesaplama.short_description = "Seçilen operatör için Bayi Satis Fiyati güncelle"
 
     def veri_aktar(modeladmin, request, queryset):
         # İlk olarak, operatörleri ve karşılık gelen Kategori örneklerini bir sözlükte tanımlayın
@@ -767,10 +800,6 @@ class AdminFiyatlar(admin.ModelAdmin):
                         BayiSatisFiyati=0,
                         Kar=0,
                     )
-
-
-
-
 
     veri_aktar.short_description = "Seçili fiyat grupları için veri aktar"
 
