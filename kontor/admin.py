@@ -707,9 +707,8 @@ class AdminFiyatlar(admin.ModelAdmin):
 
     def veri_aktar(modeladmin, request, queryset):
         # İlk olarak, operatörleri ve karşılık gelen Kategori örneklerini bir sözlükte tanımlayın
-
         for FiyatGrubu in queryset:
-            gelenAnaOperator = AnaOperator.objects.get(pk=int(3))
+            gelenAnaOperator = AnaOperator.objects.get(pk=int(2))
             kontor_listesi = KontorList.objects.filter(Kategorisi__in=[3])
             for kontor in kontor_listesi:
                 GelenPaketler = Fiyatlar.objects.filter(fiyat_grubu=FiyatGrubu,Kupur=kontor.Kupur)
@@ -729,10 +728,58 @@ class AdminFiyatlar(admin.ModelAdmin):
                         Kar = 0,
                     )
 
+            gelenAnaOperator = AnaOperator.objects.get(pk=int(1))
+            kontor_listesi = KontorList.objects.filter(Kategorisi__in=[1])
+            for kontor in kontor_listesi:
+                GelenPaketler = Fiyatlar.objects.filter(fiyat_grubu=FiyatGrubu, Kupur=kontor.Kupur)
+                if GelenPaketler.exists():
+                    FiyatlariGuncelle = GelenPaketler.first()
+                    FiyatlariGuncelle.PaketAdi = kontor.Urun_adi
+                    FiyatlariGuncelle.Maliyet = kontor.MaliyetFiyat
+                    FiyatlariGuncelle.save()
+                else:
+                    Fiyatlar.objects.create(
+                        fiyat_grubu=FiyatGrubu,
+                        Operatoru=gelenAnaOperator,
+                        Kupur=kontor.Kupur,
+                        PaketAdi=kontor.Urun_adi,
+                        Maliyet=kontor.MaliyetFiyat,
+                        BayiSatisFiyati=0,
+                        Kar=0,
+                    )
+
+            gelenAnaOperator = AnaOperator.objects.get(pk=int(3))
+            kontor_listesi = KontorList.objects.filter(Kategorisi__in=[4])
+            for kontor in kontor_listesi:
+                GelenPaketler = Fiyatlar.objects.filter(fiyat_grubu=FiyatGrubu, Kupur=kontor.Kupur)
+                if GelenPaketler.exists():
+                    FiyatlariGuncelle = GelenPaketler.first()
+                    FiyatlariGuncelle.PaketAdi = kontor.Urun_adi
+                    FiyatlariGuncelle.Maliyet = kontor.MaliyetFiyat
+                    FiyatlariGuncelle.save()
+                else:
+                    Fiyatlar.objects.create(
+                        fiyat_grubu=FiyatGrubu,
+                        Operatoru=gelenAnaOperator,
+                        Kupur=kontor.Kupur,
+                        PaketAdi=kontor.Urun_adi,
+                        Maliyet=kontor.MaliyetFiyat,
+                        BayiSatisFiyati=0,
+                        Kar=0,
+                    )
+
+
 
 
 
     veri_aktar.short_description = "Seçili fiyat grupları için veri aktar"
+
+
+    def Sil(modeladmin, request, queryset):
+        # İlk olarak, operatörleri ve karşılık gelen Kategori örneklerini bir sözlükte tanımlayın
+        for FiyatGrubu in queryset:
+            FiyatGrubu.delete()
+    Sil.short_description = "Seçili verileri sil"
 
 
 @admin.register(Bayi_Listesi)
