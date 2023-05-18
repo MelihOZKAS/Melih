@@ -706,16 +706,16 @@ class AdminFiyatlar(admin.ModelAdmin):
     actions = ["veri_aktar"]
 
     def veri_aktar(modeladmin, request, queryset):
-        # İlk olarak, operatorleri bir sözlükte tanımlayın
+        # İlk olarak, operatörleri ve karşılık gelen Kategori örneklerini bir sözlükte tanımlayın
         operators = {
-            'Turk Telekom Ses': TTses,
-            'Turkcell Ses': Turkcell,
-            'Vodafone Paketler': VodafonePaketler,
+            'Turk Telekom Ses': (TTses, Kategori.objects.get(pk=4)),
+            'Turkcell Ses': (Turkcell, Kategori.objects.get(pk=1)),
+            'Vodafone Paketler': (VodafonePaketler, Kategori.objects.get(pk=3)),
         }
         # Her bir seçili FiyatGuruplari için
         for obj in queryset:
             # Her bir operatör için
-            for operator, model in operators.items():
+            for operator, (model, kategori) in operators.items():
                 # Operatör modelinden veri çekme
                 veriler = model.objects.all()
                 # Veriler üzerinde döngü oluşturma
@@ -723,17 +723,17 @@ class AdminFiyatlar(admin.ModelAdmin):
                     # Fiyatlar modelinde bir örnek oluşturma veya güncelleme
                     Fiyatlar.objects.update_or_create(
                         PaketAdi=veri.urun_adi,
-                        Operatoru=1,  # AnaOperator modelinde adı uygun olanı bul
+                        Operatoru=AnaOperator.objects.get(adi=operator),  # AnaOperator modelinde adı uygun olanı bul
                         defaults={
                             'Maliyet': veri.alis_fiyati,
                             'Kupur': veri.kupur,
                             'fiyat_grubu': obj,  # Fiyat grubunu seçilen FiyatGuruplari örneği olarak belirtme
+                            'KategorisiGelen': kategori,  # Kategori modelinde uygun olanı getirme
                             # Diğer alanlar, eğer varsa
                         },
                     )
 
     veri_aktar.short_description = "Seçili fiyat grupları için veri aktar"
-
 
 
 @admin.register(Bayi_Listesi)
