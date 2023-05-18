@@ -315,10 +315,10 @@ class Fiyatlar(models.Model):
     Kar = models.DecimalField("Kâr",max_digits=100, decimal_places=2, null=True,blank=True)
     SatisaAcikmi = models.BooleanField("SatisaAcik mi ?", default=True)
 
-    api1 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_1', null=True, blank=True)
-    api2 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_2', null=True, blank=True)
-    api3 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_3', null=True, blank=True)
-    #api4 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_4', null=True, blank=True)
+    api1 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Ozel_Api_1', null=True, blank=True)
+    api2 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Ozel_Api_2', null=True, blank=True)
+    api3 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Ozel_Api_3', null=True, blank=True)
+    #api4 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Ozel_Api_4', null=True, blank=True)
 
 
 class FiyatGuruplari(models.Model):
