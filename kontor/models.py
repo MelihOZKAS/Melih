@@ -309,7 +309,7 @@ class FiyatGuruplari(models.Model):
     OzelApi = models.BooleanField("OzelApiYapilsin mi ?", default=False)
 
 class Fiyatlar(models.Model):
-    fiyat_grubu = models.ForeignKey(FiyatGuruplari, on_delete=models.CASCADE)
+    fiyat_grubu = models.ForeignKey(FiyatGuruplari, on_delete=models.CASCADE,null=True, blank=True)
     Operatoru = models.CharField(max_length=255,null=True, blank=True)
     Paket = models.ForeignKey(KontorList, on_delete=models.CASCADE,null=True, blank=True)
     Maliyet = models.DecimalField("Maliyet",max_digits=100, decimal_places=2, null=True,blank=True)
