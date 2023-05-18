@@ -707,31 +707,33 @@ class AdminFiyatlar(admin.ModelAdmin):
 
     def veri_aktar(modeladmin, request, queryset):
         # İlk olarak, operatörleri ve karşılık gelen Kategori örneklerini bir sözlükte tanımlayın
-        operators = {
-            'Turk Telekom Ses': (TTses,4),
-            'Turkcell Ses': (Turkcell, 1),
-            'Vodafone Paketler': (VodafonePaketler, 3),
-        }
-        # Her bir seçili FiyatGuruplari için
-        for obj in queryset:
-            # Her bir operatör için
-            for operator, (model, kategori) in operators.items():
-                # Operatör modelinden veri çekme
-                veriler = model.objects.all()
-                # Veriler üzerinde döngü oluşturma
-                for veri in veriler:
-                    # Fiyatlar modelinde bir örnek oluşturma veya güncelleme
-                    Fiyatlar.objects.update_or_create(
-                        PaketAdi=veri.urun_adi,
-                        Operatoru=AnaOperator.objects.get(AnaOperator.objects.get(pk=int(kategori))),  # AnaOperator modelinde adı uygun olanı bul
-                        defaults={
-                            'Maliyet': veri.alis_fiyati,
-                            'Kupur': veri.kupur,
-                            'fiyat_grubu': obj,  # Fiyat grubunu seçilen FiyatGuruplari örneği olarak belirtme
 
-                            # Diğer alanlar, eğer varsa
-                        },
+        for FiyatlarCekildi in queryset:
+
+            FiyatGrubu = FiyatlarCekildi.fiyat_grubu
+            gelenAnaOperator = AnaOperator.objects.get(pk=int(3))
+
+            kontor_listesi = KontorList.objects.filter(Kategorisi__in=[3])
+            for kontor in kontor_listesi:
+                GelenPaketler = Fiyatlar.objects.filter(fiyat_grubu=FiyatGrubu,Kupur=kontor.Kupur)
+                if GelenPaketler.exists():
+                    FiyatlariGuncelle = GelenPaketler.first()
+                    FiyatlariGuncelle.PaketAdi = kontor.Urun_adi
+                    FiyatlariGuncelle.Maliyet = kontor.MaliyetFiyat
+                    FiyatlariGuncelle.save()
+                else:
+                    Fiyatlar.objects.create(
+                        fiyat_grubu = FiyatGrubu ,
+                        Operatoru = gelenAnaOperator,
+                        Kupur = kontor.Kupur,
+                        PaketAdi = kontor.Urun_adi,
+                        Maliyet = kontor.MaliyetFiyat,
+                        BayiSatisFiyati = 0,
+                        Kar = 0,
                     )
+
+
+
 
     veri_aktar.short_description = "Seçili fiyat grupları için veri aktar"
 

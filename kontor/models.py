@@ -312,7 +312,7 @@ class FiyatGuruplari(models.Model):
         verbose_name_plural = "Fiyat Guruplari"
 
     def __str__(self):
-        return f"{self.FiyatKategorisi}"
+        return f"{self.FiyatKategorisi} Adi"
 
 class Fiyatlar(models.Model):
     fiyat_grubu = models.ForeignKey(FiyatGuruplari, on_delete=models.CASCADE,null=True, blank=True)
