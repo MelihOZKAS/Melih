@@ -708,15 +708,8 @@ class AdminFiyatlar(admin.ModelAdmin):
     def veri_aktar(modeladmin, request, queryset):
         # İlk olarak, operatörleri ve karşılık gelen Kategori örneklerini bir sözlükte tanımlayın
 
-        for FiyatlarCekildi in queryset:
-
-            FiyatGrubu = FiyatlarCekildi.id
-            FiyatGrubu = Fiyatlar.objects.get(id=FiyatGrubu)
-
-
-
+        for FiyatGrubu in queryset:
             gelenAnaOperator = AnaOperator.objects.get(pk=int(3))
-
             kontor_listesi = KontorList.objects.filter(Kategorisi__in=[3])
             for kontor in kontor_listesi:
                 GelenPaketler = Fiyatlar.objects.filter(fiyat_grubu=FiyatGrubu,Kupur=kontor.Kupur)
