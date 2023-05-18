@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import KontorList,Kategori,Apiler,ApiKategori,Banka,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,TTses,TTtam
+from .models import KontorList,Kategori,Apiler,ApiKategori,Banka,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,TTses,TTtam,FiyatGuruplari,Fiyatlar
 from django.utils.html import format_html
 from django.urls import reverse,path
 from django.utils import timesince,timezone
@@ -268,7 +268,9 @@ class AdminKategoriListesi(admin.ModelAdmin):
     list_display = ("id","GorunecekName","KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
     list_editable = ("KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
 
-
+class AdminKategoriListesi(admin.ModelAdmin):
+    list_display = ("FiyatKategorisi","OzelApi")
+    list_editable = ("OzelApi")
 
 #class VodafoneSesInlineForm(forms.ModelForm):
 #    class Meta:
@@ -708,5 +710,4 @@ admin.site.register(Siparisler,AdminSiparisler)
 admin.site.register(ApiKategori,AdminApiKagetori)
 admin.site.register(Kategori,AdminKategoriListesi)
 admin.site.register(Apiler,AdminApiListesi)
-
-
+admin.site.register(FiyatGuruplari,AdminFiyatlar)

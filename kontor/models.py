@@ -306,6 +306,29 @@ class Siparisler(models.Model):
 
 
 
+
+class Fiyatlar(models.Model):
+    Operatoru = models.CharField(max_length=255,null=True, blank=True)
+    Paket = models.ForeignKey(KontorList, on_delete=models.CASCADE,null=True, blank=True)
+    Maliyet = models.DecimalField("Maliyet",max_digits=100, decimal_places=2, null=True,blank=True)
+    BayiSatisFiyati = models.DecimalField("BayiSatisFiyati",max_digits=100, decimal_places=2, null=True,blank=True)
+    Kar = models.DecimalField("Kâr",max_digits=100, decimal_places=2, null=True,blank=True)
+    SatisaAcikmi = models.BooleanField("SatisaAcik mi ?", default=True)
+
+    api1 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_1', null=True, blank=True)
+    api2 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_2', null=True, blank=True)
+    api3 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_3', null=True, blank=True)
+    #api4 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_4', null=True, blank=True)
+
+
+class FiyatGuruplari(models.Model):
+    FiyatKategorisi  = models.CharField(max_length=255,null=True, blank=True)
+    OzelApi = models.BooleanField("OzelApiYapilsin mi ?", default=False)
+
+
+
+
+
 class Alternatif(models.Model):
     from_item = models.ForeignKey(KontorList, on_delete=models.CASCADE, related_name='from_alternatifs')
     to_item = models.ForeignKey(KontorList, on_delete=models.CASCADE, related_name='to_alternatifs')
@@ -337,13 +360,6 @@ class YuklenecekSiparisler(models.Model):
         return self.YuklenecekPaketAdi
 
 
-#class Bayi_Listesi(models.Model):
-#    user = models.OneToOneField(User, on_delete=models.CASCADE)
-#    Bayi_Bakiyesi = models.DecimalField(max_digits=10, decimal_places=2)
-#    class Meta:
-#        verbose_name = "Bayi Listesi"
-#        verbose_name_plural = "Bayi Listesi"
-
 
 
 class Banka(models.Model):
@@ -363,16 +379,6 @@ class Banka(models.Model):
     class Meta:
         verbose_name = "Bankalar"
         verbose_name_plural = "Bankalar"
-
-#class BakiyeHareketleriDurumlari(models.Model):
-#    isim = models.CharField(max_length=255)
-#
-#    def __str__(self):
-#        return self.isim
-#
-#    class Meta:
-#        verbose_name = "Bakiye Hareketleri Durumu"
-#        verbose_name_plural = "Bakiye Hareketleri Durumları"
 
 
 

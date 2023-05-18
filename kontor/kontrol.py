@@ -1031,7 +1031,7 @@ def AlternatifKontrol(request):
             else:
                 siparis.Durum = iptalEdildi
                 siparis.SonucTarihi = timezone.now()
-                siparis.BayiAciklama = "Vergi Borcu Olabilir."
+                siparis.BayiAciklama = "PaketYok/Vergi Borcu Olabilir."
                 # siparisler.BayiAciklama = siparis.SorguPaketID
                 siparis.save()
                 paket_tutari = Decimal('95.5')
