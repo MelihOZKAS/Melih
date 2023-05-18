@@ -268,9 +268,7 @@ class AdminKategoriListesi(admin.ModelAdmin):
     list_display = ("id","GorunecekName","KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
     list_editable = ("KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
 
-class AdminFiyatlar(admin.ModelAdmin):
-    list_display = ("id","FiyatKategorisi","OzelApi")
-    list_editable = ("FiyatKategorisi","OzelApi")
+
 
 #class VodafoneSesInlineForm(forms.ModelForm):
 #    class Meta:
@@ -415,7 +413,9 @@ class TTtamInline(admin.TabularInline):
     extra = 1
 
 
-
+class FiyatlarInlines(admin.TabularInline):
+    model = Fiyatlar
+    extra = 1
 
 
 def TTSES_Paketleri_Ekle(modeladmin, request, queryset):
@@ -684,6 +684,12 @@ class AdminApiListesi(admin.ModelAdmin):
 class AdminApiKagetori(admin.ModelAdmin):
     list_display = ("id","ApiYazilimAdi",)
 
+
+
+class AdminFiyatlar(admin.ModelAdmin):
+    list_display = ("id","FiyatKategorisi","OzelApi")
+    list_editable = ("FiyatKategorisi","OzelApi")
+    inlines = [FiyatlarInlines]
 
 
 
