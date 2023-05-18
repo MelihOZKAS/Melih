@@ -413,6 +413,7 @@ class TTtamInline(admin.TabularInline):
     extra = 1
 
 
+
 class FiyatlarForm(forms.ModelForm):
     class Meta:
         model = Fiyatlar
@@ -421,7 +422,8 @@ class FiyatlarForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance.pk:
-            self.fields['Operatoru'].queryset = AnaOperator.objects.filter(fiyat_grubu=self.instance.fiyat_grubu)
+            self.fields['Operatoru'].queryset = AnaOperator.objects.filter(id=self.instance.Operatoru.id)
+
 
 
 class FiyatlarInlines(admin.TabularInline):
