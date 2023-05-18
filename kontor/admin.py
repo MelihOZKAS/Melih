@@ -712,9 +712,11 @@ class AdminFiyatlar(admin.ModelAdmin):
 
     def yuzde_hesaplama(self, request, queryset):
         form = None
+        self.message_user(request, "Başlangic")
 
         if 'YuzdeHesaplama' in request.POST:
             form = BayiSatisFiyatiUpdateForm(request.POST)
+            self.message_user(request, "Nasip")
 
             if form.is_valid():
                 operator = form.cleaned_data['operator']
@@ -733,11 +735,10 @@ class AdminFiyatlar(admin.ModelAdmin):
                 self.message_user(request, f"Form geçerli değil: {form.errors}")
         else:
             form = BayiSatisFiyatiUpdateForm()
-
+            self.message_user(request, "Formu göndermediniz. Lütfen formu doldurup Gönder düğmesine basınız.")
 
         return render(request, 'update_bayi_satis_fiyati.html', {'items': queryset, 'form': form})
 
-    yuzde_hesaplama.short_description = "Seçilen operatör için Bayi Satis Fiyati güncelle"
 
     def veri_aktar(modeladmin, request, queryset):
         # İlk olarak, operatörleri ve karşılık gelen Kategori örneklerini bir sözlükte tanımlayın
