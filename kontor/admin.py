@@ -703,7 +703,36 @@ class AdminFiyatlar(admin.ModelAdmin):
     list_display = ("id","FiyatKategorisi","OzelApi")
     list_editable = ("FiyatKategorisi","OzelApi")
     inlines = [FiyatlarInlines]
-    actions = ["TümPaketleri Ekle"]
+    actions = ["veri_aktar"]
+
+    def veri_aktar(modeladmin, request, queryset):
+        # İlk olarak, operatorleri bir sözlükte tanımlayın
+        operators = {
+            'Turk Telekom Ses': TTses,
+            'Turkcell Ses': Turkcell,
+            'Vodafone Paketler': VodafonePaketler,
+        }
+        # Her bir seçili FiyatGuruplari için
+        for obj in queryset:
+            # Her bir operatör için
+            for operator, model in operators.items():
+                # Operatör modelinden veri çekme
+                veriler = model.objects.all()
+                # Veriler üzerinde döngü oluşturma
+                for veri in veriler:
+                    # Fiyatlar modelinde bir örnek oluşturma veya güncelleme
+                    Fiyatlar.objects.update_or_create(
+                        PaketAdi=veri.urun_adi,
+                        Operatoru=AnaOperator.objects.get(adi=operator),  # AnaOperator modelinde adı uygun olanı bul
+                        defaults={
+                            'Maliyet': veri.alis_fiyati,
+                            'Kupur': veri.kupur,
+                            'fiyat_grubu': obj,  # Fiyat grubunu seçilen FiyatGuruplari örneği olarak belirtme
+                            # Diğer alanlar, eğer varsa
+                        },
+                    )
+
+    veri_aktar.short_description = "Seçili fiyat grupları için veri aktar"
 
 
 
