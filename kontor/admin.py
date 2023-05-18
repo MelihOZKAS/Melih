@@ -269,8 +269,8 @@ class AdminKategoriListesi(admin.ModelAdmin):
     list_editable = ("KategoriAdi","Operatoru","KategoriAltOperatoru","GorunecekSira","Aktifmi",)
 
 class AdminFiyatlar(admin.ModelAdmin):
-    list_display = ("FiyatKategorisi","OzelApi")
-    list_editable = ("OzelApi")
+    list_display = ("id","FiyatKategorisi","OzelApi")
+    list_editable = ("FiyatKategorisi","OzelApi")
 
 #class VodafoneSesInlineForm(forms.ModelForm):
 #    class Meta:
