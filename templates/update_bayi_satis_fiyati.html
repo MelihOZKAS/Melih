@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Bayi Satis Fiyati Güncelle</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <h1>Bayi Satis Fiyati Güncelle</h1>
@@ -9,7 +11,7 @@
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" name="YuzdeHesaplama" value="Gönder" />
+        <input type="submit" name="YuzdeHesaplama" value="Gönder" class="btn btn-primary" />
     </form>
 
     <p>Are you sure you want to update the Bayi Satis Fiyati of the following Fiyatlar objects?</p>
