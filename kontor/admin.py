@@ -245,7 +245,7 @@ class AdminSiparisler(admin.ModelAdmin):
 
     #TODO Sipariş Silme Kapatma!
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
 
     def gecen_sure(self, obj):
         if obj.SonucTarihi:
