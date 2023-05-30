@@ -209,10 +209,6 @@ class ApidenCekilenPaketler(models.Model):
 
 
 
-
-
-
-
 class TTtam(models.Model):
     apiler = models.ForeignKey(Apiler, on_delete=models.CASCADE)
     urun_adi = models.CharField(max_length=100,null=True, blank=True)

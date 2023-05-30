@@ -3,7 +3,7 @@ from urllib.parse import unquote
 from datetime import datetime, timedelta
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,Turkcell,TTses,TTtam
+from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,Turkcell,TTses,TTtam,Fiyatlar
 from .urunleri_cek import *
 import requests
 from decimal import Decimal
@@ -215,9 +215,24 @@ def ApiZnetSiparisKaydet(request):
                         Onceki_Bakiye = Bayi.Bayi_Bakiyesi
                         onceki_Borc = Bayi.Borc
 
-
-
                         if kontor_urunu:
+
+                            if Bayi.Fiyati.OzelApi:
+                                # OzelApi True ise, Fiyatlar modelinde ilgili api değerlerini bulun
+                                fiyatlar = Fiyatlar.objects.get(fiyat_grubu=Bayi.Fiyati)
+
+                                # Fiyatlar modelindeki api değerlerini order'ın api alanlarına ata
+                                SecilenApi1 = fiyatlar.api1
+                                SecilenApi2 = fiyatlar.api2
+                                SecilenApi3 = fiyatlar.api3
+                            else:
+                                # Eğer OzelApi False ise, kontor_urunu'ndaki api değerlerini kullan
+                                SecilenApi1 = kontor_urunu.api1
+                                SecilenApi2 = kontor_urunu.api2
+                                SecilenApi3 = kontor_urunu.api3
+
+
+
                             if Onceki_Bakiye - paket_tutari > 0:
                                 Bayi.Bayi_Bakiyesi -= paket_tutari
                                 Bayi.save()
@@ -227,9 +242,9 @@ def ApiZnetSiparisKaydet(request):
 
                                 # Ürün bulundu, api1, api2 ve api3 değerlerini siparişe ekle
                                 order.user = user
-                                order.api1 = kontor_urunu.api1
-                                order.api2 = kontor_urunu.api2
-                                order.api3 = kontor_urunu.api3
+                                order.api1 = SecilenApi1
+                                order.api2 = SecilenApi2
+                                order.api3 = SecilenApi3
                                 order.PaketAdi = kontor_urunu.Urun_adi
                                 order.BayiAciklama = "İşleme Alındı."
                                 order.Gonderim_Sirasi = 1
@@ -264,9 +279,6 @@ def ApiZnetSiparisKaydet(request):
                 return "Hatalı kullanıcı adı veya şifre"
         except (User.DoesNotExist, Siparisler.DoesNotExist):
             return "Kullanıcı veya sipariş bulunamadı"
-
-
-
 
     else:
         sonuc = "OK|3|EksikGelenBişilerVar.|0.00"
@@ -545,11 +557,6 @@ def GecikmeBildir():
                 #url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={text}"
                 #r=requests.get(url)
                 #return r.text
-
-
-
-
-
 
 
 

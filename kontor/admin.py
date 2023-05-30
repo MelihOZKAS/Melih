@@ -818,7 +818,7 @@ class AdminFiyatlar(admin.ModelAdmin):
 @admin.register(Bayi_Listesi)
 class Bayi_Bakiyeleri(admin.ModelAdmin):
     list_display = ('user', 'Bayi_Bakiyesi','Borc')
-    readonly_fields = ('user','Bayi_Bakiyesi','Borc')
+    readonly_fields = ('Bayi_Bakiyesi','Borc')
 
 
 
