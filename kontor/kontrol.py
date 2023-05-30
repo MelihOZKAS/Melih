@@ -219,7 +219,7 @@ def ApiZnetSiparisKaydet(request):
 
                             if Bayi.Fiyati.OzelApi:
                                 # OzelApi True ise, Fiyatlar modelinde ilgili api değerlerini bulun
-                                fiyatlar = Fiyatlar.objects.get(fiyat_grubu=Bayi.Fiyati)
+                                fiyatlar = Fiyatlar.objects.filter(fiyat_grubu=Bayi.Fiyati)
 
                                 # Fiyatlar modelindeki api değerlerini order'ın api alanlarına ata
                                 SecilenApi1 = fiyatlar.api1
