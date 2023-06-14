@@ -380,16 +380,17 @@ def PaketEkle(request):
 # Burada Ekstra Ultra Önemli bir not daha olsun bunları bizim alternatif ID Listemizden çekip silmek gerekebilir zannımca.
 
 def SorguyaGonder():
+    AnaPaket = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
     sorguda = Durumlar.objects.get(durum_id=Durumlar.Sorguda)
     sorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
     aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
     orders = Siparisler.objects.filter(Durum=sorguda)
     if orders:
         for order in orders:
-            print(order.Operator)
-            print(order.Operator.AnaOperatorler)
-            print(type(order.Operator.AnaOperatorler))
-            print("uste")
+            #print(order.Operator)
+            #print(order.Operator.AnaOperatorler)
+            #print(type(order.Operator.AnaOperatorler))
+            #print("uste")
             siteadi = "92.205.129.63:4244"
             # Apiler sınıfından şifre bilgilerini alın
             if order.Operator.AnaOperatorler == "vodafone":
@@ -777,7 +778,6 @@ def AnaPaketSonucKontrol():
                 response = response.split("|")
                 print(response)
 
-               # grafiTutar = Decimal(str(response[1]).replace(" ","").replace(",","."))
             GelenAciklama = Siparis.Aciklama
 
             if response[0] == "1" or responses[0] == "OK":
@@ -942,15 +942,6 @@ def AlternatifKontrol(request):
 
 
         # AnaPaketVar mi Kontrollü
-
-        #vergiList=['8703','7353','7354','7355']
-        print(siparis.Numara)
-        print("Onemli")
-        print(cikan_idler)
-        print('*'*31)
-        print(PaketSorguListesi)
-        print('#'*44)
-
 
         vergiTutari = "Nasip"
         if len(cikan_idler) == 0:

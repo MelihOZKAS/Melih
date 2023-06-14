@@ -271,9 +271,9 @@ def TurkcellPaketleriSunucudanCek(request):
                     YurtDisiDk=Decimal('0.00'),
                     Aktifmi=True,
                     Kategorisi=KategorisiGelen,
-                    api1=api1,
-                    api2=api2,
-                    api3=api3,
+                    #api1=api1,
+                    #api2=api2,
+                    #api3=api3,
                     zNetKupur=znetFix,
                     AlternatifYapilmasin=alternatifyapilmasin
                 )
@@ -330,9 +330,9 @@ def VodafonePaketleriSunucudanCek(request):
             alternatifyapilmasin = alternatif_bilgisi
             PaketNames = bilgiler[9]
             KategorisiGelen = Kategori.objects.get(pk=3)  # TODO 3 yaptım bu Vodafone çünkü
-            api1 = Apiler.objects.get(pk=6)
-            api2 = Apiler.objects.get(pk=3)
-            api3 = Apiler.objects.get(pk=1)
+            #api1 = Apiler.objects.get(pk=6)
+            #api2 = Apiler.objects.get(pk=3)
+            #api3 = Apiler.objects.get(pk=1)
             SatisFiyat = paketFiyat + Decimal('5.00')
             GelenPaket = KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID)
             if GelenPaket.exists():
@@ -343,6 +343,7 @@ def VodafonePaketleriSunucudanCek(request):
                     PaketNames = "Tüm Dünya 1 Saat"
                 if PaketiGuncelle.Kupur == Decimal("4401"):
                     PaketNames = "Kolay Paket 9"
+                    paketFiyat = Decimal('161.00')
                 if PaketiGuncelle.Kupur == Decimal("4402"):
                     PaketNames = "Kolay Paket 14"
                 if PaketiGuncelle.Kupur == Decimal("4405"):
@@ -351,6 +352,7 @@ def VodafonePaketleriSunucudanCek(request):
                     PaketNames = "Kolay Paket 10"
                 if PaketiGuncelle.Kupur == Decimal("4407"):
                     PaketNames = "Kolay Paket 12"
+                    paketFiyat = Decimal('181.00')
                 if PaketiGuncelle.Kupur == Decimal("4780"):
                     PaketNames = "Haftalık 500 DK"
                 if PaketiGuncelle.Kupur == Decimal("12039"):
@@ -359,6 +361,7 @@ def VodafonePaketleriSunucudanCek(request):
                     PaketNames = "Kolay Paket 6 Ay 60 GB"
                 if PaketiGuncelle.Kupur == Decimal("13315"):
                     PaketNames = "Kolay Paket 16"
+                    paketFiyat = Decimal('206.00')
                 if PaketiGuncelle.Kupur == Decimal("13318"):
                     PaketNames = "Kolay Paket 5"
                 if PaketiGuncelle.Kupur == Decimal("13319"):
@@ -429,9 +432,9 @@ def VodafonePaketleriSunucudanCek(request):
                 PaketiGuncelle.Sebekeici = Decimal('0.00')
                 PaketiGuncelle.internet = paketGB
                 PaketiGuncelle.SMS = paketSMS
-                PaketiGuncelle.api1 = api1
-                PaketiGuncelle.api2 = api2
-                PaketiGuncelle.api3 = api3
+                #PaketiGuncelle.api1 = api1
+                #PaketiGuncelle.api2 = api2
+                #PaketiGuncelle.api3 = api3
                 PaketiGuncelle.AlternatifYapilmasin = alternatifyapilmasin
 
                 PaketiGuncelle.save()
@@ -453,8 +456,8 @@ def VodafonePaketleriSunucudanCek(request):
                     YurtDisiDk=Decimal('0.00'),
                     Aktifmi=True,
                     Kategorisi=KategorisiGelen,
-                    api1=api1,
-                    api2=api2,
+                    #api1=api1,
+                    #api2=api2,
                     zNetKupur=znetFix,
                     AlternatifYapilmasin=alternatifyapilmasin
                 )
