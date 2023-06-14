@@ -666,7 +666,7 @@ delete_TTtam.short_description = "Seçilen API'lerin TTtam kayıtlarını sil"
 
 def delete_vodafone(modeladmin, request, queryset):
     for api in queryset:
-        api.vodafonepaketler_set.all().delete()
+        api.VodafonePaketler_set.all().delete()
     modeladmin.message_user(request, "Seçilen apilere ait tüm Vodafone kayıtları silindi.")
 
 

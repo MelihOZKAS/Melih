@@ -1098,10 +1098,37 @@ def YuklenecekPaketler(request):
             PaketinAdi = kategorideki_paket.Urun_adi
             PaketinID = paket
 
-            Yuklene_api1 = kategorideki_paket.api1
-            Yuklene_api2 = kategorideki_paket.api2
-            Yuklene_api3 = kategorideki_paket.api3
+            user = siparis.user
+
+            Bayi = Bayi_Listesi.objects.get(user=user)
+            if Bayi.Fiyati.OzelApi:
+                # OzelApi True ise, Fiyatlar modelinde ilgili api değerlerini bulun
+                # fiyatlar = Fiyatlar.objects.filter(fiyat_grubu=Bayi.Fiyati).first()
+                fiyatlar = Fiyatlar.objects.filter(fiyat_grubu=Bayi.Fiyati,
+                                                   Kupur=kategorideki_paket.Kupur).first()
+
+                # Fiyatlar modelindeki api değerlerini order'ın api alanlarına ata
+                SecilenApi1 = fiyatlar.api1
+                SecilenApi2 = fiyatlar.api2
+                SecilenApi3 = fiyatlar.api3
+            else:
+                # Eğer OzelApi False ise, kontor_urunu'ndaki api değerlerini kullan
+                SecilenApi1 = kategorideki_paket.api1
+                SecilenApi2 = kategorideki_paket.api2
+                SecilenApi3 = kategorideki_paket.api3
+
+
+
+
+
+
+            Yuklene_api1 = SecilenApi1
+            Yuklene_api2 = SecilenApi2
+            Yuklene_api3 = SecilenApi3
             DonguKontrol += 1
+
+
+
 
 
             if DonguKontrol == 1:
