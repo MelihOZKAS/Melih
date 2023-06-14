@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import KontorList,Kategori,Apiler,ApiKategori,Banka,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,TTses,TTtam,FiyatGuruplari,Fiyatlar
+from .models import KontorList,Kategori,Apiler,ApiKategori,Banka,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,TTses,TTtam,FiyatGuruplari,Fiyatlar,Bimcell,Vodafonetam,Turkcelltam
 from django.utils.html import format_html
 from django.urls import reverse,path
 from django.utils import timesince,timezone
@@ -412,6 +412,15 @@ class TTtamInline(admin.TabularInline):
     model = TTtam
     extra = 1
 
+class BimcellInline(admin.TabularInline):
+    model = Bimcell
+    extra = 1
+class VodafonetamInline(admin.TabularInline):
+    model = Vodafonetam
+    extra = 1
+class TurkcelltamInline(admin.TabularInline):
+    model = Turkcelltam
+    extra = 1
 
 
 class FiyatlarForm(forms.ModelForm):
@@ -691,7 +700,7 @@ class AdminApiListesi(admin.ModelAdmin):
 
     toplam_kontor.short_description = 'Toplam Kontor'
 
-    inlines = [TurkcellInline,VodafoneSesInline,TTsesInline,TTtamInline]
+    inlines = [TurkcellInline,VodafoneSesInline,TTsesInline,TTtamInline,TurkcelltamInline,VodafonetamInline,BimcellInline]
     actions = [PaketleriCek,Vodafonel_Paketleri_Ekle,Turkcell_Paketleri_Ekle,TTSES_Paketleri_Ekle,delete_turkcell,delete_ttses,delete_TTtam,delete_vodafone]
 
 class AdminApiKagetori(admin.ModelAdmin):

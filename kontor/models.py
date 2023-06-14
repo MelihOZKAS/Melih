@@ -219,7 +219,7 @@ class Bimcell(models.Model):
     Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        verbose_name_plural = 'Turk Telekom Tam'
+        verbose_name_plural = 'Bimcell Full'
 
 class Vodafonetam(models.Model):
     apiler = models.ForeignKey(Apiler, on_delete=models.CASCADE)
@@ -232,7 +232,20 @@ class Vodafonetam(models.Model):
     Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        verbose_name_plural = 'Turk Telekom Tam'
+        verbose_name_plural = 'VodafoneTam'
+
+class Turkcelltam(models.Model):
+    apiler = models.ForeignKey(Apiler, on_delete=models.CASCADE)
+    urun_adi = models.CharField(max_length=100,null=True, blank=True)
+    kupur = models.DecimalField(max_digits=100, decimal_places=2,null=True, blank=True)
+    alis_fiyati = models.DecimalField(max_digits=100, decimal_places=2, default=0,blank=True)
+    eslestirme_operator_adi = models.CharField(max_length=100, null=True, blank=True)
+    eslestirme_operator_tipi = models.CharField(max_length=100, null=True, blank=True)
+    eslestirme_kupur = models.DecimalField(max_digits=100, decimal_places=2,null=True, blank=True)
+    Apiden_gelenler = models.ForeignKey(ApidenCekilenPaketler, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Turkcelltam'
 
 class TTtam(models.Model):
     apiler = models.ForeignKey(Apiler, on_delete=models.CASCADE)
