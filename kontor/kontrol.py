@@ -686,10 +686,7 @@ def AlternatifSonucKontrol():
 
                     GelenAciklama = ANA_Siparis.Aciklama
                     ANA_Siparis.SonucTarihi = timezone.now()
-                    ANA_Siparis.Aciklama = GelenAciklama + " Altennatifişem - SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + \
-                                           response[
-                                               1] + "iptal olanApiSirasi:" + str(
-                        alternatifOrder.Gonderim_Sirasi) + "\n"
+                    ANA_Siparis.Aciklama = GelenAciklama + " Altennatifişem - SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + str(response) + "iptal olanApiSirasi:" + str(alternatifOrder.Gonderim_Sirasi) + "\n"
                     alternatifOrder.save()
                     ANA_Siparis.save()
 
