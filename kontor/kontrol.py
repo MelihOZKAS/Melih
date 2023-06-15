@@ -855,7 +855,6 @@ def AnaPaketSonucKontrol():
                         Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + str(responses) +" iptal olanApiSirasi:"+str(Siparis.Gonderim_Sirasi)+ "\n"
                     Siparis.Gonderim_Sirasi = Sirasi
                     Siparis.save()
-                    #AnaPaketGonder()
                     SonucList.append(str(Siparis.Numara) + " AnaPaket Olarak işlemeAlındı.")
                     continue
 
