@@ -1212,6 +1212,7 @@ def AlternatifYuklemeGonder():
             GelenAciklama = ANA_Siparis.Aciklama
             siparisturu = ANA_Siparis.Operator
             opAdi = siparisturu.AnaOperatorler
+            print(opAdi)
 
             if opAdi == "vodafone" or opAdi == "Vodafone":
                 paketler = VodafonePaketler.objects.filter(apiler=api)
