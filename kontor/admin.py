@@ -578,7 +578,6 @@ def Vodafonel_Paketleri_Ekle(modeladmin, request, queryset):
     for api in queryset:
         apituru = api.ApiTuru
         SecilenApi = apituru.ApiYazilimAdi
-
         print(api.ApiTuru)
         print(type(api.ApiTuru))
         kontor_listesi = KontorList.objects.filter(Kategorisi__in=[3])

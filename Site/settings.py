@@ -53,8 +53,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'kontor.apps.KontorConfig',
     'storages',
-
-
 ]
 
 MIDDLEWARE = [
