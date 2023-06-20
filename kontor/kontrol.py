@@ -1228,7 +1228,10 @@ def AlternatifYuklemeGonder():
                 paket = paketler.filter(kupur=alternatifOrder.YuklenecekPaketID).values('eslestirme_operator_adi', 'eslestirme_operator_tipi',
                                                             'eslestirme_kupur').first()
 
-                print(paket)
+                if paket is None:
+                    print(paketler)
+                    print(opAdi)
+
                 #TODO buraya Paket eşleştirmesi yok hatası ver 930' da patlıyor.
                 # İstenen bilgileri değişkenlere atayın
                 eslestirme_operator_adi = paket['eslestirme_operator_adi']
