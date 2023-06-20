@@ -227,9 +227,9 @@ def TurkcellPaketleriSunucudanCek(request):
             PaketNames = bilgiler[9]
 
             KategorisiGelen = Kategori.objects.get(pk=1)  # TODO 1 yaptım bu Turkcell çünkü
-            api1 = Apiler.objects.get(pk=8)
-            api2 = Apiler.objects.get(pk=11)
-            api3 = Apiler.objects.get(pk=2)
+            #api1 = Apiler.objects.get(pk=8)
+            #api2 = Apiler.objects.get(pk=11)
+            #api3 = Apiler.objects.get(pk=2)
             SatisFiyat = paketFiyat + Decimal('5.00')
             GelenPaket = KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID)
             if GelenPaket.exists():
@@ -247,9 +247,9 @@ def TurkcellPaketleriSunucudanCek(request):
                 PaketiGuncelle.Sebekeici = Decimal('0.00')
                 PaketiGuncelle.internet = paketGB
                 PaketiGuncelle.SMS = paketSMS
-                PaketiGuncelle.api1 = api1
-                PaketiGuncelle.api2 = api2
-                PaketiGuncelle.api3 = api3
+                #PaketiGuncelle.api1 = api1
+                #PaketiGuncelle.api2 = api2
+                #PaketiGuncelle.api3 = api3
                 PaketiGuncelle.AlternatifYapilmasin = alternatifyapilmasin
 
                 PaketiGuncelle.save()
@@ -519,9 +519,9 @@ def TTPaketleriSunucudanCek(request):
             PaketNames = bilgiler[8]
 
             KategorisiGelen = Kategori.objects.get(pk=4)   #TODO 4 yaptım bu TT çünkü
-            api1 = Apiler.objects.get(pk=2)
-            api2 = Apiler.objects.get(pk=11)
-            api3 = Apiler.objects.get(pk=2)
+          #  api1 = Apiler.objects.get(pk=2)
+          #  api2 = Apiler.objects.get(pk=11)
+          #  api3 = Apiler.objects.get(pk=2)
             SatisFiyat = paketFiyat + Decimal('5.00')
             GelenPaket = KontorList.objects.filter(Kategorisi=KategorisiGelen, Kupur=paketID)
             if GelenPaket.exists():
@@ -539,7 +539,7 @@ def TTPaketleriSunucudanCek(request):
                 PaketiGuncelle.Sebekeici = Decimal('0.00')
                 PaketiGuncelle.internet = paketGB
                 PaketiGuncelle.SMS = paketSMS
-                PaketiGuncelle.api1 = api1
+                #PaketiGuncelle.api1 = api1
                 #PaketiGuncelle.api2 = api2
                 #PaketiGuncelle.api3 = api3
                 PaketiGuncelle.AlternatifYapilmasin = alternatifyapilmasin
@@ -563,7 +563,7 @@ def TTPaketleriSunucudanCek(request):
                     YurtDisiDk=Decimal('0.00'),
                     Aktifmi=True,
                     Kategorisi=KategorisiGelen,
-                    api1=api1,
+                  #  api1=api1,
                  #   api2=api2,
                  #   api3=api3,
                  #   zNetKupur=znetFix,
