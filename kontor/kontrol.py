@@ -537,7 +537,11 @@ def GecikmeBildir():
 
     for siparis in siparisler:
         print("Buraya Geldim...")
-        gelisTarihi = siparis.OlusturmaTarihi
+        try:
+            gelisTarihi = siparis.OlusturmaTarihi
+        except:
+            ANA_Siparis = Siparisler.objects.get(id=siparis.ANAURUNID)
+            gelisTarihi = ANA_Siparis.OlusturmaTarihi
         simdikiZaman = timezone.now()
         zamanFarki = int((simdikiZaman - gelisTarihi).total_seconds())
 
@@ -609,17 +613,22 @@ def GecikmeBildir():
 
     siparisler1 = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=alternatifGonderim)
     siparisler2 = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=askida)
+    siparisler8 = YuklenecekSiparisler.objects.filter(Durum=askida)
     siparisler3 = Siparisler.objects.filter(Durum=Sorguda)
     siparisler4 = Siparisler.objects.filter(Durum=SorguCevap)
     siparisler5 = Siparisler.objects.filter(Durum=SorguTamam)
     siparisler6 = Siparisler.objects.filter(Durum=AltKontrol)
     siparisler7 = Siparisler.objects.filter(Durum=AnaPaketGoner)
 
-    siparisler = list(siparisler1) + list(siparisler2) + list(siparisler3) + list(siparisler4) + list(siparisler5) + list(siparisler6) + list(siparisler7)
+    siparisler = list(siparisler1) + list(siparisler2) + list(siparisler3) + list(siparisler4) + list(siparisler5) + list(siparisler6) + list(siparisler7) + list(siparisler8)
 
     for siparis in siparisler:
         print("Buraya Geldim...")
-        gelisTarihi = siparis.OlusturmaTarihi
+        try:
+            gelisTarihi = siparis.OlusturmaTarihi
+        except:
+            ANA_Siparis = Siparisler.objects.get(id=siparis.ANAURUNID)
+            gelisTarihi = ANA_Siparis.OlusturmaTarihi
         simdikiZaman = timezone.now()
         zamanFarki = int((simdikiZaman - gelisTarihi).total_seconds())
         if zamanFarki > 240:
