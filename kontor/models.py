@@ -120,6 +120,7 @@ class Apiler(models.Model):
     Apiadi = models.CharField(max_length=100,default="ApiAdiGiriniz")
     ApiBakiye = models.DecimalField(max_digits=100, decimal_places=2,default="0,00")
     ApiTanim = models.CharField("Api Tanim",max_length=100, default="",null=True,blank=True)
+    #Numara = models.CharField(max_length=100, default="",null=True,blank=True)
     HataManuel = models.BooleanField("Hataya Düşeni Manuelde Beklet", default=False)
     ApiAktifmi = models.BooleanField("Aktif mi ?", default=True)
     SiteAdresi = models.CharField("Site Adresi",max_length=100, default="")

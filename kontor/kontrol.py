@@ -523,6 +523,7 @@ def GecikmeBildir():
     mesaj = []
 
     Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
+    anapaketCevapbekliyor = Durumlar.objects.get(durum_id=Durumlar.AnaPaketSonucBekler)
     chat_id = "@mustafadurtucu"
 
 
@@ -556,12 +557,42 @@ def GecikmeBildir():
 
                 #text = f"Bekleyen sipariş var.! Ortalama {bekledigi_Saniye} Saniye olmuş. Numarası: {numarasi} Apisi: {MesajApisi}"
 
-                #url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={text}"
-                #r=requests.get(url)
+                url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={text}"
+                r=requests.get(url)
                 #return r.text
 
+    durumanapaketCevapbekliyor = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=anapaketCevapbekliyor)
+    if durumanapaketCevapbekliyor:
+        for AnaPaketCevapBekleyenSiparis in durumanapaketCevapbekliyor:
+            print("Buraya Geldim...")
 
+            gelisTarihi = AnaPaketCevapBekleyenSiparis.OlusturmaTarihi
+            simdikiZaman = timezone.now()
+            zamanFarki = int((simdikiZaman - gelisTarihi).total_seconds())
 
+            if zamanFarki > 240:
+                apiSirasi = AnaPaketCevapBekleyenSiparis.Gonderim_Sirasi
+                if apiSirasi == 1:
+                    MesajApisi = AnaPaketCevapBekleyenSiparis.Yuklenecek_api1
+                elif apiSirasi == 2:
+                    MesajApisi = AnaPaketCevapBekleyenSiparis.Yuklenecek_api2
+                elif apiSirasi == 3:
+                    MesajApisi = AnaPaketCevapBekleyenSiparis.Yuklenecek_api3
+
+                MesajApisi = MesajApisi.split("-")
+                MesajApisi = MesajApisi[0]
+
+                numarasi = AnaPaketCevapBekleyenSiparis.Numara
+                bekledigi_Saniye = str(zamanFarki)
+                text = f"{bekledigi_Saniye} Saniye! Numarası: {numarasi} Apisi: {MesajApisi}"
+                mesaj.append(text)
+                kimin.append(MesajApisi)
+
+                # text = f"Bekleyen sipariş var.! Ortalama {bekledigi_Saniye} Saniye olmuş. Numarası: {numarasi} Apisi: {MesajApisi}"
+
+                url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={text}"
+                r = requests.get(url)
+               # return r.text
 def AlternatifSonucKontrol():
     AlternatifVarmiBaska = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
     AnaPaketGoner = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
