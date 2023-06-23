@@ -519,6 +519,10 @@ def SorguSonucKontrol():
 
 import os
 
+import requests
+from django.utils import timezone
+
+
 def GecikmeBildir():
     chat_id = "@mustafadurtucu"
     mesaj = []
@@ -526,10 +530,11 @@ def GecikmeBildir():
     Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
     anapaketCevapbekliyor = Durumlar.objects.get(durum_id=Durumlar.AnaPaketSonucBekler)
 
-    AlternatiFCevapBekliyorToplu = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=Alternatif_Cevap_Bekliyor)
-    durumanapaketCevapbekliyor = Siparisler.objects.filter(Durum=anapaketCevapbekliyor)
+    siparisler = YuklenecekSiparisler.objects.filter(
+        YuklenecekPaketDurumu=Alternatif_Cevap_Bekliyor) | Siparisler.objects.filter(
+        Durum=anapaketCevapbekliyor)
 
-    for siparis in AlternatiFCevapBekliyorToplu | durumanapaketCevapbekliyor:
+    for siparis in siparisler:
         print("Buraya Geldim...")
         gelisTarihi = siparis.OlusturmaTarihi
         simdikiZaman = timezone.now()
@@ -554,7 +559,7 @@ def GecikmeBildir():
 
     if mesaj:
         joined_message = "\n".join(mesaj)
-        telegram_token = os.getenv('Telegram_Token')
+        telegram_token = "your_telegram_token"  # Telegram bot tokeninizi buraya yazın
         url = f"https://api.telegram.org/bot{telegram_token}/sendMessage?chat_id={chat_id}&text={joined_message}"
         r = requests.get(url)
         # return r.text
