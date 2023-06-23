@@ -10,6 +10,7 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from django.utils import timezone
 import environ
+import random
 
 
 
@@ -565,12 +566,55 @@ def GecikmeBildir():
             text = f"{bekledigi_Saniye} Saniye! Numarası: {numarasi} Apisi: {MesajApisi}"
             mesaj.append(text)
 
+            aaa = str(random.randint(0, 97))
+
+            if MesajApisi == "Moda":
+                mesajEkle("905495485498",
+                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+            elif MesajApisi == "resmikontor":
+                mesajEkle("905464414101",
+                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+            elif MesajApisi == "adempi":
+                mesajEkle("905056225728",
+                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+            elif MesajApisi == "JETISLEM":
+                mesajEkle("905017246295",
+                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+            elif MesajApisi == "Yenercell":
+                mesajEkle("905458181877",
+                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+            elif MesajApisi == "badeTL":
+                mesajEkle("905334996984",
+                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+            elif MesajApisi == "fadil abi":
+                mesajEkle("905304517888",
+                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+
+
+
     if mesaj:
+        aaa = str(random.randint(0, 97))
         joined_message = "\n".join(mesaj)
-        telegram_token = "your_telegram_token"  # Telegram bot tokeninizi buraya yazın
         url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={joined_message}"
         r = requests.get(url)
+
+        mesajEkle("CCRTrIc3FwJE22kMEx71po", "*YeniSitede* de Bekleyen _ Ortalama " + str(bekledigi_Saniye) + " Saniye oldu... API = " + MesajApisi + "_" + aaa + "...", "98")
+
+
+
+
+
+
+
+
         return r.text
+
+
+
+def mesajEkle(gidecekNumara,Msj,SMSDurumu):
+    re = requests.post('http://92.205.129.63:4244/whatsapp.php',
+                       data={'python': 'whatsappEkle','msjNumara': ''+gidecekNumara+'','msj': ''+Msj+'','durumu': ''+SMSDurumu+''})
+    re = re.text
 
 
 def AlternatifSonucKontrol():
