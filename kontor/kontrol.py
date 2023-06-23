@@ -633,7 +633,7 @@ def GecikmeBildir():
         url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={joined_message}"
         r = requests.get(url)
         mesajEkle("CCRTrIc3FwJE22kMEx71po", "*YeniSitede* de Bekleyen _ Ortalama Numarası: " + "_" + numarasi + str(
-            bekledigi_Saniye) + "*Yeni Sitede Durumu Belirsiz işlem var!* Saniye oldu... API = " + MesajApisi + "_" + aaa + "...", "98")
+            bekledigi_Saniye) + "*Yeni Sitede Durumu Belirsiz işlem var!* Saniye oldu... _" + aaa + "...", "98")
 
 
 
