@@ -542,12 +542,20 @@ def GecikmeBildir():
 
         if zamanFarki > 240:
             apiSirasi = siparis.Gonderim_Sirasi
-            if apiSirasi == 1:
-                MesajApisi = siparis.Yuklenecek_api1
-            elif apiSirasi == 2:
-                MesajApisi = siparis.Yuklenecek_api2
-            elif apiSirasi == 3:
-                MesajApisi = siparis.Yuklenecek_api3
+            try:
+                if apiSirasi == 1:
+                    MesajApisi = siparis.Yuklenecek_api1
+                elif apiSirasi == 2:
+                    MesajApisi = siparis.Yuklenecek_api2
+                elif apiSirasi == 3:
+                    MesajApisi = siparis.Yuklenecek_api3
+            except:
+                if apiSirasi == 1:
+                    MesajApisi = siparis.api1
+                elif apiSirasi == 2:
+                    MesajApisi = siparis.api2
+                elif apiSirasi == 3:
+                    MesajApisi = siparis.api3
 
             MesajApisi = MesajApisi.split("-")
             MesajApisi = MesajApisi[0]
