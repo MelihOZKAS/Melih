@@ -527,7 +527,7 @@ def GecikmeBildir():
     anapaketCevapbekliyor = Durumlar.objects.get(durum_id=Durumlar.AnaPaketSonucBekler)
 
     AlternatiFCevapBekliyorToplu = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=Alternatif_Cevap_Bekliyor)
-    durumanapaketCevapbekliyor = Siparisler.objects.filter(YuklenecekPaketDurumu=anapaketCevapbekliyor)
+    durumanapaketCevapbekliyor = Siparisler.objects.filter(Durum=anapaketCevapbekliyor)
 
     for siparis in AlternatiFCevapBekliyorToplu | durumanapaketCevapbekliyor:
         print("Buraya Geldim...")
