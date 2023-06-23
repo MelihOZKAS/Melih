@@ -558,7 +558,6 @@ def GecikmeBildir():
                 elif apiSirasi == 3:
                     MesajApisi = siparis.api3
 
-            #MesajApisi = MesajApisi.split("-")
             MesajApisi = str(MesajApisi)
 
             numarasi = siparis.Numara
@@ -570,25 +569,25 @@ def GecikmeBildir():
 
             if MesajApisi == "Moda":
                 mesajEkle("905495485498",
-                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+                          "*Bekleyen işlem Var!* Numarası: "+"_"+ numarasi + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
             elif MesajApisi == "resmikontor":
                 mesajEkle("905464414101",
-                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+                          "*Bekleyen işlem Var!* Numarası: "+"_"+ numarasi + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
             elif MesajApisi == "adempi":
                 mesajEkle("905056225728",
-                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+                          "*Bekleyen işlem Var!* Numarası: "+"_"+ numarasi + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
             elif MesajApisi == "JETISLEM":
                 mesajEkle("905017246295",
-                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+                          "*Bekleyen işlem Var!* Numarası: "+"_"+ numarasi + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
             elif MesajApisi == "Yenercell":
                 mesajEkle("905458181877",
-                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+                          "*Bekleyen işlem Var!* Numarası: "+"_"+ numarasi + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
             elif MesajApisi == "badeTL":
                 mesajEkle("905334996984",
-                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+                          "*Bekleyen işlem Var!* Numarası: "+"_"+ numarasi + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
             elif MesajApisi == "fadil abi":
                 mesajEkle("905304517888",
-                          "*Bekleyen işlem Var! " + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
+                          "*Bekleyen işlem Var!* Numarası: "+"_"+ numarasi + str(bekledigi_Saniye) + " Saniye oldu... _" + aaa + "...", "98")
 
 
 
@@ -598,10 +597,43 @@ def GecikmeBildir():
         url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={joined_message}"
         r = requests.get(url)
 
-        mesajEkle("CCRTrIc3FwJE22kMEx71po", "*YeniSitede* de Bekleyen _ Ortalama " + str(bekledigi_Saniye) + " Saniye oldu... API = " + MesajApisi + "_" + aaa + "...", "98")
+        mesajEkle("CCRTrIc3FwJE22kMEx71po", "*YeniSitede* de Bekleyen _ Ortalama Numarası: "+"_"+ numarasi + str(bekledigi_Saniye) + " Saniye oldu... API = " + MesajApisi + "_" + aaa + "...", "98")
 
+    alternatifGonderim = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
+    askida = Durumlar.objects.get(durum_id=Durumlar.askida)
+    Sorguda = Durumlar.objects.get(durum_id=Durumlar.Sorguda)
+    SorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
+    SorguTamam = Durumlar.objects.get(durum_id=Durumlar.SorguTamam)
+    AltKontrol = Durumlar.objects.get(durum_id=Durumlar.AltKontrol)
+    AnaPaketGoner = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
 
+    siparisler1 = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=alternatifGonderim)
+    siparisler2 = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=askida)
+    siparisler3 = Siparisler.objects.filter(Durum=Sorguda)
+    siparisler4 = Siparisler.objects.filter(Durum=SorguCevap)
+    siparisler5 = Siparisler.objects.filter(Durum=SorguTamam)
+    siparisler6 = Siparisler.objects.filter(Durum=AltKontrol)
+    siparisler7 = Siparisler.objects.filter(Durum=AnaPaketGoner)
 
+    siparisler = list(siparisler1) + list(siparisler2) + list(siparisler3) + list(siparisler4) + list(siparisler5) + list(siparisler6) + list(siparisler7)
+
+    for siparis in siparisler:
+        print("Buraya Geldim...")
+        gelisTarihi = siparis.OlusturmaTarihi
+        simdikiZaman = timezone.now()
+        zamanFarki = int((simdikiZaman - gelisTarihi).total_seconds())
+        if zamanFarki > 240:
+            numarasi = siparis.Numara
+            bekledigi_Saniye = str(zamanFarki)
+            text = f"*Yeni Sitede Durumu Belirsiz işlem var!* {bekledigi_Saniye} Saniye! Numarası: {numarasi}"
+            mesaj.append(text)
+    if mesaj:
+        aaa = str(random.randint(0, 97))
+        joined_message = "\n".join(mesaj)
+        url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={joined_message}"
+        r = requests.get(url)
+        mesajEkle("CCRTrIc3FwJE22kMEx71po", "*YeniSitede* de Bekleyen _ Ortalama Numarası: " + "_" + numarasi + str(
+            bekledigi_Saniye) + "*Yeni Sitede Durumu Belirsiz işlem var!* Saniye oldu... API = " + MesajApisi + "_" + aaa + "...", "98")
 
 
 
