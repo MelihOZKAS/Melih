@@ -613,7 +613,7 @@ def GecikmeBildir():
 
     siparisler1 = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=alternatifGonderim)
     siparisler2 = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=askida)
-    siparisler8 = YuklenecekSiparisler.objects.filter(Durum=askida)
+    siparisler8 = Siparisler.objects.filter(Durum=askida)
     siparisler3 = Siparisler.objects.filter(Durum=Sorguda)
     siparisler4 = Siparisler.objects.filter(Durum=SorguCevap)
     siparisler5 = Siparisler.objects.filter(Durum=SorguTamam)
