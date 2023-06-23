@@ -568,9 +568,9 @@ def GecikmeBildir():
     if mesaj:
         joined_message = "\n".join(mesaj)
         telegram_token = "your_telegram_token"  # Telegram bot tokeninizi buraya yazın
-        url = f"https://api.telegram.org/bot{telegram_token}/sendMessage?chat_id={chat_id}&text={joined_message}"
+        url = f"https://api.telegram.org/bot{env('Telegram_Token')}/sendMessage?chat_id={chat_id}&text={joined_message}"
         r = requests.get(url)
-        # return r.text
+        return r.text
 
 
 def AlternatifSonucKontrol():
