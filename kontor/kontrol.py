@@ -560,7 +560,7 @@ def GecikmeBildir():
 
             MesajApisi = str(MesajApisi)
 
-            numarasi = siparis.Numara
+            numarasi = str(siparis.Numara)
             bekledigi_Saniye = str(zamanFarki)
             text = f"{bekledigi_Saniye} Saniye! Numarası: {numarasi} Apisi: {MesajApisi}"
             mesaj.append(text)
