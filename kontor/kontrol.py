@@ -564,7 +564,10 @@ def GecikmeBildir():
 
             MesajApisi = str(MesajApisi)
 
-            numarasi = str(siparis.Numara)
+            try:
+                numarasi = str(siparis.Numara)
+            except:
+                numarasi = str(siparis.Yukelenecek_Numara)
             bekledigi_Saniye = str(zamanFarki)
             text = f"{bekledigi_Saniye} Saniye! Numarası: {numarasi} Apisi: {MesajApisi}"
             mesaj.append(text)
@@ -632,7 +635,11 @@ def GecikmeBildir():
         simdikiZaman = timezone.now()
         zamanFarki = int((simdikiZaman - gelisTarihi).total_seconds())
         if zamanFarki > 240:
-            numarasi = siparis.Numara
+            try:
+                numarasi = str(siparis.Numara)
+            except:
+                numarasi = str(siparis.Yukelenecek_Numara)
+
             bekledigi_Saniye = str(zamanFarki)
             text = f"*Yeni Sitede Durumu Belirsiz işlem var!* {bekledigi_Saniye} Saniye! Numarası: {numarasi}"
             mesaj.append(text)
