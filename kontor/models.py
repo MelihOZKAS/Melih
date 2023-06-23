@@ -138,7 +138,7 @@ class Apiler(models.Model):
         super().save(args, kargs)
 
     def __str__(self):
-        return f"{self.Apiadi} - {self.ApiBakiye}"
+        return f"{self.Apiadi}"
 
 
 
