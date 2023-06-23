@@ -530,9 +530,9 @@ def GecikmeBildir():
     Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
     anapaketCevapbekliyor = Durumlar.objects.get(durum_id=Durumlar.AnaPaketSonucBekler)
 
-    siparisler = YuklenecekSiparisler.objects.filter(
-        YuklenecekPaketDurumu=Alternatif_Cevap_Bekliyor) | Siparisler.objects.filter(
-        Durum=anapaketCevapbekliyor)
+    siparisler1 = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=Alternatif_Cevap_Bekliyor)
+    siparisler2 = Siparisler.objects.filter(Durum=anapaketCevapbekliyor)
+    siparisler = list(siparisler1) + list(siparisler2)
 
     for siparis in siparisler:
         print("Buraya Geldim...")
