@@ -557,8 +557,8 @@ def GecikmeBildir():
                 elif apiSirasi == 3:
                     MesajApisi = siparis.api3
 
-            MesajApisi = MesajApisi.split("-")
-            MesajApisi = MesajApisi[0]
+            #MesajApisi = MesajApisi.split("-")
+            #MesajApisi = MesajApisi[0]
 
             numarasi = siparis.Numara
             bekledigi_Saniye = str(zamanFarki)
