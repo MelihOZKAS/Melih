@@ -129,7 +129,6 @@ class Apiler(models.Model):
     Sifre = models.CharField("Şifre",max_length=100,default="")
     RefNumarasi = models.PositiveIntegerField(default=1)
 
-
     class Meta:
         verbose_name = "Api Listesi"
         verbose_name_plural = "Api Listesi"
