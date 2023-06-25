@@ -666,7 +666,11 @@ def mesajEkle(gidecekNumara,Msj,SMSDurumu):
 
 
 def AlternatifSonucKontrol():
-    AlternatifVarmiBaska = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
+
+    Alternatif_Gonder = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
+
+
+    AlternatifVarmiBaska = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderim_Bekliyor)
     AnaPaketGoner = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
     Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
     Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
@@ -779,10 +783,9 @@ def AlternatifSonucKontrol():
                 if Sirasi == 2:
                     print("Girdim2")
                     YeniApisi = alternatifOrder.Yuklenecek_api2
-
                 if Sirasi == 3:
                     print("Girdim3")
-                    YeniApisi = alternatifOrder.Yuklenecek_api2
+                    YeniApisi = alternatifOrder.Yuklenecek_api3
 
                 if not YeniApisi:
                     alternatifOrder.YuklenecekPaketDurumu = iptal
@@ -812,7 +815,7 @@ def AlternatifSonucKontrol():
                         print("Tam tahhmin ettiğim yer burası sanırım burada tekrar var olanı işleme almam lazım....")
                         #todo başka gönderim varsa alternatif ona geçecek burada şunu atlama muhakkak...
                         GelenAciklama = ANA_Siparis.Aciklama
-                        baskaAlternatifVarmi.YuklenecekPaketDurumu = AlternatifVarmiBaska
+                        baskaAlternatifVarmi.YuklenecekPaketDurumu = Alternatif_Gonder
                         ANA_Siparis.Aciklama = GelenAciklama + " Bir sonraki alternatife geçildi işlem Sırası 1 e alındı Nasipse." + "\n"
                         baskaAlternatifVarmi.save()
                         ANA_Siparis.save()
