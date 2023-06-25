@@ -824,7 +824,7 @@ def AlternatifSonucKontrol():
                 else:
                     print("Nasip")
                     GelenAciklama = ANA_Siparis.Aciklama
-                    alternatifOrder.YuklenecekPaketDurumu = AlternatifVarmiBaska
+                    alternatifOrder.YuklenecekPaketDurumu = Alternatif_Gonder
                     ANA_Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " + api.Apiadi + " Apisinden " + \
                                        str(response) + " iptal olanApiSirasi:" + str(alternatifOrder.Gonderim_Sirasi) + "\n"
                     alternatifOrder.Gonderim_Sirasi = Sirasi
