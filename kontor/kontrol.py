@@ -796,7 +796,7 @@ def AlternatifSonucKontrol():
                     alternatifOrder.save()
                     ANA_Siparis.save()
 
-                    baskaAlternatifVarmi = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=AlternatifVarmiBaska).first()
+                    baskaAlternatifVarmi = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=AlternatifVarmiBaska,ANAURUNID=alternatifOrder.ANAURUNID).first()
 
 
                     if not  baskaAlternatifVarmi:
