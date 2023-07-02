@@ -16,7 +16,6 @@ import environ
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 env = environ.Env(DEBUG=(bool,False))
-
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
