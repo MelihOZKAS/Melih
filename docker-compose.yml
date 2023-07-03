@@ -9,10 +9,10 @@ services:
     networks:
       - main_nasip
     ports:
-      - "5432:5432"
+      - "5431:5432"
     volumes:
       - "postgresql-data:/var/lib/postgresql/data"
-    command: -p 5432
+    command: -p 5431
 
   app_nasip:
     container_name: app_nasip
