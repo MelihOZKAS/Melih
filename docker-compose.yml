@@ -1,74 +1,72 @@
 version: "3.8"
 services:
-  postgres_Nasip:
-    container_name: app_Nasip
-    hostname: app_Nasip
+  postgres_nasip:
+    container_name: postgres_nasip
+    hostname: postgres_nasip
     image: postgres:latest
     env_file:
-      - Site/docker.env
+      - site/docker.env
     networks:
-      - main_Nasip
-    # restart: unless-stopped
+      - main_nasip
     ports:
       - "5432:5432"
     volumes:
       - "postgresql-data:/var/lib/postgresql/data"
     command: -p 5432
 
-  app:
-    container_name: app_Nasip
-    hostname: app_Nasip
+  app_nasip:
+    container_name: app_nasip
+    hostname: app_nasip
     build:
       context: .
       args:
         REPO_PATH: ./
       dockerfile: Dockerfile
     env_file:
-      - Site/docker.env
+      - site/docker.env
     environment:
-      - SERVICE_NAME=app_Nasip
+      - SERVICE_NAME=app_nasip
       - "DATABASE=postgres"
     volumes:
       - static-data:/srv/public
-      - .:/srv/app_Nasip
+      - .:/srv/app_nasip
     expose:
       - 8000
-    # restart: unless-stopped
     depends_on:
-      - postgres_Nasip
-      - redis_Nasip
+      - postgres_nasip
+      - redis_nasip
     command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
-    working_dir: /srv/app_Nasip
+    working_dir: /srv/app_nasip
     networks:
-      - main_Nasip
+      - main_nasip
       - bridge_network
 
-  celery_resume:
+  celery_nasip:
     restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
     command: celery -A resume worker -B -l info
     env_file:
-      - Site/docker.env
+      - site/docker.env
     volumes:
       - celery-data:/srv/public
     depends_on:
-      - app
-      - redis_Nasip
+      - app_nasip
+      - redis_nasip
     networks:
-      - main_Nasip
+      - main_nasip
 
-  redis_Nasip:
-    container_name: redis_Nasip
-    hostname: redis_Nasip
+  redis_nasip:
+    container_name: redis_nasip
+    hostname: redis_nasip
     restart: unless-stopped
     image: redis:7-alpine
     networks:
-      - main_Nasip
+      - main_nasip
 
 networks:
-  main_Nasip:
+  main_nasip:
   bridge_network:
     name: nginx_network
     driver: bridge
