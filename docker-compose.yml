@@ -1,20 +1,21 @@
 version: "3.8"
 services:
   postgres_Nasip:
-    container_name: postgres_Nasip
-    hostname: postgres_Nasip
+    container_name: app_Nasip
+    hostname: app_Nasip
     image: postgres:latest
     env_file:
       - Site/docker.env
     networks:
       - main_Nasip
+    # restart: unless-stopped
     ports:
       - "5432:5432"
     volumes:
       - "postgresql-data:/var/lib/postgresql/data"
     command: -p 5432
 
-  app_Nasip:
+  app:
     container_name: app_Nasip
     hostname: app_Nasip
     build:
@@ -32,6 +33,7 @@ services:
       - .:/srv/app_Nasip
     expose:
       - 8000
+    # restart: unless-stopped
     depends_on:
       - postgres_Nasip
       - redis_Nasip
@@ -52,7 +54,7 @@ services:
     volumes:
       - celery-data:/srv/public
     depends_on:
-      - app_Nasip
+      - app
       - redis_Nasip
     networks:
       - main_Nasip
