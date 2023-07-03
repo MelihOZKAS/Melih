@@ -11,7 +11,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgresql-data:/var/lib/postgresql/data
+      - "postgresql-data:/var/lib/postgresql/data"
+    command: -p 5432
 
   app_nasip:
     container_name: app_nasip
@@ -25,7 +26,7 @@ services:
       - Site/docker.env
     environment:
       - SERVICE_NAME=app_nasip
-      - DATABASE=postgres_nasip
+      - "DATABASE=postgres"
     volumes:
       - static-data:/srv/public
       - .:/srv/app_nasip
