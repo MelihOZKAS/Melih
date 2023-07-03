@@ -1,45 +1,79 @@
 version: "3.8"
 services:
-  postgres:
+  postgres_Nasip:
+    container_name: app_Nasip
+    hostname: app_Nasip
     image: postgres:latest
     env_file:
       - Site/docker.env
+    networks:
+      - main_Nasip
+    # restart: unless-stopped
     ports:
       - "5432:5432"
     volumes:
       - "postgresql-data:/var/lib/postgresql/data"
     command: -p 5432
+
   app:
     container_name: app_Nasip
     hostname: app_Nasip
     build:
       context: .
+      args:
+        REPO_PATH: ./
       dockerfile: Dockerfile
+    env_file:
+      - Site/docker.env
+    environment:
+      - SERVICE_NAME=app_Nasip
+      - "DATABASE=postgres"
+    volumes:
+      - static-data:/srv/public
+      - .:/srv/app_Nasip
+    expose:
+      - 8000
+    # restart: unless-stopped
     depends_on:
-      - postgres
+      - postgres_Nasip
+      - redis_Nasip
+    command: gunicorn fadilabi.wsgi:application --bind 0.0.0.0:8000
+    working_dir: /srv/app_Nasip
+    networks:
+      - main_Nasip
+      - bridge_network
+
+  celery_resume:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A resume worker -B -l info
     env_file:
       - Site/docker.env
     volumes:
-      - .:/srv/app
-    ports:
-      - "0.0.0.0:8000:8000"
-    command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    restart: unless-stopped
+      - celery-data:/srv/public
     depends_on:
       - app
-    ports:
-      - 80:80
+      - redis_Nasip
+    networks:
+      - main_Nasip
 
+  redis_Nasip:
+    container_name: redis_Nasip
+    hostname: redis_Nasip
+    restart: unless-stopped
+    image: redis:7-alpine
+    networks:
+      - main_Nasip
+
+networks:
+  main_Nasip:
+  bridge_network:
+    name: nginx_network
+    driver: bridge
 
 volumes:
   postgresql-data:
   static-data:
-
-
-
-
-
+  celery-data:
