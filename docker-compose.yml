@@ -35,7 +35,7 @@ services:
     depends_on:
       - postgres_Nasip
       - redis_Nasip
-    command: gunicorn fadilabi.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
     working_dir: /srv/app_Nasip
     networks:
       - main_Nasip
