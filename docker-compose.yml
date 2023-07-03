@@ -1,8 +1,8 @@
 version: "3.8"
 services:
   postgres_Nasip:
-    container_name: app_Nasip
-    hostname: app_Nasip
+    container_name: main_Nasipp
+    hostname: main_Nasipp
     image: postgres:latest
     env_file:
       - Site/docker.env
@@ -16,8 +16,8 @@ services:
     command: -p 5432
 
   app:
-    container_name: app_Nasip
-    hostname: app_Nasip
+    container_name: main_Nasipp
+    hostname: main_Nasipp
     build:
       context: .
       args:
@@ -26,11 +26,11 @@ services:
     env_file:
       - Site/docker.env
     environment:
-      - SERVICE_NAME=app_Nasip
+      - SERVICE_NAME=main_Nasipp
       - "DATABASE=postgres"
     volumes:
       - static-data:/srv/public
-      - .:/srv/app_Nasip
+      - .:/srv/main_Nasipp
     expose:
       - 8000
     # restart: unless-stopped
@@ -38,7 +38,7 @@ services:
       - postgres_Nasip
       - redis_Nasip
     command: gunicorn fadilabi.wsgi:application --bind 0.0.0.0:8000
-    working_dir: /srv/app_Nasip
+    working_dir: /srv/main_Nasipp
     networks:
       - main_Nasip
       - bridge_network
