@@ -5,7 +5,7 @@ services:
     hostname: postgres_nasip
     image: postgres:latest
     env_file:
-      - site/docker.env
+      - Site/docker.env
     networks:
       - main_nasip
     ports:
@@ -23,7 +23,7 @@ services:
         REPO_PATH: ./
       dockerfile: Dockerfile
     env_file:
-      - site/docker.env
+      - Site/docker.env
     environment:
       - SERVICE_NAME=app_nasip
       - "DATABASE=postgres"
@@ -48,7 +48,7 @@ services:
       dockerfile: Dockerfile
     command: celery -A resume worker -B -l info
     env_file:
-      - site/docker.env
+      - Site/docker.env
     volumes:
       - celery-data:/srv/public
     depends_on:
