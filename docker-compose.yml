@@ -14,7 +14,7 @@
           - "postgresql-data:/var/lib/postgresql/data"
         command: -p 5432
 
-      app_nasip:
+      app:
         container_name: app_nasip
         hostname: app_nasip
         build:
@@ -33,7 +33,7 @@
         expose:
           - 8000
         depends_on:
-          - postgres_nasip
+          - app
         command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
         working_dir: /srv/app_nasip
         networks:
