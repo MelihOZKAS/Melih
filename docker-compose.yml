@@ -25,7 +25,7 @@
         env_file:
           - Site/docker.env
         environment:
-          - SERVICE_NAME=app_nasip
+          - SERVICE_NAME=app
           - "DATABASE=postgres"
         volumes:
           - static-data:/srv/public
