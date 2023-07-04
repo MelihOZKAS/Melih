@@ -15,8 +15,8 @@
         command: -p 5432
 
       app:
-        container_name: app_nasip
-        hostname: app_nasip
+        container_name: app_Nasip
+        hostname: app_Nasip
         build:
           context: .
           args:
@@ -33,9 +33,9 @@
         expose:
           - 8000
         depends_on:
-          - app
+          - postgres_nasip
         command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
-        working_dir: /srv/app
+        working_dir: /srv/app_nasip
         networks:
           - main_nasip
           - bridge_network
