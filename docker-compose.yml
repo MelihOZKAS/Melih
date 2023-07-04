@@ -14,9 +14,9 @@ services:
       - "postgresql-data:/var/lib/postgresql/data"
     command: -p 5432
 
-  app_nasip:
-    container_name: app_nasip
-    hostname: app_nasip
+  app:
+    container_name: app_Nasip
+    hostname: app_Nasip
     build:
       context: .
       args:
@@ -25,17 +25,17 @@ services:
     env_file:
       - Site/docker.env
     environment:
-      - SERVICE_NAME=app_nasip
+      - SERVICE_NAME=app
       - "DATABASE=postgres"
     volumes:
       - static-data:/srv/public
-      - .:/srv/app_nasip
+      - .:/srv/app
     expose:
       - 8000
     depends_on:
       - postgres
     command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
-    working_dir: /srv/app_nasip
+    working_dir: /srv/app
     networks:
       - main_nasip
       - bridge_network
