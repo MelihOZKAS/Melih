@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   postgres:
     container_name: postgres
@@ -7,7 +8,7 @@ services:
     env_file:
       - Site/docker.env
     networks:
-      - main_nasip
+      - main_network
     ports:
       - "5432:5432"
     volumes:
@@ -37,7 +38,7 @@ services:
     command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
     working_dir: /srv/app
     networks:
-      - main_nasip
+      - main_network
       - bridge_network
 
   nginx:
@@ -50,10 +51,11 @@ services:
     ports:
       - 80:80
     networks:
-      - main_nasip
+      - main_network
 
 networks:
-  main_nasip:
+  main_network:
+    driver: bridge
   bridge_network:
     name: nginx_network
     driver: bridge
