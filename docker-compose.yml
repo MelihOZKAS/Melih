@@ -49,6 +49,8 @@ services:
       - app
     ports:
       - 80:80
+    networks:
+      - main_nasip
 
 networks:
   main_nasip:
