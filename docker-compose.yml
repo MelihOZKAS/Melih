@@ -51,13 +51,14 @@ services:
       - 80:80
     networks:
       - main_nasip
+      - bridge_network
 
 networks:
   main_nasip:
     driver: bridge
   bridge_network:
-    name: nginx_network
-    driver: bridge
+    external:
+      name: nginx_network
 
 volumes:
   postgresql-data:
