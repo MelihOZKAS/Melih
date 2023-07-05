@@ -46,7 +46,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
-      - app_nasip
+      - app_Nasip
     ports:
       - 80:80
     networks:
