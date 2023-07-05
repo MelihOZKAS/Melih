@@ -39,53 +39,14 @@ services:
     networks:
       - main_network
 
-  postgres_fadil:
-    container_name: postgres_fadil
-    hostname: postgres_fadil
-    image: postgres:latest
-    env_file:
-      - fadilabi/docker.env
-    networks:
-      - main_network
-    ports:
-      - "5444:5432"
-    volumes:
-      - "postgresql-data-fadil:/var/lib/postgresql/data"
-    command: -p 5444
-
-  app_fadil:
-    container_name: app_fadil
-    hostname: app_fadil
-    build:
-      context: .
-      args:
-        REPO_PATH: ./
-      dockerfile: Dockerfile
-    env_file:
-      - fadilabi/docker.env
-    environment:
-      - SERVICE_NAME=app_fadil
-      - "DATABASE=postgres"
-    volumes:
-      - static-data-fadil:/srv/public
-      - .:/srv/app_fadil
-    expose:
-      - 8001
-    depends_on:
-      - postgres_fadil
-    command: gunicorn fadilabi.wsgi:application --bind 0.0.0.0:8001
-    working_dir: /srv/app_fadil
-    networks:
-      - main_network
-
-  nginx:
+  nginx_nasip:
+    container_name: nginx_nasip
     build:
       context: ./nginx
       dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
       - app_Nasip
-      - app_fadil
     ports:
       - 80:80
     networks:
@@ -97,7 +58,4 @@ networks:
 volumes:
   postgresql-data-nasip:
   static-data-nasip:
-
-  postgresql-data-fadil:
-  static-data-fadil:
 
