@@ -5,13 +5,65 @@ services:
     hostname: postgres
     image: postgres:latest
     env_file:
-      - fadilabi/docker.env
+      - Site/docker.env
+    networks:
+      - main_nasip
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgresql-data:/var/lib/postgresql/data"
+    command: -p 5432
+
+  app:
+    container_name: app_Nasip
+    hostname: app_Nasip
+    build:
+      context: .
+      args:
+        REPO_PATH: ./
+      dockerfile: Dockerfile
+    env_file:
+      - Site/docker.env
+    environment:
+      - SERVICE_NAME=app
+      - "DATABASE=postgres"
+    volumes:
+      - static-data:/srv/public
+      - .:/srv/app
+    expose:
+      - 8000
+    depends_on:
+      - postgres
+    command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
+    working_dir: /srv/app
+    networks:
+      - main_nasip
+      - bridge_network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - 80:80
+    networks:
+      - main_nasip
+
+  postgres_fadil:
+    container_name: postgres_fadil
+    hostname: postgres_fadil
+    image: postgres:latest
+    env_file:
+      - /home/fadilabinew/fadilabi/docker.env
     networks:
       - main_fadil
     ports:
       - "5444:5432"
     volumes:
-      - "postgresql-data:/var/lib/postgresql/data"
+      - "postgresql-data-fadil:/var/lib/postgresql/data"
     command: -p 5444
 
   app_fadil:
@@ -23,22 +75,21 @@ services:
         REPO_PATH: ./
       dockerfile: Dockerfile
     env_file:
-      - fadilabi/docker.env
+      - /home/fadilabinew/fadilabi/docker.env
     environment:
       - SERVICE_NAME=app_fadil
       - "DATABASE=postgres_fadil"
     volumes:
       - static-data:/srv/public
-      - .:/srv/app_fadil
+      - /home/fadilabinew:/srv/app_fadil
     expose:
       - 8001
     depends_on:
-      - postgres
+      - postgres_fadil
     command: gunicorn fadilabi.wsgi:application --bind 0.0.0.0:8001
     working_dir: /srv/app_fadil
     networks:
       - main_fadil
-      - bridge_network
 
   nginx_fadil:
     build:
@@ -53,6 +104,7 @@ services:
       - main_fadil
 
 networks:
+  main_nasip:
   main_fadil:
   bridge_network:
     name: nginx_network
@@ -60,4 +112,5 @@ networks:
 
 volumes:
   postgresql-data:
+  postgresql-data-fadil:
   static-data:
