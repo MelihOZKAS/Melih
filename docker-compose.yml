@@ -48,7 +48,7 @@ services:
     depends_on:
       - app
     ports:
-      - 80:80
+      - 92.205.19.209:80:80
     networks:
       - main_nasip
 
