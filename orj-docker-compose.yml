@@ -26,11 +26,8 @@ services:
     command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
   nginx:
     build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    depends_on:
-      - app
+      context: .
+      dockerfile: nginx.Dockerfile
     ports:
       - 80:80
 
