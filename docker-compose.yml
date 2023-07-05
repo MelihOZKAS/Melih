@@ -54,6 +54,7 @@ services:
 
 networks:
   main_nasip:
+    driver: bridge
   bridge_network:
     name: nginx_network
     driver: bridge
