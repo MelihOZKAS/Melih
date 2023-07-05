@@ -52,9 +52,9 @@ services:
 
 networks:
   main_nasip:
-    driver: bridge
   bridge_network:
-    external: true
+    name: nginx_network
+    driver: bridge
 
 volumes:
   postgresql-data:
