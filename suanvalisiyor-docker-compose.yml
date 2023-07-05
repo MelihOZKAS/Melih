@@ -1,63 +1,60 @@
 version: "3.8"
+
 services:
-  postgres:
-    container_name: postgres
-    hostname: postgres
+  postgres_fadil:
+    container_name: postgres_fadil
+    hostname: postgres_fadil
     image: postgres:latest
     env_file:
-      - Site/docker.env
+      - /home/fadilabinew/fadilabi/docker.env
     networks:
-      - main_nasip
+      - main_network
     ports:
-      - "5432:5432"
+      - "5444:5432"
     volumes:
-      - "postgresql-data:/var/lib/postgresql/data"
-    command: -p 5432
+      - "postgresql-data-fadil:/var/lib/postgresql/data"
+    command: -p 5444
 
-  app:
-    container_name: app_Nasip
-    hostname: app_Nasip
+  app_fadil:
+    container_name: app_fadil
+    hostname: app_fadil
     build:
       context: .
       args:
         REPO_PATH: ./
       dockerfile: Dockerfile
     env_file:
-      - Site/docker.env
+      - /home/fadilabinew/fadilabi/docker.env
     environment:
-      - SERVICE_NAME=app
-      - "DATABASE=postgres"
+      - SERVICE_NAME=app_fadil
+      - "DATABASE=postgres_fadil"
     volumes:
       - static-data:/srv/public
-      - .:/srv/app
+      - /home/fadilabinew:/srv/app_fadil
     expose:
-      - 8000
+      - 8001
     depends_on:
-      - postgres
-    command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
-    working_dir: /srv/app
+      - postgres_fadil
+    command: gunicorn fadilabi.wsgi:application --bind 0.0.0.0:8001
+    working_dir: /srv/app_fadil
     networks:
-      - main_nasip
-      - bridge_network
+      - main_network
 
-  nginx:
+  nginx_fadil:
     build:
       context: ./nginx
       dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
-      - app
+      - app_fadil
     ports:
-      - 80:80
+      - 81:80
     networks:
-      - main_nasip
+      - main_network
 
 networks:
-  main_nasip:
-  bridge_network:
-    name: nginx_network
-    driver: bridge
+  main_network:
 
 volumes:
-  postgresql-data:
+  postgresql-data-fadil:
   static-data:
