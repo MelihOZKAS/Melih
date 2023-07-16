@@ -37,4 +37,5 @@ from django.http import HttpResponseRedirect
 #        self.fields['selected_items'].choices = [(kontor.id, kontor.Urun_adi) for kontor in KontorList.objects.all()]
 #
 #
-#
+class ApiForm(forms.Form):
+    pass
