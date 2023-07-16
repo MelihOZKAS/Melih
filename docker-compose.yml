@@ -1,8 +1,8 @@
 version: "3.8"
 services:
-  postgres_kontor:
-    container_name: postgres_kontor
-    hostname: postgres_kontor
+  postgreskontor:
+    container_name: postgreskontor
+    hostname: postgreskontor
     image: postgres:latest
     env_file:
       - Site/docker.env
@@ -13,9 +13,9 @@ services:
     networks:
       - main_kontor
     command: -p 5432
-  app_nasip:
-    container_name: app_nasip
-    hostname: app_nasip
+  app_kontor:
+    container_name: app_kontor
+    hostname: app_kontor
     build:
       context: .
       dockerfile: Dockerfile
@@ -23,11 +23,11 @@ services:
       - Site/docker.env
     volumes:
       - static-data-kontor:/srv/public
-      - .:/srv/app_nasip
+      - .:/srv/app_kontor
     expose:
       - 8000
     depends_on:
-      - postgres_kontor
+      - postgreskontor
     command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
     networks:
       - main_kontor
