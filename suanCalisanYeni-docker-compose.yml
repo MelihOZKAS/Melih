@@ -1,0 +1,65 @@
+version: "3.8"
+services:
+  postgres:
+    container_name: postgres
+    hostname: postgres
+    image: postgres:latest
+    env_file:
+      - Site/docker.env
+    networks:
+      - main_nasip
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgresql-data:/var/lib/postgresql/data"
+    command: -p 5432
+
+  app:
+    container_name: app_Nasip
+    hostname: app_Nasip
+    build:
+      context: .
+      args:
+        REPO_PATH: ./
+      dockerfile: Dockerfile
+    env_file:
+      - Site/docker.env
+    environment:
+      - SERVICE_NAME=app
+      - "DATABASE=postgres"
+    volumes:
+      - static-data:/srv/public
+      - .:/srv/app
+    expose:
+      - 8000
+    depends_on:
+      - postgres
+    command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
+    working_dir: /srv/app
+    networks:
+      - main_nasip
+      - bridge_network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - 80:80
+    networks:
+      - main_nasip
+      - bridge_network
+
+networks:
+  main_nasip:
+    driver: bridge
+  bridge_network:
+    external:
+      name: nginx_network
+
+volumes:
+  postgresql-data:
+  static-data:
