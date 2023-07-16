@@ -125,8 +125,8 @@ class Apiler(models.Model):
     SiteAdresi = models.CharField("Site Adresi",max_length=100, default="")
     Kullanicikodu = models.CharField("Kullanıcı Kodu",max_length=100, default="")
     Kullaniciadi = models.CharField("Kullanıcı Adi",max_length=100,default="")
-    Sifre = models.CharField("Sifre",max_length=100,default="")
-    RefNumarasi = models.PositiveIntegerField(default=1,blank=True,null=True)
+    Sifre = models.CharField("Şifre",max_length=100,default="")
+    RefNumarasi = models.PositiveIntegerField(default=1)
 
     class Meta:
         verbose_name = "Api Listesi"

@@ -130,38 +130,37 @@ def ANaPaketGonder (request):
 
 
 def update_api(request):
-    pass
-    #api1_id = request.GET.get('api1')
-    #api2_id = request.GET.get('api2')
-    #api3_id = request.GET.get('api3')
-    #ids = request.GET.get('ids', '')
-#
-    #if ids:
-    #    ids = ids.split(',')
-    #    for id in ids:
-    #        try:
-    #            kontor = KontorList.objects.get(pk=int(id))
-    #            if api1_id and api1_id != '':
-    #                kontor.api1 = Apiler.objects.get(pk=int(api1_id))
-    #            elif api1_id == '':
-    #                kontor.api1 = None
-    #            if api2_id and api2_id != '':
-    #                kontor.api2 = Apiler.objects.get(pk=int(api2_id))
-    #            elif api2_id == '':
-    #                kontor.api2 = None
-    #            if api3_id and api3_id != '':
-    #                kontor.api3 = Apiler.objects.get(pk=int(api3_id))
-    #            elif api3_id == '':
-    #                kontor.api3 = None
-    #            kontor.save()
-    #        except ValueError:
-    #            pass  # invalid id, ignore
-    #        except KontorList.DoesNotExist:
-    #            pass  # kontor object not found, ignore
-    #        except Apiler.DoesNotExist:
-    #            pass  # api object not found, ignore
-#
-    #return HttpResponseRedirect('/admin/kontor/kontorlist/')
+    api1_id = request.GET.get('api1')
+    api2_id = request.GET.get('api2')
+    api3_id = request.GET.get('api3')
+    ids = request.GET.get('ids', '')
+
+    if ids:
+        ids = ids.split(',')
+        for id in ids:
+            try:
+                kontor = KontorList.objects.get(pk=int(id))
+                if api1_id and api1_id != '':
+                    kontor.api1 = Apiler.objects.get(pk=int(api1_id))
+                elif api1_id == '':
+                    kontor.api1 = None
+                if api2_id and api2_id != '':
+                    kontor.api2 = Apiler.objects.get(pk=int(api2_id))
+                elif api2_id == '':
+                    kontor.api2 = None
+                if api3_id and api3_id != '':
+                    kontor.api3 = Apiler.objects.get(pk=int(api3_id))
+                elif api3_id == '':
+                    kontor.api3 = None
+                kontor.save()
+            except ValueError:
+                pass  # invalid id, ignore
+            except KontorList.DoesNotExist:
+                pass  # kontor object not found, ignore
+            except Apiler.DoesNotExist:
+                pass  # api object not found, ignore
+
+    return HttpResponseRedirect('/admin/kontor/kontorlist/')
 
 
 
@@ -169,14 +168,13 @@ def update_api(request):
 #    return render(request,'movie-details.html',{"slug":slug})
 from django.shortcuts import get_object_or_404
 
-#def update(request, pk):
-#    vodafone_paketler = get_object_or_404(VodafonePaketler, pk=pk)
-#    if request.method == 'POST':
-#        form = VodafoneSesInlineForm(request.POST, instance=vodafone_paketler)
-#        if form.is_valid():
-#            form.save()
-#            return redirect('index')
-#    else:
-#        form = VodafoneSesInlineForm(instance=vodafone_paketler)
-#    return render(request, 'update.html', {'form': form})
-#
+def update(request, pk):
+    vodafone_paketler = get_object_or_404(VodafonePaketler, pk=pk)
+    if request.method == 'POST':
+        form = VodafoneSesInlineForm(request.POST, instance=vodafone_paketler)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = VodafoneSesInlineForm(instance=vodafone_paketler)
+    return render(request, 'update.html', {'form': form})
