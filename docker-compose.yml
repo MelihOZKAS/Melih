@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  postgres:
+  postgres_kontor:
     container_name: postgres_kontor
     hostname: postgres_kontor
     image: postgres:latest
@@ -27,7 +27,7 @@ services:
     expose:
       - 8000
     depends_on:
-      - postgres
+      - postgres_kontor
     command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
     networks:
       - main_kontor
