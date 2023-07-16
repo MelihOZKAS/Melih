@@ -7,12 +7,12 @@ services:
     env_file:
       - Site/docker.env
     ports:
-      - "5435:5432"
+      - "5432:5432"
     volumes:
       - "postgresql-data-kontor:/var/lib/postgresql/data"
     networks:
       - main_kontor
-    command: -p 5435
+    command: -p 5432
   app_kontor:
     container_name: app_kontor
     hostname: app_kontor
@@ -25,10 +25,10 @@ services:
       - static-data-kontor:/srv/public
       - .:/srv/app_kontor
     expose:
-      - 8005
+      - 8000
     depends_on:
       - postgres
-    command: gunicorn Site.wsgi:application --bind 0.0.0.0:8005
+    command: gunicorn Site.wsgi:application --bind 0.0.0.0:8000
     networks:
       - main_kontor
       - bridge_network
