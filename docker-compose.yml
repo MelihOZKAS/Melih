@@ -13,9 +13,9 @@ services:
     networks:
       - main_kontor
     command: -p 5432
-  app_Nasip:
-    container_name: app_Nasip
-    hostname: app_Nasip
+  app_nasip:
+    container_name: app_nasip
+    hostname: app_nasip
     build:
       context: .
       dockerfile: Dockerfile
@@ -23,7 +23,7 @@ services:
       - Site/docker.env
     volumes:
       - static-data-kontor:/srv/public
-      - .:/srv/app_Nasip
+      - .:/srv/app_nasip
     expose:
       - 8000
     depends_on:
