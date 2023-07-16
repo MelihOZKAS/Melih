@@ -117,14 +117,14 @@ class ApiKategori(models.Model):
 
 class Apiler(models.Model):
     ApiTuru = models.ForeignKey(ApiKategori, on_delete=models.CASCADE, null=True)
-    Apiadi = models.CharField(max_length=100,default="ApiAdiGiriniz")
-    ApiBakiye = models.DecimalField(max_digits=100, decimal_places=2,default="0,00")
-    ApiTanim = models.CharField("Api Tanim",max_length=100, default="",null=True,blank=True)
-    HataManuel = models.BooleanField("Hataya Düşeni Manuelde Beklet", default=False)
-    ApiAktifmi = models.BooleanField("Aktif mi ?", default=True)
-    SiteAdresi = models.CharField("Site Adresi",max_length=100, default="")
-    Kullanicikodu = models.CharField("Kullanıcı Kodu",max_length=100, default="")
-    Kullaniciadi = models.CharField("Kullanıcı Adi",max_length=100,default="")
+    #Apiadi = models.CharField(max_length=100,default="ApiAdiGiriniz")
+    #ApiBakiye = models.DecimalField(max_digits=100, decimal_places=2,default="0,00")
+    #ApiTanim = models.CharField("Api Tanim",max_length=100, default="",null=True,blank=True)
+    #HataManuel = models.BooleanField("Hataya Düşeni Manuelde Beklet", default=False)
+    #ApiAktifmi = models.BooleanField("Aktif mi ?", default=True)
+    #SiteAdresi = models.CharField("Site Adresi",max_length=100, default="")
+    #Kullanicikodu = models.CharField("Kullanıcı Kodu",max_length=100, default="")
+    #Kullaniciadi = models.CharField("Kullanıcı Adi",max_length=100,default="")
    # Sifre = models.CharField("Sifre",max_length=100,default="")
    # RefNumarasi = models.PositiveIntegerField(default=1,blank=True,null=True)
 
