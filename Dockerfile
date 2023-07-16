@@ -29,8 +29,8 @@ COPY entrypoint.sh /srv/entrypoint.sh
 RUN sed -i 's/\r$//g' /srv/entrypoint.sh
 RUN chmod +x /srv/entrypoint.sh
 
-COPY . /srv/app_nasip
-WORKDIR /srv/app_nasip
+COPY . /srv/app_kontor
+WORKDIR /srv/app_kontor
 
 
 ENTRYPOINT ["/srv/entrypoint.sh"]
