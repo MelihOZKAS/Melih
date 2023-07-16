@@ -57,8 +57,9 @@ class AdminKontorListesi(admin.ModelAdmin):
     actions = ['otoyap_action','TumAlternetifiSil_action',"redirect_to_form"]
 
     def redirect_to_form(self, request, queryset):
-        selected = queryset.values_list('id', flat=True)
-        return HttpResponseRedirect(f"/change_api?ids={','.join(str(id) for id in selected)}")
+        pass
+        #selected = queryset.values_list('id', flat=True)
+        #return HttpResponseRedirect(f"/change_api?ids={','.join(str(id) for id in selected)}")
 
     redirect_to_form.short_description = "API Değiştir"
 
