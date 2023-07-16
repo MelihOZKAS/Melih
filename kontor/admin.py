@@ -11,7 +11,7 @@ from django.forms import Select, RadioSelect, PasswordInput
 
 from django.contrib.auth.models import User
 from .urunleri_cek import *
-from .forms import *
+#from .forms import *
 from django import forms
 import os
 
@@ -718,35 +718,6 @@ class AdminFiyatlar(admin.ModelAdmin):
     list_editable = ("FiyatKategorisi","OzelApi")
     inlines = [FiyatlarInlines]
     actions = ["veri_aktar","Sil","yuzde_hesaplama"]
-
-    def yuzde_hesaplama(self, request, queryset):
-        form = None
-        self.message_user(request, "Başlangic")
-
-        if 'YuzdeHesaplama' in request.POST:
-            form = BayiSatisFiyatiUpdateForm(request.POST)
-            self.message_user(request, "Nasip")
-
-            if form.is_valid():
-                operator = form.cleaned_data['operator']
-                yuzde = form.cleaned_data['yuzde']
-
-                fiyatlar = Fiyatlar.objects.filter(Operatoru=operator)
-
-                for fiyat in fiyatlar:
-                    if fiyat.Maliyet is not None and fiyat.Maliyet != 0:
-                        fiyat.BayiSatisFiyati = fiyat.Maliyet + (fiyat.Maliyet * yuzde / 100)
-                        fiyat.save()
-                        self.message_user(request, f"ID: {fiyat.id} Bayi Satis Fiyati güncellendi.")
-
-                self.message_user(request, "Seçilen operatör için Bayi Satis Fiyati güncellendi.")
-            else:
-                self.message_user(request, f"Form geçerli değil: {form.errors}")
-        else:
-            form = BayiSatisFiyatiUpdateForm()
-            self.message_user(request, "Formu göndermediniz. Lütfen formu doldurup Gönder düğmesine basınız.")
-
-        return render(request, 'update_bayi_satis_fiyati.html', {'items': queryset, 'form': form})
 
 
     def veri_aktar(modeladmin, request, queryset):
