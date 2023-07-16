@@ -13,7 +13,7 @@ services:
     networks:
       - main_kontor
     command: -p 5432
-  app:
+  app_Nasip:
     container_name: app_Nasip
     hostname: app_Nasip
     build:
