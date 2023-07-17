@@ -52,6 +52,7 @@ class AdminKontorListesi(admin.ModelAdmin):
     list_editable = ("Urun_adi","Aktifmi","MaliyetFiyat","SatisFiyat","api1","api2","api3",)
     search_fields = ("Urun_adi","Kupur",)
     list_filter = ("Kategorisi",)
+    list_per_page = 50
     inlines = [AlternativeProductInline]
 
     actions = ['otoyap_action','TumAlternetifiSil_action',"redirect_to_form"]
