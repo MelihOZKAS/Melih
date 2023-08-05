@@ -330,6 +330,7 @@ class Siparisler(models.Model):
     api3 = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='Api_3', null=True, blank=True)
     ManuelApi = models.ForeignKey(Apiler, on_delete=models.CASCADE, related_name='ManuelApi', null=True, blank=True)
 
+
     class Meta:
         verbose_name = "Sipariş Listesi"
         verbose_name_plural = "Sipariş Listesi"
