@@ -563,8 +563,14 @@ def Turkcell_Paketleri_Ekle(modeladmin, request, queryset):
                         eslestirme_kupur=kontor.Kupur
                     )
 
+
                 elif SecilenApi == "grafi":
-                    pass
+                    Turkcell.objects.create(
+                        apiler=api,
+                        urun_adi=kontor.Urun_adi,
+                        kupur=kontor.Kupur,
+                        eslestirme_kupur=0
+                    )
                 else:
                     print("Nasip Patladık.")
 
