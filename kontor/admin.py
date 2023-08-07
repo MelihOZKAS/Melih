@@ -562,11 +562,7 @@ def Turkcell_Paketleri_Ekle(modeladmin, request, queryset):
                         eslestirme_operator_tipi=GelenRef[1],
                         eslestirme_kupur=kontor.Kupur
                     )
-                    Turkcell.objects.create(
-                        apiler=api,
-                        urun_adi=kontor.Urun_adi,
-                        kupur=kontor.Kupur,
-                    )
+
                 elif SecilenApi == "grafi":
                     pass
                 else:
