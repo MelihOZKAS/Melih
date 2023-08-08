@@ -1312,7 +1312,8 @@ def AlternatifYuklemeGonder():
                 api.save()
             except:
                 ANA_Siparis = Siparisler.objects.get(id=alternatifOrder.ANAURUNID)
-                ANA_Siparis.Aciklama = "Paket Tanımı Yok"
+                GelenAciklama = ANA_Siparis.Aciklama
+                ANA_Siparis.Aciklama = GelenAciklama + "\n Paket Tanımı Yok" + "\n"
                 alternatifOrder.YuklenecekPaketDurumu = islem_HATALI
                 alternatifOrder.save()
                 ANA_Siparis.save()
