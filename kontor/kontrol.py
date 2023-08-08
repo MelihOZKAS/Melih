@@ -1315,6 +1315,7 @@ def AlternatifYuklemeGonder():
                 ANA_Siparis.Aciklama = "Paket Tanımı Yok"
                 alternatifOrder.YuklenecekPaketDurumu = islem_HATALI
                 alternatifOrder.save()
+                ANA_Siparis.save()
                 return "Hatalı Paket Tanım"
 
 
