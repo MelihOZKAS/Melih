@@ -1284,10 +1284,10 @@ def AlternatifYuklemeyeHazirla(request):
 
 def AlternatifYuklemeGonder():
     Alternatif_Gonderimbekler = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
+    islem_HATALI = Durumlar.objects.get(durum_id=Durumlar.HATALI)
     Alternatif_islemde = Durumlar.objects.get(durum_id=Durumlar.Alternatif_islemde)
     askida = Durumlar.objects.get(durum_id=Durumlar.askida)
     Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)
-
 
     alternatifOrders = YuklenecekSiparisler.objects.filter(YuklenecekPaketDurumu=Alternatif_Gonderimbekler)
     if alternatifOrders:
@@ -1303,21 +1303,25 @@ def AlternatifYuklemeGonder():
                 api = alternatifOrder.Yuklenecek_api3
 
 
+            try:
+                ApiTuru = api.ApiTuru
+                ApiTuruadi = ApiTuru.ApiYazilimAdi
+                ApiBakiye = api.ApiBakiye
+                gidenRefNumarasi = api.RefNumarasi
+                api.RefNumarasi += 1
+                api.save()
+            except:
+                ANA_Siparis = Siparisler.objects.get(id=alternatifOrder.ANAURUNID)
+                ANA_Siparis.Aciklama = "Paket Tanımı Yok"
+                alternatifOrder.YuklenecekPaketDurumu = islem_HATALI
+                return "Hatalı Paket Tanım"
 
-
-            ApiTuru = api.ApiTuru
-            ApiTuruadi = ApiTuru.ApiYazilimAdi
-            ApiBakiye = api.ApiBakiye
-            gidenRefNumarasi = api.RefNumarasi
-            api.RefNumarasi += 1
-            api.save()
 
             #todo buradan aciklamalari yapabilirsin.
             ANA_Siparis = Siparisler.objects.get(id=alternatifOrder.ANAURUNID)
             GelenAciklama = ANA_Siparis.Aciklama
             siparisturu = ANA_Siparis.Operator
             opAdi = siparisturu.AnaOperatorler
-            print(opAdi)
 
             if opAdi == "vodafone" or opAdi == "Vodafone":
                 paketler = VodafonePaketler.objects.filter(apiler=api)
@@ -1354,7 +1358,6 @@ def AlternatifYuklemeGonder():
                 print(url)
 
             response = requests.get(url)
-            print(response.text)
             # TODO: işlem için Verilen Yeni Ref kayıt Yeri --- OK
             # TODO: işlem için Çekilen Tutarı kaydet olumlu olursa zaten düşmüş oluyorsun olumsuz olursa eklemen lazım.
             # TODO: işlem için Api ID si
