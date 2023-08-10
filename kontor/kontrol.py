@@ -45,6 +45,7 @@ def change_api(request):
 
 
 def AnaPaketGonder():
+    islem_HATALI = Durumlar.objects.get(durum_id=Durumlar.HATALI)
     AnaPaket = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
     AnaPaketSonucBekler = Durumlar.objects.get(durum_id=Durumlar.AnaPaketSonucBekler)
     askida = Durumlar.objects.get(durum_id=Durumlar.askida)
@@ -88,11 +89,18 @@ def AnaPaketGonder():
                                                                                         'eslestirme_operator_tipi',
                                                                                         'eslestirme_kupur').first()
                 # İstenen bilgileri değişkenlere atayın
-                eslestirme_operator_adi = paket['eslestirme_operator_adi']
-                eslestirme_operator_tipi = paket['eslestirme_operator_tipi']
-                eslestirme_kupur = paket['eslestirme_kupur']
-                print(str(eslestirme_operator_adi) + " " + str(eslestirme_operator_tipi) + " " + str(eslestirme_kupur))
+                try:
+                    eslestirme_operator_adi = paket['eslestirme_operator_adi']
+                    eslestirme_operator_tipi = paket['eslestirme_operator_tipi']
+                    eslestirme_kupur = paket['eslestirme_kupur']
+                    print(str(eslestirme_operator_adi) + " " + str(eslestirme_operator_tipi) + " " + str(eslestirme_kupur))
             #                eslestirme_kupur = eslestirme_kupur.replace('.00','')
+                except:
+                    GelenAciklama = Siparis.Aciklama
+                    Siparis.Aciklama = GelenAciklama + "\n Paket Tanımı Yok" + "\n"
+                    Siparis.Durum = islem_HATALI
+                    Siparis.save()
+                    return "Hatalı Paket Tanıms"
 
                 url = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={Siparis.Numara}&tekilnumara={gidenRefNumarasi}"
             elif ApiTuruadi == "grafi":
@@ -1346,9 +1354,21 @@ def AlternatifYuklemeGonder():
 
                 #TODO buraya Paket eşleştirmesi yok hatası ver 930' da patlıyor.
                 # İstenen bilgileri değişkenlere atayın
-                eslestirme_operator_adi = paket['eslestirme_operator_adi']
-                eslestirme_operator_tipi = paket['eslestirme_operator_tipi']
-                eslestirme_kupur = paket['eslestirme_kupur']
+                try:
+                    eslestirme_operator_adi = paket['eslestirme_operator_adi']
+                    eslestirme_operator_tipi = paket['eslestirme_operator_tipi']
+                    eslestirme_kupur = paket['eslestirme_kupur']
+                except:
+                    GelenAciklama = ANA_Siparis.Aciklama
+                    ANA_Siparis.Aciklama = GelenAciklama + "\n Apisinde Paket Tanımı Yok" + "\n"
+                    alternatifOrder.YuklenecekPaketDurumu = islem_HATALI
+                    alternatifOrder.save()
+                    ANA_Siparis.save()
+                    return "Hatalı Paket Tanım"
+
+
+
+
                 print(str(eslestirme_operator_adi)+" "+str(eslestirme_operator_tipi)+" "+str(eslestirme_kupur))
 #                eslestirme_kupur = eslestirme_kupur.replace('.00','')
                 url = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={alternatifOrder.Yukelenecek_Numara.Numara}&tekilnumara={gidenRefNumarasi}"
