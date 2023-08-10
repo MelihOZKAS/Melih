@@ -1,6 +1,7 @@
 import decimal
 from urllib.parse import unquote
 from datetime import datetime, timedelta
+from datetime import datetime, time as dt_time
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Siparisler, Apiler,AnaOperator,AltOperator,KontorList,Kategori,AlternativeProduct,YuklenecekSiparisler,Durumlar,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,Turkcell,TTses,TTtam,Fiyatlar
@@ -530,8 +531,14 @@ import os
 import requests
 from django.utils import timezone
 
+pasif_baslangic_saat = dt_time(0, 30)
+pasif_bitis_saat = dt_time(8, 30)
 
 def GecikmeBildir():
+    # Gece yarısı ve sabah saatlerinde pasif kalması için kontrol
+    simdiki_saat = datetime.now().time()
+    if pasif_baslangic_saat <= simdiki_saat <= pasif_bitis_saat:
+        return "Pasif"
     chat_id = "@mustafadurtucu"
     mesaj = []
 
