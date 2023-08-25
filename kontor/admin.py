@@ -610,7 +610,6 @@ def Vodafonel_Paketleri_Ekle(modeladmin, request, queryset):
                     PaketiGuncelle.apiler = api
                     PaketiGuncelle.urun_adi = kontor.Urun_adi
                     PaketiGuncelle.kupur = kontor.Kupur
-                    PaketiGuncelle.eslestirme_kupur = kontor.zNetKupur
                 PaketiGuncelle.save()
             else:
                 if SecilenApi == "Znet":
