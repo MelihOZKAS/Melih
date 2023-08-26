@@ -64,7 +64,16 @@ def AnaPaketGonder():
             if Siparis.Gonderim_Sirasi == 3:
                 print("Girdim3")
                 api = Siparis.api3
-            ApiTuru = api.ApiTuru
+            try:
+                ApiTuru = api.ApiTuru
+            except:
+                GelenAciklama = Siparis.Aciklama
+                Siparis.Aciklama = GelenAciklama + "\n Hiç Api Yönlendirme Yok" + "\n"
+                Siparis.Durum = islem_HATALI
+                Siparis.save()
+                return "Hatalı Paket Tanım"
+
+
             ApiTuruadi = ApiTuru.ApiYazilimAdi
             ApiBakiye = api.ApiBakiye
             gidenRefNumarasi = api.RefNumarasi
