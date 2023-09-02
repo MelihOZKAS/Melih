@@ -402,7 +402,7 @@ def SorguyaGonder():
     sorguda = Durumlar.objects.get(durum_id=Durumlar.Sorguda)
     sorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
     aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
-    orders = Siparisler.objects.filter(Durum=sorguda)
+    orders = Siparisler.objects.filter(Durum=sorguda)[:5]
     if orders:
         for order in orders:
             #print(order.Operator)
