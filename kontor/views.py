@@ -168,13 +168,14 @@ def update_api(request):
 #    return render(request,'movie-details.html',{"slug":slug})
 from django.shortcuts import get_object_or_404
 
-def update(request, pk):
-    vodafone_paketler = get_object_or_404(VodafonePaketler, pk=pk)
-    if request.method == 'POST':
-        form = VodafoneSesInlineForm(request.POST, instance=vodafone_paketler)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-    else:
-        form = VodafoneSesInlineForm(instance=vodafone_paketler)
-    return render(request, 'update.html', {'form': form})
+#def update(request, pk):
+#    vodafone_paketler = get_object_or_404(VodafonePaketler, pk=pk)
+#    if request.method == 'POST':
+#        form = VodafoneSesInlineForm(request.POST, instance=vodafone_paketler)
+#        if form.is_valid():
+#            form.save()
+#            return redirect('index')
+#    else:
+#        form = VodafoneSesInlineForm(instance=vodafone_paketler)
+#    return render(request, 'update.html', {'form': form})
+#
