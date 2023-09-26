@@ -441,7 +441,7 @@ class Banka(models.Model):
 
 class Bayi_Listesi(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    Fiyati = models.OneToOneField(FiyatGuruplari, on_delete=models.CASCADE,blank=True,null=True)
+    Fiyati = models.ForeignKey(FiyatGuruplari, on_delete=models.CASCADE,blank=True,null=True)
     Bayi_Bakiyesi = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     Borc = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     Tutar = models.DecimalField(max_digits=10, decimal_places=2,default=0)
