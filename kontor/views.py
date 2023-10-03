@@ -171,9 +171,9 @@ def update_api(request):
 
 def SmsYakala(request):
     if request.method == 'POST':
-        sahibi = request.POST.get('sahibi')
-        gonderen = request.POST.get('gonderen')
-        mesaj = request.POST.get('mesaj')
+        sahibi = request.POST['sahibi']
+        gonderen = request.POST['gonderen']
+        mesaj = request.POST['mesaj']
 
         gelen_mesa_parcali = mesaj.split(" ")
         mesaj_ilk = gelen_mesa_parcali[0]
