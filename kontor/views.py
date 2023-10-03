@@ -168,7 +168,7 @@ def update_api(request):
 
 
 
-
+@csrf_exempt
 def SmsYakala(request):
     if request.method == 'POST':
         sahibi = request.POST['sahibi']
