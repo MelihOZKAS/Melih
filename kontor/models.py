@@ -526,4 +526,7 @@ class BakiyeHareketleri(models.Model):
 
 
 
-
+class GelenSMS(models.Model):
+    numara = models.CharField(max_length=255)
+    banka = models.CharField(max_length=255)
+    mesaj = models.TextField(unique=True)
