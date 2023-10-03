@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Siparisler, Apiler,Durumlar
+from .models import Siparisler, Apiler,Durumlar,GelenSMS
 import requests
 from decimal import Decimal
 from .kontrol import *
@@ -161,6 +161,71 @@ def update_api(request):
                 pass  # api object not found, ignore
 
     return HttpResponseRedirect('/admin/kontor/kontorlist/')
+
+
+
+
+
+
+
+
+def SmsYakala(request):
+    if request.method == 'POST':
+        android = request.POST.get('Android', '')
+        if android == 'SMSGonder':
+            sahibi = request.POST.get('sahibi', '')
+            gonderen = request.POST.get('gonderen', '')
+            mesaj = request.POST.get('mesaj', '')
+
+            gelen_mesa_parcali = mesaj.split(" ")
+            mesaj_ilk = gelen_mesa_parcali[0]
+
+            mesaj_yeni = mesaj.replace(",", "")
+
+            if gonderen == 'FUPS' and mesaj_ilk in ['3D', 'Son', 'İlk']:
+                return HttpResponse("Basarili")
+
+            else:
+                try:
+                    GelenSMS.objects.create(numara=sahibi, banka=gonderen, mesaj=mesaj_yeni)
+                    return HttpResponse("Basarili")
+                except Exception as e:
+                    return HttpResponse("DB ye kaydedemedim.")
+    else:
+        return HttpResponse("Hatalı İşlem")
+
+
+@csrf_exempt
+def sms_getir(request):
+    if request.method == 'POST':
+        python = request.POST.get('Python', '')
+        if python == 'SukurlerOlsun':
+            numarasi = request.POST.get('numarasi', '')
+            smsler = GelenSMS.objects.filter(numara=numarasi).order_by('-id')[:10]
+            if smsler.exists():
+                sonuc = "|".join([f"{sms.id},{sms.banka},{sms.mesaj}" for sms in smsler])
+                return HttpResponse("Basarili")
+            else:
+                return HttpResponse("Sonuc : MesajYok!")
+    else:
+        return HttpResponse({"Sonuc": "Hatali"})
+
+
+
+
+@csrf_exempt
+def sms_getir_get(request):
+    python = request.GET.get('Python', '')
+    if python == 'SukurlerOlsun':
+        numarasi = request.GET.get('numarasi', '')
+        smsler = GelenSMS.objects.filter(numara=numarasi).order_by('-id')[:10]
+        if smsler.exists():
+            sonuc = "|".join([f"{sms.id},{sms.banka},{sms.mesaj}" for sms in smsler])
+            return HttpResponse(sonuc)
+        else:
+            return HttpResponse({"Sonuc": "MesajYok!"})
+    else:
+        return HttpResponse({"Sonuc": "Hatali"})
 
 
 

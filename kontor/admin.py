@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import KontorList,Kategori,Apiler,ApiKategori,Banka,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,TTses,TTtam,FiyatGuruplari,Fiyatlar,Bimcell,Vodafonetam,Turkcelltam
+from .models import KontorList,Kategori,Apiler,ApiKategori,Banka,AlternativeProduct,Siparisler,AnaOperator,AltOperator,YuklenecekSiparisler,Durumlar,Turkcell,ApidenCekilenPaketler,VodafonePaketler,Bayi_Listesi,BakiyeHareketleri,TTses,TTtam,FiyatGuruplari,Fiyatlar,Bimcell,Vodafonetam,Turkcelltam,GelenSMS
 from django.utils.html import format_html
 from django.urls import reverse,path
 from django.utils import timesince,timezone
@@ -851,3 +851,10 @@ admin.site.register(ApiKategori,AdminApiKagetori)
 admin.site.register(Kategori,AdminKategoriListesi)
 admin.site.register(Apiler,AdminApiListesi)
 admin.site.register(FiyatGuruplari,AdminFiyatlar)
+
+
+
+class GelenSmsAdmin(admin.ModelAdmin):
+    list_display = ('numara', 'banka','mesaj')
+
+admin.site.register(GelenSMS, GelenSmsAdmin)
