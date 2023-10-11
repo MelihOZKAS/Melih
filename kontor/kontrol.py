@@ -1185,6 +1185,7 @@ def YuklenecekPaketler(request):
     # Durumu 31 olan siparişleri çekiyoruz
     #siparisler = Siparisler.objects.filter(Durum=31)
     altkontrol31 = Durumlar.objects.get(durum_id=Durumlar.AltKontrol)
+    islem_HATALI = Durumlar.objects.get(durum_id=Durumlar.HATALI)
     alternatifdeneyen10 = Durumlar.objects.get(durum_id=Durumlar.ALTERNATIF_DENEYEN)
     Alternatif_Gonder = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
     Alternatif_Gonderim_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderim_Bekliyor)
@@ -1223,9 +1224,18 @@ def YuklenecekPaketler(request):
                                                    Kupur=kategorideki_paket.Kupur).first()
 
                 # Fiyatlar modelindeki api değerlerini order'ın api alanlarına ata
-                SecilenApi1 = fiyatlar.api1
-                SecilenApi2 = fiyatlar.api2
-                SecilenApi3 = fiyatlar.api3
+                try:
+                    SecilenApi1 = fiyatlar.api1
+                    SecilenApi2 = fiyatlar.api2
+                    SecilenApi3 = fiyatlar.api3
+                except:
+                    siparis.Durum = islem_HATALI
+
+                    GelenAciklama = siparis.Aciklama
+                    siparis.Aciklama = GelenAciklama + "\n Özel Apide Tanım yok Siparişi Sil + sorgu sunucunda da sil komple" + "\n"
+                    siparis.save()
+                    return HttpResponse('Özel Yükleme Apisi Pert')
+
             else:
                 # Eğer OzelApi False ise, kontor_urunu'ndaki api değerlerini kullan
                 SecilenApi1 = kategorideki_paket.api1
