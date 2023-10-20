@@ -13,7 +13,6 @@ from django.utils import timezone
 import environ
 import random
 
-
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import *
@@ -692,10 +691,7 @@ def mesajEkle(gidecekNumara,Msj,SMSDurumu):
 
 
 def AlternatifSonucKontrol():
-
     Alternatif_Gonder = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderimbekler)
-
-
     AlternatifVarmiBaska = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Gonderim_Bekliyor)
     AnaPaketGoner = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
     Alternatif_Cevap_Bekliyor = Durumlar.objects.get(durum_id=Durumlar.Alternatif_Cevap_Bekliyor)

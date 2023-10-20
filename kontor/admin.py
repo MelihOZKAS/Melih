@@ -665,7 +665,7 @@ delete_turkcell.short_description = "Seçilen API'lerin Turkcell kayıtlarını 
 
 def delete_ttses(modeladmin, request, queryset):
     for api in queryset:
-        api.TTses_set.all().delete()
+        api.ttses_set.all().delete()
     modeladmin.message_user(request, "Seçilen apilere ait tüm TTSes kayıtları silindi.")
 delete_ttses.short_description = "Seçilen API'lerin TTSes kayıtlarını sil"
 
