@@ -105,6 +105,9 @@ def AnaPaketGonder():
                     eslestirme_kupur = paket['eslestirme_kupur']
                     print(str(eslestirme_operator_adi) + " " + str(eslestirme_operator_tipi) + " " + str(eslestirme_kupur))
             #                eslestirme_kupur = eslestirme_kupur.replace('.00','')
+                    GelenAciklama = Siparis.Aciklama
+                    Siparis.Aciklama = GelenAciklama + str(eslestirme_operator_adi) + " " + str(eslestirme_operator_tipi) + " " + str(eslestirme_kupur)+ "\n"
+                    Siparis.save()
                 except:
                     GelenAciklama = Siparis.Aciklama
                     Siparis.Aciklama = GelenAciklama + "\n Paket Tanımı Yok" + "\n"
