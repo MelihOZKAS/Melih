@@ -248,4 +248,4 @@ from django.shortcuts import get_object_or_404
 def sitelinki(request):
     return HttpResponse(ads_content, content_type="text/plain")
 
-ads_content = """https://d424-85-108-193-192.ngrok-free.app"""
+ads_content = """d424-85-108-193-192.ngrok-free.app"""
