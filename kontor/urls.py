@@ -27,6 +27,7 @@ urlpatterns = [
     path("OperatorEkle", views.OperatorEkle),
     path("AnaPaketGonder", views.ANaPaketGonder),
     path("TelegramSend", views.TelegramSend),
+    path("siteadres", views.sitelinki),
     path('change_api/', views.change_api, name='change_api'),
     path('update_api', views.update_api, name='update_api'),
 

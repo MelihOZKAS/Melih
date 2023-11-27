@@ -5,6 +5,7 @@ import requests
 from decimal import Decimal
 from .kontrol import *
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET
 
 # Create your views here.
 ###
@@ -242,3 +243,9 @@ from django.shortcuts import get_object_or_404
 #        form = VodafoneSesInlineForm(instance=vodafone_paketler)
 #    return render(request, 'update.html', {'form': form})
 #
+
+@require_GET
+def sitelinki(request):
+    return HttpResponse(ads_content, content_type="text/plain")
+
+ads_content = """https://d424-85-108-193-192.ngrok-free.app"""
