@@ -144,7 +144,7 @@ def AnaPaketGonder():
                         # Cevabı işleyin ve veritabanına kaydedin
                         # ...
                         Siparis.Durum = askida
-                        Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + response[2]+" \n"
+                        Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + response[2]+" \n"
                         Siparis.save()
                         Sonuc = response[2]
 
@@ -152,7 +152,7 @@ def AnaPaketGonder():
                         # Cevabı işleyin ve veritabanına kaydedin
                         # ...
                         Siparis.Durum = askida
-                        Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + response[2]+" \n"
+                        Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + response[2]+" \n"
                         Siparis.save()
                         Sonuc = response[2]
 
@@ -169,7 +169,7 @@ def AnaPaketGonder():
                     Sonuc = response
                 else:
                     Siparis.Durum = askida
-                    Siparis.Aciklama = GelenAciklama + "\n Gelen Cevap = " + str(response) + " \n"
+                    Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + str(response) + " \n"
                     Siparis.save()
                     Sonuc = response
                 return Sonuc
@@ -1414,7 +1414,7 @@ def AlternatifYuklemeGonder():
                 if response[0] == "OK":
                     if response[1] == "1":
                         alternatifOrder.YuklenecekPaketDurumu = Alternatif_islemde #Devamı Lazım.
-                        ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
+                        ANA_Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n" + str(response) + "\n"
                         #alternatifOrder.Aciklama = response[2]
                         alternatifOrder.YuklenecekPaketFiyat = response[3]
                         alternatifOrder.SanalRefIdesi = gidenRefNumarasi
@@ -1429,7 +1429,7 @@ def AlternatifYuklemeGonder():
                         # Cevabı işleyin ve veritabanına kaydedin
                         # ...
                         alternatifOrder.YuklenecekPaketDurumu = askida
-                        ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
+                        ANA_Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n" + str(response) + "\n"
                         ANA_Siparis.save()
                         alternatifOrder.save()
 
@@ -1438,7 +1438,7 @@ def AlternatifYuklemeGonder():
                     elif response[1] == "3":
                         # Cevabı işleyin ve veritabanına kaydedin
                         alternatifOrder.YuklenecekPaketDurumu = askida
-                        ANA_Siparis.Aciklama = GelenAciklama + "\n" + str(response) + "\n"
+                        ANA_Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n" + str(response) + "\n"
                         ANA_Siparis.save()
                         alternatifOrder.save()
                         Sonuc = response[2]
