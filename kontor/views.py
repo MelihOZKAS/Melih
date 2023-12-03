@@ -203,7 +203,7 @@ def sms_getir(request):
             smsler = GelenSMS.objects.filter(numara=numarasi).order_by('-id')[:10]
             if smsler.exists():
                 sonuc = "|".join([f"{sms.id},{sms.banka},{sms.mesaj}" for sms in smsler])
-                return HttpResponse("Basarili")
+                return HttpResponse(sonuc)
             else:
                 return HttpResponse("Sonuc : MesajYok!")
     else:
