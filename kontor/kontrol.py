@@ -687,7 +687,7 @@ def GecikmeBildir():
 def mesajEkle(gidecekNumara,Msj,SMSDurumu):
     re = requests.post('http://185.92.2.178:4444/whatsapp.php',
                        data={'python': 'whatsappEkle','msjNumara': ''+gidecekNumara+'','msj': ''+Msj+'','durumu': ''+SMSDurumu+''})
-    re = re.text
+
 
 
 def AlternatifSonucKontrol():
