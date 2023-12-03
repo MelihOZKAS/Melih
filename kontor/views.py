@@ -196,8 +196,6 @@ def SmsYakala(request):
 
 @csrf_exempt
 def sms_getir(request):
-
-    python = request.POST['Python']
     numarasi = request.POST['numarasi']
     smsler = GelenSMS.objects.filter(numara=numarasi).order_by('-id')[:10]
     if smsler.exists():
