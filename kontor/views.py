@@ -205,9 +205,9 @@ def sms_getir(request):
                 sonuc = "|".join([f"{sms.id},{sms.banka},{sms.mesaj}" for sms in smsler])
                 return HttpResponse(sonuc)
             else:
-                return HttpResponse("Sonuc : MesajYok!")
+                return HttpResponse("SonucMesajYok!")
     else:
-        return HttpResponse({"Sonuc": "Hatali"})
+        return HttpResponse({"SonucHatali"})
 
 
 
