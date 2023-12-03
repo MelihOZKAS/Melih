@@ -411,7 +411,7 @@ def SorguyaGonder():
             #print(order.Operator.AnaOperatorler)
             #print(type(order.Operator.AnaOperatorler))
             #print("uste")
-            siteadi = "92.205.129.63:4244"
+            siteadi = "185.92.2.178:4444"
             # Apiler sınıfından şifre bilgilerini alın
             if order.Operator.AnaOperatorler == "vodafone":
                 url = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
