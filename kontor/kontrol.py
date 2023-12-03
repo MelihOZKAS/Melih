@@ -468,7 +468,7 @@ def SorguSonucKontrol():
     sorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
     aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
     orders = Siparisler.objects.filter(Durum=sorguCevap)
-    siteadi = "92.205.129.63:4244"
+    siteadi = "185.92.2.178:4444"
     if orders:
         for order in orders:
             # Apiler sınıfından şifre bilgilerini alın
@@ -685,7 +685,7 @@ def GecikmeBildir():
 
 
 def mesajEkle(gidecekNumara,Msj,SMSDurumu):
-    re = requests.post('http://92.205.129.63:4244/whatsapp.php',
+    re = requests.post('http://185.92.2.178:4444/whatsapp.php',
                        data={'python': 'whatsappEkle','msjNumara': ''+gidecekNumara+'','msj': ''+Msj+'','durumu': ''+SMSDurumu+''})
     re = re.text
 
