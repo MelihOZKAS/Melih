@@ -868,7 +868,7 @@ def AnaPaketSonucKontrol():
     Basarili = Durumlar.objects.get(durum_id=Durumlar.Basarili)
     SonucList = []
 
-    SiparisTum = Siparisler.objects.filter(Durum=AnaPaketSorgu)[:5]
+    SiparisTum = Siparisler.objects.filter(Durum=AnaPaketSorgu)
     if SiparisTum:
         for Siparis in SiparisTum:
             if Siparis:
