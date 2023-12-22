@@ -341,27 +341,28 @@ def VodafonePaketleriSunucudanCek(request):
                 PaketiGuncelle = GelenPaket.first()
                 if PaketiGuncelle.Kupur == Decimal("4124"):
                     PaketNames = "Tüm Dünya 1 Saat"
-                if PaketiGuncelle.Kupur == Decimal("4401"):
+                if PaketiGuncelle.Kupur == Decimal("13350"):
                     PaketNames = "Kolay Paket 9"
-                    paketFiyat = Decimal('166.00')
+                    paketFiyat = paketFiyat + paketFiyat * Decimal('0.05')
                 if PaketiGuncelle.Kupur == Decimal("4402"):
                     PaketNames = "Kolay Paket 14"
                 if PaketiGuncelle.Kupur == Decimal("4405"):
                     PaketNames = "Kolay Paket 7"
                 if PaketiGuncelle.Kupur == Decimal("4406"):
                     PaketNames = "Kolay Paket 10"
-                if PaketiGuncelle.Kupur == Decimal("4407"):
+                if PaketiGuncelle.Kupur == Decimal("13316"):
                     PaketNames = "Kolay Paket 12"
-                    paketFiyat = Decimal('198.00')
+                    paketFiyat = paketFiyat + paketFiyat * Decimal('0.05')
                 if PaketiGuncelle.Kupur == Decimal("4780"):
                     PaketNames = "Haftalık 500 DK"
                 if PaketiGuncelle.Kupur == Decimal("12039"):
                     PaketNames = "Kolay Paket 3 Ay 30 GB"
                 if PaketiGuncelle.Kupur == Decimal("13189"):
                     PaketNames = "Kolay Paket 6 Ay 60 GB"
-                if PaketiGuncelle.Kupur == Decimal("13315"):
+                if PaketiGuncelle.Kupur == Decimal("13345"):
                     PaketNames = "Kolay Paket 16"
-                    paketFiyat = Decimal('220.00')
+                    paketFiyat = paketFiyat + paketFiyat * Decimal('0.05')
+
                 if PaketiGuncelle.Kupur == Decimal("13318"):
                     PaketNames = "Kolay Paket 5"
                 if PaketiGuncelle.Kupur == Decimal("13319"):
