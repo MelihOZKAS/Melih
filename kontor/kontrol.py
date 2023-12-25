@@ -16,12 +16,7 @@ import random
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import *
-
-
-# SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
 env = environ.Env(DEBUG=(bool,False))
-
 environ.Env.read_env()
 
 

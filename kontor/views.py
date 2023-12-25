@@ -220,7 +220,7 @@ def sms_getir_get(request):
         numarasi = request.GET.get('numarasi', '')
         smsler = GelenSMS.objects.filter(numara=numarasi).order_by('-id')[:10]
         if smsler.exists():
-            sonuc = "|".join([f"{sms.id},{sms.banka},{sms.mesaj}" for sms in smsler])
+            sonuc = "<br>".join([f"{sms.id},{sms.banka},{sms.mesaj}" for sms in smsler])
             return HttpResponse(sonuc)
         else:
             return HttpResponse({"Sonuc": "MesajYok!"})
