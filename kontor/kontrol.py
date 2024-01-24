@@ -947,7 +947,7 @@ def AnaPaketSonucKontrol():
                 if not YeniApisi:
                     Siparis.Durum = iptal
                     Siparis.SonucTarihi = timezone.now()
-                    Siparis.BayiAciklama = "iptal"
+                    Siparis.BayiAciklama = f"iptal-{response[1]}"
                     Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: "+api.Apiadi+" Apisinden " + str(response) + "iptal olanApiSirasi:" + str(Siparis.Gonderim_Sirasi) + " Başka Api olmadığı için iptal edildi.\n"
                     Siparis.save()
 
