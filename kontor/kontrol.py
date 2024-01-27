@@ -222,6 +222,7 @@ def ApiZnetSiparisKaydet(request):
                         # Kontör listesinde ilgili kupur değerine sahip ürünü bulun
                         kontor_urunu = KontorList.objects.filter(Kupur=kontor, Kategorisi=kategori).first()
                         sorguGidicek = Durumlar.objects.get(durum_id=Durumlar.Sorguda)
+                        DirekAnaPaket = Durumlar.objects.get(durum_id=Durumlar.AnaPaketGoner)
 
 
                         #todo şimdilik kontör tutarı burada = 100
@@ -261,12 +262,19 @@ def ApiZnetSiparisKaydet(request):
                                 order.api1 = SecilenApi1
                                 order.api2 = SecilenApi2
                                 order.api3 = SecilenApi3
+
                                 order.PaketAdi = kontor_urunu.Urun_adi
                                 order.BayiAciklama = "İşleme Alındı."
                                 order.Gonderim_Sirasi = 1
                                 order.SanalKategori = kategori.pk
-                                order.Durum = sorguGidicek  # Varsayılan durum
-                                order.Aciklama = "Sipariş Kaydedildi.\n"
+                                if kontor_urunu.AlternatifYapilmasin:
+                                    order.Durum = DirekAnaPaket  # Varsayılan durum
+                                    order.Aciklama = "Alternatif Yapılmasın Seçili Sorgu Atlanıyor.\n"
+
+
+                                else:
+                                    order.Durum = sorguGidicek  # Varsayılan durum
+                                    order.Aciklama = "Sipariş Kaydedildi.\n"
 
                                 try:
                                     order.save()
