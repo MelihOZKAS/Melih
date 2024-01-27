@@ -1032,7 +1032,7 @@ def AlternatifKontrol(request):
                 if alternative.product_id in PaketSorguListesi:
                     cikan_idler.append(alternative.product_id)
         except:
-            if siparis.SorguPaketID == "VodafoneDegilKi,GNC001" or siparis.SorguPaketID == "VodafoneDegilKi" or siparis.SorguPaketID == "TurkcellDegil" or siparis.SorguPaketID == "TurkcellDegil,GNC001" or siparis.SorguPaketID == "HatFaturali!" or siparis.SorguPaketID == "AveaDegil!" or siparis.SorguPaketID == "NumaraEksik!" or siparis.SorguPaketID == "[GirmişolduğunuznumaraTurkcell’denhizmetalmamaktadır.]":
+            if siparis.SorguPaketID == "VodafoneDegilKi,GNC001" or siparis.SorguPaketID == "VodafoneDegilKi" or siparis.SorguPaketID == "TurkcellDegil" or siparis.SorguPaketID == "TurkcellDegil,GNC001" or siparis.SorguPaketID == "HatFaturali!" or siparis.SorguPaketID == "AveaDegil!" or siparis.SorguPaketID == "NumaraEksik!" or siparis.SorguPaketID == "[GirmişolduğunuznumaraTurkcell’denhizmetalmamaktadır.]" or siparis.SorguPaketID == "AveaDeğilyadaBirikmişVergiBorcuVardırÖnceTLYüklemesiGerekir!":
                 siparis.Durum = iptalEdildi
                 siparis.SonucTarihi = timezone.now()
                 siparis.BayiAciklama = siparis.SorguPaketID
