@@ -270,7 +270,7 @@ def ApiZnetSiparisKaydet(request):
                                 if kontor_urunu.AlternatifYapilmasin:
                                     order.Durum = DirekAnaPaket  # Varsayılan durum
                                     order.Aciklama = "Alternatif Yapılmasın Seçili Sorgu Atlanıyor.\n"
-
+                                    #todo burayı sonradan yaptım hata olabilir
 
                                 else:
                                     order.Durum = sorguGidicek  # Varsayılan durum

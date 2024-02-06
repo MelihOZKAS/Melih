@@ -344,11 +344,11 @@ def VodafonePaketleriSunucudanCek(request):
                 if PaketiGuncelle.Kupur == Decimal("13350"):
                     PaketNames = "Kolay Paket 9"
                     paketFiyat = paketFiyat + paketFiyat * Decimal('0.05')
-                if PaketiGuncelle.Kupur == Decimal("4402"):
-                    PaketNames = "Kolay Paket 14"
-                if PaketiGuncelle.Kupur == Decimal("4405"):
+                if PaketiGuncelle.Kupur == Decimal("14690"):
+                    PaketNames = "Kolay Paket 15"
+                if PaketiGuncelle.Kupur == Decimal("14187"):
                     PaketNames = "Kolay Paket 7"
-                if PaketiGuncelle.Kupur == Decimal("4406"):
+                if PaketiGuncelle.Kupur == Decimal("14188"):
                     PaketNames = "Kolay Paket 10"
                 if PaketiGuncelle.Kupur == Decimal("13316"):
                     PaketNames = "Kolay Paket 12"
@@ -363,11 +363,11 @@ def VodafonePaketleriSunucudanCek(request):
                     PaketNames = "Kolay Paket 16"
                     paketFiyat = paketFiyat + paketFiyat * Decimal('0.05')
 
-                if PaketiGuncelle.Kupur == Decimal("13318"):
+                if PaketiGuncelle.Kupur == Decimal("14185"):
                     PaketNames = "Kolay Paket 5"
-                if PaketiGuncelle.Kupur == Decimal("13319"):
+                if PaketiGuncelle.Kupur == Decimal("14186"):
                     PaketNames = "Kolay Gani 1500 DK"
-                if PaketiGuncelle.Kupur == Decimal("13323"):
+                if PaketiGuncelle.Kupur == Decimal("14190"):
                     PaketNames = "Kolay Paket 25"
                 if PaketiGuncelle.Kupur == Decimal("13402"):
                     PaketNames = "Kolay Paket 3 Ay 45 GB"
