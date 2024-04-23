@@ -119,6 +119,33 @@ def AnaPaketGonder():
                 eslestirme_kupur = str(eslestirme_kupur).replace(".00","")
                 url = f"https://{api.SiteAdresi}/api/islemal.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&ope={eslestirme_kupur}&turu=5&miktar=0&telno={Siparis.Numara}&ref={gidenRefNumarasi}"
                 print(url)
+            elif ApiTuruadi == "kntryeni":
+                # paketler = VodafonePaketler.objects.filter(apiler=api)
+                # Filtrelenmiş paketler listesinden, belirli bir kupür için ilgili bilgileri alın
+                paket = paketler.filter(kupur=Siparis.PaketKupur).values('eslestirme_operator_adi',
+                                                                         'eslestirme_operator_tipi',
+                                                                         'eslestirme_kupur').first()
+                # İstenen bilgileri değişkenlere atayın
+                try:
+                    eslestirme_operator_adi = paket['eslestirme_operator_adi']
+                    eslestirme_operator_tipi = paket['eslestirme_operator_tipi']
+                    eslestirme_kupur = paket['eslestirme_kupur']
+                    print(str(eslestirme_operator_adi) + " " + str(eslestirme_operator_tipi) + " " + str(
+                        eslestirme_kupur))
+                    #                eslestirme_kupur = eslestirme_kupur.replace('.00','')
+                    GelenAciklama = Siparis.Aciklama
+                    Siparis.Aciklama = GelenAciklama + str(eslestirme_operator_adi) + " " + str(
+                        eslestirme_operator_tipi) + " " + str(eslestirme_kupur) + "\n"
+                    Siparis.save()
+                except:
+                    GelenAciklama = Siparis.Aciklama
+                    Siparis.Aciklama = GelenAciklama + "\n Paket Tanımı Yok" + "\n"
+                    Siparis.Durum = islem_HATALI
+                    Siparis.save()
+                    return "Hatalı Paket Tanıms"
+
+                url = f"http://{api.SiteAdresi}/api/ent_hedef_al.php?kod={api.Kullaniciadi}&sifre={api.Sifre}&numara={Siparis.Numara}&kontor={eslestirme_kupur}&operator={eslestirme_operator_adi}&kref={gidenRefNumarasi}"
+
             response = requests.get(url)
             print(response.text)
 
@@ -168,7 +195,38 @@ def AnaPaketGonder():
                     Siparis.save()
                     Sonuc = response
                 return Sonuc
+            elif ApiTuruadi == "kntryeni":
+                response = response.text.split(" ")
+                cevap = response[0].split("[")
+                hata = response[0].split(":")
+                GelenAciklama = Siparis.Aciklama
 
+                if cevap[0] == "_OK":
+                    Siparis.SanalTutar = response[1].replace("{","").replace("}","")
+                    Siparis.SanalRef = gidenRefNumarasi
+                    Siparis.Durum = AnaPaketSonucBekler
+                    Siparis.save()
+                    api.ApiBakiye -= Decimal(response[1].replace("{","").replace("}",""))
+                    api.save()
+                    Sonuc = response[2]
+
+                elif hata[0] == "_HATA":
+                    # Cevabı işleyin ve veritabanına kaydedin
+                    # ...
+                    Siparis.Durum = askida
+                    Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + response + " \n"
+                    Siparis.save()
+                    Sonuc = response[2]
+
+                else:
+                    # Cevabı işleyin ve veritabanına kaydedin
+                    # ...
+                    Siparis.Durum = askida
+                    Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + response + " \n"
+                    Siparis.save()
+                    Sonuc = response
+
+                return Sonuc
         else:
             Sonuc = "Hiç Sipariş Yok"
             return Sonuc
@@ -734,6 +792,8 @@ def AlternatifSonucKontrol():
                 url = f"http://{api.SiteAdresi}/servis/tl_kontrol.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&tekilnumara={alternatifOrder.SanalRefIdesi}"
             elif ApiTuruadi == "grafi":
                 url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={alternatifOrder.SanalRefIdesi}"
+            elif ApiTuruadi == "kntryeni":
+                url = f"https://{api.SiteAdresi}/api/ent_hedef_ver.php?kod={api.Kullaniciadi}&sifre={api.Sifre}&ref={alternatifOrder.SanalRefIdesi}"
             response = requests.get(url)
             print(response.text)
             response = unquote(response.text)
@@ -745,11 +805,14 @@ def AlternatifSonucKontrol():
                 responses = response.split(" ")
                 response = response.replace(" ", "").replace(",", ".").split("|")
 #                grafiTutar = float(str(response[1]).replace(" ", "").replace(",", "."))
+            elif ApiTuruadi == "kntryeni":
+                responses = response.split(" ")
+
 
 
             GelenAciklama = ANA_Siparis.Aciklama
 
-            if response[0] == "1" or responses[0] == "OK":
+            if response[0] == "1" or responses[0] == "OK" or responses[1] == "[1]":
                 # Cevabı işleyin ve veritabanına kaydedin
                 alternatifOrder.YuklenecekPaketDurumu = Basarili
                 ANA_Siparis.SanalTutar = response[2]
@@ -776,6 +839,8 @@ def AlternatifSonucKontrol():
                     SonucCevabi = "Basarili"
                     api.ApiBakiye -= grafiTutar
                     alternatifOrder.YuklenecekPaketFiyat = grafiTutar
+                elif ApiTuruadi == "kntryeni":
+                    SonucCevabi = "Basarili"
 
 
                 ANA_Siparis.Aciklama = GelenAciklama+" \n" +str(response) +" Apiden Gelen Cevap \n"
@@ -788,10 +853,6 @@ def AlternatifSonucKontrol():
                 alternatifOrder.save()
                 ANA_Siparis.save()
                 api.save()
-                # api.ApiBakiye -= Decimal(response[3])
-                # api.save()
-                #Sonuc = response[2]
-                print("Durum güncellendi.")
                 SonucList.append(str(ANA_Siparis.Numara) + " Başarılı.")
                 # return Sonuc
                 continue
@@ -801,7 +862,7 @@ def AlternatifSonucKontrol():
                 Sonuc = "Henüz işlemde"
                 SonucList.append(str(ANA_Siparis.Numara) + " Henüz işlemde.")
                 continue
-            elif response[0] == "3" or responses[0] == "98":
+            elif response[0] == "3" or responses[0] == "98" or responses[1] == "[2]":
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                     api.ApiBakiye += Decimal(alternatifOrder.YuklenecekPaketFiyat)
                 Sirasi = alternatifOrder.Gonderim_Sirasi + 1
@@ -891,6 +952,8 @@ def AnaPaketSonucKontrol():
             elif ApiTuruadi == "grafi":
                 url = f"https://{api.SiteAdresi}/api/islemkontrol.asp?bayikodu={api.Kullanicikodu}&kadi={api.Kullaniciadi}&sifre={api.Sifre}&islem={Siparis.SanalRef}"
                 print(url)
+            elif ApiTuruadi == "kntryeni":
+                url = f"https://{api.SiteAdresi}/api/ent_hedef_ver.php?kod={api.Kullaniciadi}&sifre={api.Sifre}&ref={Siparis.SanalRef}"
             response = requests.get(url)
            # response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
             print(response.text)
@@ -905,10 +968,12 @@ def AnaPaketSonucKontrol():
                 responses = response.split(" ")
                 response = response.split("|")
                 print(response)
+            elif ApiTuruadi == "kntryeni":
+                responses = response.split(" ")
 
             GelenAciklama = Siparis.Aciklama
 
-            if response[0] == "1" or responses[0] == "OK":
+            if response[0] == "1" or responses[0] == "OK" or responses[1] == "[1]":
                 Siparis.Durum = Basarili
                 Siparis.SanalTutar = response[2]
                 Siparis.SonucTarihi = timezone.now()
@@ -925,6 +990,8 @@ def AnaPaketSonucKontrol():
                     Siparis.BayiAciklama = "Basarili"
                     api.ApiBakiye -= Decimal(grafiTutar)
                     Siparis.SanalTutar = grafiTutar
+                elif ApiTuruadi == "kntryeni":
+                    SonucCevabi = "Basarili"
 
                 #todo altakini sil daha alttakini ise aktif et kontrol ettikten sonra.
                 Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ str(response) + "\n"
