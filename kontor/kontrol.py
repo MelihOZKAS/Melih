@@ -979,10 +979,9 @@ def AnaPaketSonucKontrol():
             GelenAciklama = Siparis.Aciklama
 
             if response[0] == "1" or responses[0] == "OK" or responses[1] == "[1]":
-                Siparis.Durum = Basarili
-                Siparis.SanalTutar = response[2]
-                Siparis.SonucTarihi = timezone.now()
+
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
+                    Siparis.SanalTutar = response[2]
                     if response[1] == "":
                         print("NasipGrimesi lazım")
                         Siparis.BayiAciklama = "Basarili"
@@ -996,7 +995,11 @@ def AnaPaketSonucKontrol():
                     api.ApiBakiye -= Decimal(grafiTutar)
                     Siparis.SanalTutar = grafiTutar
                 elif ApiTuruadi == "kntryeni":
-                    SonucCevabi = "Basarili"
+                    Siparis.BayiAciklama = "Basarili"
+
+
+                Siparis.Durum = Basarili
+                Siparis.SonucTarihi = timezone.now()
 
                 #todo altakini sil daha alttakini ise aktif et kontrol ettikten sonra.
                 Siparis.Aciklama = GelenAciklama + " SitedenGelen Sonuc Mesajı: " +api.Apiadi+" Apisinden "+ str(response) + "\n"
