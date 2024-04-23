@@ -956,7 +956,7 @@ def AnaPaketSonucKontrol():
                 url = f"https://{api.SiteAdresi}/api/ent_hedef_ver.php?kod={api.Kullaniciadi}&sifre={api.Sifre}&ref={Siparis.SanalRef}"
             response = requests.get(url)
            # response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
-            print(response.text)
+            #print(response.text)
             response = unquote(response.text)
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
@@ -1007,7 +1007,7 @@ def AnaPaketSonucKontrol():
                 SonucList.append(str(Siparis.Numara)+" Henüz işlemde.")
                 continue
                 #return url
-            elif response[0] == "3" or responses[0] == "98":
+            elif response[0] == "3" or responses[0] == "98" or responses[1] == "[2]":
                 if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
                     api.ApiBakiye += Decimal(Siparis.SanalTutar)
                 Sirasi = Siparis.Gonderim_Sirasi +1
