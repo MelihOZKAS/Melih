@@ -144,7 +144,7 @@ def AnaPaketGonder():
                     Siparis.save()
                     return "Hatalı Paket Tanıms"
 
-                url = f"http://{api.SiteAdresi}/api/ent_hedef_al.php?kod={api.Kullaniciadi}&sifre={api.Sifre}&numara={Siparis.Numara}&kontor={eslestirme_kupur}&operator={eslestirme_operator_adi}&kref={gidenRefNumarasi}"
+                url = f"https://{api.SiteAdresi}/api/ent_hedef_al.php?kod={api.Kullaniciadi}&sifre={api.Sifre}&numara={Siparis.Numara}&kontor={eslestirme_kupur}&operator={eslestirme_operator_adi}&kref={gidenRefNumarasi}"
 
             response = requests.get(url)
             print(response.text)
@@ -224,7 +224,7 @@ def AnaPaketGonder():
                     Siparis.Durum = askida
                     Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + str(response) + " \n"
                     Siparis.save()
-                    Sonuc = str(response)
+                    Sonuc = f"{str(response)} - {url}"
 
                 return Sonuc
         else:
