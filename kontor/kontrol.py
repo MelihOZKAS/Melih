@@ -224,7 +224,7 @@ def AnaPaketGonder():
                     Siparis.Durum = askida
                     Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + str(response) + " \n"
                     Siparis.save()
-                    Sonuc = f"{str(response)} - {url}"
+                    Sonuc = f"{str(response)} - {str(url)}"
 
                 return Sonuc
         else:
