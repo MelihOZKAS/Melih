@@ -214,7 +214,7 @@ def AnaPaketGonder():
                     # Cevabı işleyin ve veritabanına kaydedin
                     # ...
                     Siparis.Durum = askida
-                    Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + response + " \n"
+                    Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + str(response) + " \n"
                     Siparis.save()
                     Sonuc = response[2]
 
@@ -222,7 +222,7 @@ def AnaPaketGonder():
                     # Cevabı işleyin ve veritabanına kaydedin
                     # ...
                     Siparis.Durum = askida
-                    Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + response + " \n"
+                    Siparis.Aciklama = GelenAciklama + "\nişleme alındı \n Gelen Cevap = " + str(response) + " \n"
                     Siparis.save()
                     Sonuc = response
 
