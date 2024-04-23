@@ -970,7 +970,10 @@ def AnaPaketSonucKontrol():
                 print(response)
             elif ApiTuruadi == "kntryeni":
                 responses = response.split(" ")
-                response = response.split("|")
+                response1 = response.split("|")
+                return f"{response}"
+
+
 
             GelenAciklama = Siparis.Aciklama
 
