@@ -203,7 +203,7 @@ def AnaPaketGonder():
 
                 if cevap[0] == "_OK":
                     Siparis.SanalTutar = response[1].replace("{","").replace("}","")
-                    Siparis.SanalRef = gidenRefNumarasi
+                    Siparis.SanalRef = response[0].replace("_OK[","").replace("]","")
                     Siparis.Durum = AnaPaketSonucBekler
                     Siparis.save()
                     api.ApiBakiye -= Decimal(response[1].replace("{","").replace("}",""))
