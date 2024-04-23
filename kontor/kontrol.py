@@ -958,6 +958,7 @@ def AnaPaketSonucKontrol():
            # response.encoding = "ISO-8859-1"  # doğru kodlamayı burada belirtin
             #print(response.text)
             response = unquote(response.text)
+            return f"{response}"
 
             if ApiTuruadi == 'Znet' or ApiTuruadi == "Gencan":
 
