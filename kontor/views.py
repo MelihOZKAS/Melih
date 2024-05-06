@@ -181,7 +181,7 @@ def SmsYakala(request):
 
         mesaj_yeni = mesaj.replace(",", "")
 
-        if gonderen == 'FUPS' and mesaj_ilk in ['3D', 'Son', 'İlk'] or mesaj_ilk in ['in', 'risini', "layabilirsin.", 'ni', 'Son', 'Sonu', 'İlk']:
+        if gonderen == 'FUPS' and mesaj_ilk in ['3D', 'Son', 'İlk'] or mesaj_ilk in ['in', 'risini', "mlayabilirsin.", "layabilirsin.", 'ni', 'Son', 'Sonu', 'İlk']:
             return HttpResponse("Basarili")
 
         else:
