@@ -170,9 +170,5 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 20240
 TIMEOUT = 130
 
 FROALA_EDITOR_OPTIONS = {
-    'toolbarInline': True,
+    'toolbarButtons': ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'emoticons', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '|', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
 }
-FROALA_EDITOR_PLUGINS = (
-'align', 'char_counter', 'code_beautifier', 'code_view', 'colors', 'draggable', 'emoticons', 'entities', 'file',
-'font_family', 'font_size', 'fullscreen', 'image_manager', 'image', 'inline_style', 'line_breaker', 'link', 'lists',
-'paragraph_format', 'paragraph_style', 'quick_insert', 'quote', 'save', 'table', 'url', 'video')
