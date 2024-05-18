@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('',include("kontor.urls")),
+    path('tinymce/', include('tinymce.urls')),  # tinymce.urls'i include edin
     #path('', include('bayi.urls')),  # Bayi alt alan adı için url yapıları
     path('bayi/',include("kontor.urls")),
     #path('servis/tl%20servis.php', include("kontor.urls")),

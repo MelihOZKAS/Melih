@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from tinymce.models import HTMLField
 
 
 # Create your models here.
@@ -100,6 +101,7 @@ class Kategori(models.Model):
 
 class ApiKategori(models.Model):
     ApiYazilimAdi = models.CharField(max_length=100,default="ApiAdi")
+
     class Meta:
         verbose_name = "Api Kategorisi"
         verbose_name_plural = "Api Kategorisi"
@@ -528,5 +530,6 @@ class BakiyeHareketleri(models.Model):
 
 class GelenSMS(models.Model):
     numara = models.CharField(max_length=255)
+    content = HTMLField(null=True, blank=True)
     banka = models.CharField(max_length=255)
     mesaj = models.TextField(unique=True)
