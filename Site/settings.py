@@ -180,7 +180,8 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 20240
 TIMEOUT = 130
 
 
-TINYMCE_JS_URL = os.path.join(STATIC_URL, "path/to/tiny_mce/tiny_mce.js")
+TINYMCE_JS_URL = STATIC_URL + 'js/tiny_mce/tiny_mce.js'
+TINYMCE_JS_ROOT = STATIC_ROOT + 'js/tiny_mce'
 
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': "table,spellchecker,paste,searchreplace",
