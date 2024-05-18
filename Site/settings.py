@@ -182,11 +182,27 @@ TIMEOUT = 130
 
 TINYMCE_JS_URL = os.path.join(STATIC_URL, "path/to/tiny_mce/tiny_mce.js")
 
-TINYMCE_DEFAULT_CONFIG = {
-    'plugins': "table,spellchecker,paste,searchreplace",
-    'theme': "advanced",
-    'cleanup_on_startup': True,
-    'custom_undo_redo_levels': 10,
+TINYMCE_CONFIG = {
+    'language': 'tr_TR',
+    'theme': 'modern',
+    'plugins': 'link image code lists spellchecker media',
+    'toolbar': 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code | media',
+    'menubar': 'file edit view insert format tools table help',
+    'statusbar': True,
+    'branding': True,
+    'font_formats': 'Arial=Arial,Helvetica=Helvetica,Tahoma=Tahoma,Verdana=Verdana,Courier New=Courier New,Times New Roman=Times New Roman,monospace=monospace',
+    'textcolor': 'black white red green blue indigo purple cyan darkgray gray lightgray',
+    'textalign': 'left center right justify',
+    'fontfamily': 'Arial,Helvetica,Tahoma,Verdana,Courier New,Times New Roman',
+    'fontsize': '8 9 10 11 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40',
+    'imageupload_tab': True,
+    'link_list': [
+        {'title': 'Google', 'url': 'https://www.google.com/'},
+        {'title': 'Wikipedia', 'url': 'https://tr.wikipedia.org/wiki/Ana_Sayfa'},
+    ],
+    'media_voices': [
+        {'lang': 'tr', 'name': 'tr_TR'},
+    ],
+    'spellchecker': True,
+    'content_css': '/static/css/tinymce.css',
 }
-TINYMCE_SPELLCHECKER = True
-TINYMCE_COMPRESSOR = True
