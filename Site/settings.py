@@ -15,13 +15,12 @@ import environ
 import os
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-env = environ.Env(DEBUG=(bool,False))
+# DEBUG = True
+env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 DEBUG = env('DEBUG')
 
@@ -31,15 +30,9 @@ DEBUG = env('DEBUG')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
+ALLOWED_HOSTS = env('ALLOWED_HOST', cast=list)
 
-
-
-ALLOWED_HOSTS = env('ALLOWED_HOST',cast=list)
-
-CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS',cast=list)
-
-
-
+CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS', cast=list)
 
 # Application definition
 
@@ -88,7 +81,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "Site.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -98,9 +90,9 @@ DATABASES = {
 
 }
 
-#SUBDOMAIN_URLCONFS = {
+# SUBDOMAIN_URLCONFS = {
 #    'bayi': 'bayi.urls',
-#}
+# }
 
 
 # Password validation
@@ -110,11 +102,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -127,7 +118,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -137,11 +127,10 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
-#if DEBUG:
+# if DEBUG:
 #    STATIC_URL = "/static/"
 #    STATIC_ROOT = BASE_DIR / "staticfiles"
 #
@@ -149,7 +138,7 @@ STATICFILES_DIRS = [
 #    MEDIA_ROOT = BASE_DIR / "media"
 #
 #    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-#else:
+# else:
 #    AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 #    AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 #    AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
@@ -180,3 +169,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 20240
 TIMEOUT = 130
 
+FROALA_EDITOR_PLUGINS = (
+'align', 'char_counter', 'code_beautifier', 'code_view', 'colors', 'draggable', 'emoticons', 'entities', 'file',
+'font_family', 'font_size', 'fullscreen', 'image_manager', 'image', 'inline_style', 'line_breaker', 'link', 'lists',
+'paragraph_format', 'paragraph_style', 'quick_insert', 'quote', 'save', 'table', 'url', 'video')
