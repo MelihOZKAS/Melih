@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'kontor.apps.KontorConfig',
     'storages',
+    "tinymce",
     "froala_editor",
 ]
 
