@@ -530,6 +530,6 @@ class BakiyeHareketleri(models.Model):
 class GelenSMS(models.Model):
     numara = models.CharField(max_length=255)
     froaicerik1 = FroalaField(null=True, blank=True)
-    content = SummernoteTextField()  # instead of models.TextField()
+    content = SummernoteTextField(null=True, blank=True)  # instead of models.TextField()
     banka = models.CharField(max_length=255)
     mesaj = models.TextField(unique=True)
