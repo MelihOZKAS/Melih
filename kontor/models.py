@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from froala_editor.fields import FroalaField
-
+from django_summernote.fields import SummernoteTextField
 
 # Create your models here.
 
@@ -530,5 +530,6 @@ class BakiyeHareketleri(models.Model):
 class GelenSMS(models.Model):
     numara = models.CharField(max_length=255)
     froaicerik1 = FroalaField(null=True, blank=True)
+    content = SummernoteTextField()  # instead of models.TextField()
     banka = models.CharField(max_length=255)
     mesaj = models.TextField(unique=True)

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'storages',
     "tinymce",
     "froala_editor",
+    "django_summernote",
 ]
 
 MIDDLEWARE = [
@@ -172,3 +173,4 @@ TIMEOUT = 130
 FROALA_EDITOR_OPTIONS = {
     'toolbarButtons': ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'emoticons', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '|', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
 }
+
