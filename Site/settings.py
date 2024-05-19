@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'storages',
     "tinymce",
     "froala_editor",
-    "django_summernote",
 ]
 
 MIDDLEWARE = [

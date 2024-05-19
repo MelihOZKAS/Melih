@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from froala_editor.fields import FroalaField
-
 from tinymce.models import HTMLField
 
 # Create your models here.
