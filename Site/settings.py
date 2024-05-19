@@ -173,8 +173,6 @@ FROALA_EDITOR_OPTIONS = {
     'toolbarButtons': ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'emoticons', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '|', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
 }
 
-TINYMCE_JS_URL = os.path.join(MEDIA_URL, "path/to/tinymce/tinymce.min.js")
-TINYMCE_COMPRESSOR = False
 
 TINYMCE_DEFAULT_CONFIG = {
     'theme': 'advanced',
