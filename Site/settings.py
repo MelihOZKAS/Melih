@@ -174,7 +174,7 @@ FROALA_EDITOR_OPTIONS = {
 }
 
 TINYMCE_JS_URL = os.path.join(MEDIA_URL, "path/to/tinymce/tinymce.min.js")
-TINYMCE_COMPRESSOR = True
+TINYMCE_COMPRESSOR = False
 
 TINYMCE_DEFAULT_CONFIG = {
     "theme": "silver",
