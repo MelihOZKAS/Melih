@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from froala_editor.fields import FroalaField
 from django_summernote.fields import SummernoteTextField
+from tinymce.models import HTMLField
 
 # Create your models here.
 
@@ -530,6 +531,6 @@ class BakiyeHareketleri(models.Model):
 class GelenSMS(models.Model):
     numara = models.CharField(max_length=255)
     froaicerik1 = FroalaField(null=True, blank=True)
-    content = SummernoteTextField(null=True, blank=True)  # instead of models.TextField()
+    content = HTMLField(null=True, blank=True)
     banka = models.CharField(max_length=255)
     mesaj = models.TextField(unique=True)
