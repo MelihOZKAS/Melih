@@ -249,4 +249,5 @@ from django.shortcuts import get_object_or_404
 def sitelinki(request):
     return HttpResponse(ads_content, content_type="text/plain")
 
-ads_content = """185.92.2.178:4444"""
+ads_content = """melihozkas"""
+#ads_content = """185.92.2.178:4444"""
