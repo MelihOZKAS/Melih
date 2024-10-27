@@ -472,14 +472,14 @@ def SorguyaGonder():
             #print(order.Operator.AnaOperatorler)
             #print(type(order.Operator.AnaOperatorler))
             #print("uste")
-            siteadi = "185.92.2.178:4444"
+            siteadi = "melihozkas.com"
             # Apiler sınıfından şifre bilgilerini alın
             if order.Operator.AnaOperatorler == "vodafone":
-                url = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
+                url = f"https://{siteadi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
             elif order.Operator.AnaOperatorler == "turkcell":
-                url = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgudj&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
+                url = f"https://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgudj&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
             elif order.Operator.AnaOperatorler == "avea":
-                url = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TTSorgudj&sifre=gerekyok&operator=tt&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
+                url = f"https://{siteadi}/servis/tl_servis.php?bayi_kodu=TTSorgudj&sifre=gerekyok&operator=tt&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara=1{order.GelenReferans}"
             # Belirtilen URL'ye GET isteği gönderin
 
             #url = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullanicikodu}&sifre={api.Sifre}&operator={order.Operator}&tip={order.operatorTip}&kontor={order.PaketKupur}&gsmno={order.numara}&tekilnumara={order.GelenReferans}"
@@ -529,19 +529,19 @@ def SorguSonucKontrol():
     sorguCevap = Durumlar.objects.get(durum_id=Durumlar.SorguCevap)
     aski = Durumlar.objects.get(durum_id=Durumlar.ISLEMDE)
     orders = Siparisler.objects.filter(Durum=sorguCevap)
-    siteadi = "185.92.2.178:4444"
+    siteadi = "melihozkas.com"
     if orders:
         for order in orders:
             # Apiler sınıfından şifre bilgilerini alın
             if order.Operator.AnaOperatorler == "vodafone":
-                url = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=VodafoneSorgudj&sifre=VodafoneSorgudj&tekilnumara={order.SanalRef}"
+                url = f"https://{siteadi}/servis/tl_kontrol.php?bayi_kodu=VodafoneSorgudj&sifre=VodafoneSorgudj&tekilnumara={order.SanalRef}"
                 #linki = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu=VodafoneSorgudj&sifre=gerekyok&operator=vodafone&tip=vodafone&kontor=100444&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
             elif order.Operator.AnaOperatorler == "turkcell":
                # api = Apiler.objects.get(id=9)
                 #linki = f"http://{siteadi}/servis/tl_servis.php?bayi_kodu=TurkcellSorgu&sifre=gerekyok&operator=turkcell&tip=turkcell&kontor=100443&gsmno={order.Numara}&tekilnumara={api.RefNumarasi}"
-                url = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=TurkcellSorgudj&sifre=TurkcellSorgu&tekilnumara={order.SanalRef}"
+                url = f"https://{siteadi}/servis/tl_kontrol.php?bayi_kodu=TurkcellSorgudj&sifre=TurkcellSorgu&tekilnumara={order.SanalRef}"
             elif order.Operator.AnaOperatorler == "avea":
-                url = f"http://{siteadi}/servis/tl_kontrol.php?bayi_kodu=TTSorgudj&sifre=TTSorgudj&tekilnumara={order.SanalRef}"
+                url = f"https://{siteadi}/servis/tl_kontrol.php?bayi_kodu=TTSorgudj&sifre=TTSorgudj&tekilnumara={order.SanalRef}"
 
          #   1: olumlu_islem:5.50
          #   2: islemde:5.50
