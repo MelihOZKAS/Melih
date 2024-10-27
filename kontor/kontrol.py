@@ -1474,7 +1474,7 @@ def AlternatifYuklemeGonder():
 
                 print(str(eslestirme_operator_adi)+" "+str(eslestirme_operator_tipi)+" "+str(eslestirme_kupur))
 #                eslestirme_kupur = eslestirme_kupur.replace('.00','')
-                url = f"https://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={alternatifOrder.Yukelenecek_Numara.Numara}&tekilnumara={gidenRefNumarasi}"
+                url = f"http://{api.SiteAdresi}/servis/tl_servis.php?bayi_kodu={api.Kullaniciadi}&sifre={api.Sifre}&operator={eslestirme_operator_adi}&tip={eslestirme_operator_tipi}&kontor={eslestirme_kupur}&gsmno={alternatifOrder.Yukelenecek_Numara.Numara}&tekilnumara={gidenRefNumarasi}"
             elif ApiTuruadi == "grafi":
                 paket = paketler.filter(kupur=alternatifOrder.YuklenecekPaketID).values('eslestirme_kupur').first()
                 # İstenen bilgileri değişkenlere atayın
