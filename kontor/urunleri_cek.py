@@ -101,7 +101,7 @@ def paketlericekGenco(Api,siteadi,kullanicikodu,kullaniciadi,sifre):
 
 
 def AltOperatorleriCek():
-    response = requests.post('http://185.92.2.178:4444/Sorgu.php', data={
+    response = requests.post('https://melihozkas.com/Sorgu.php', data={
         'python': 'altop'
     })
 
@@ -129,7 +129,7 @@ def AltOperatorleriCek():
 
 
 def AnaOperatorleriCek():
-    response = requests.post('http://185.92.2.178:4444/Sorgu.php', data={
+    response = requests.post('https://melihozkas.com/Sorgu.php', data={
         'python': 'anaop'
     })
 
@@ -155,7 +155,7 @@ def AnaOperatorleriCek():
 
 
 def OperatorleriCek(request):
-    response = requests.post('http://185.92.2.178:4444/Sorgu.php',
+    response = requests.post('https://melihozkas.com/Sorgu.php',
                              data={'python': 'Operatorler'})
 
     print(response.text)
@@ -201,7 +201,7 @@ def OperatorleriCek(request):
 def TurkcellPaketleriSunucudanCek(request):
     eklenen_paketler = []
     silinen_paketler = []
-    response = requests.post('http://185.92.2.178:4444/Sorgu.php', data={
+    response = requests.post('https://melihozkas.com/Sorgu.php', data={
         'python': 'PaketCekTurkcellAll'
     })
     if response.status_code == 200:
@@ -305,7 +305,7 @@ def TurkcellPaketleriSunucudanCek(request):
 def VodafonePaketleriSunucudanCek(request):
     eklenen_paketler = []
     silinen_paketler = []
-    response = requests.post('http://185.92.2.178:4444/Sorgu.php', data={
+    response = requests.post('https://melihozkas.com/Sorgu.php', data={
         'python': 'PaketCekVodafoneAll'
     })
     if response.status_code == 200:
@@ -491,7 +491,7 @@ def VodafonePaketleriSunucudanCek(request):
 def TTPaketleriSunucudanCek(request):
     eklenen_paketler=[]
     silinen_paketler=[]
-    response = requests.post('http://185.92.2.178:4444/Sorgu.php', data={
+    response = requests.post('https://melihozkas.com/Sorgu.php', data={
         'python': 'PaketCekTTsesAll'
     })
     if response.status_code == 200:
